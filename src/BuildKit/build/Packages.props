@@ -15,17 +15,7 @@
     <SymbolPackageFormat>$([MSBuild]::ValueOrDefault('$(SymbolPackageFormat)', 'snupkg'))</SymbolPackageFormat>
   </PropertyGroup>
   <PropertyGroup>
-    <PackageIcon>package-icon.png</PackageIcon>
-    <PackageReadmeFile>package-readme.md</PackageReadmeFile>
+    <PackageIcon>$([MSBuild]::ValueOrDefault('$(PackageIcon)', 'package-icon.png'))</PackageIcon>
+    <PackageReadmeFile>$([MSBuild]::ValueOrDefault('$(PackageReadmeFile)', 'package-readme.md'))</PackageReadmeFile>
   </PropertyGroup>
-  <PropertyGroup>
-    <_PackageIconFullPath>$(ProjectDir)\$(PackageIcon)</_PackageIconFullPath>
-    <_PackageIconFullPath Condition="!Exists('$(_PackageIconFullPath)')">$([System.IO.Path]::Combine($(ProjectDir), '..', '..', '$(PackageIcon)'))</_PackageIconFullPath>
-    <_PackageReadmeFullPath>$(ProjectDir)\$(PackageReadmeFile)</_PackageReadmeFullPath>
-    <_PackageReadmeFullPath Condition="!Exists('$(_PackageReadmeFullPath)')">$([System.IO.Path]::Combine($(ProjectDir), '..', '..', '$(PackageReadmeFile)'))</_PackageReadmeFullPath>
-  </PropertyGroup>
-  <ItemGroup>
-    <None Condition="Exists('$(_PackageIconFullPath)')" Include="$(_PackageIconFullPath)" Pack="True" PackagePath="" />
-    <None Condition="Exists('$(_PackageReadmeFullPath)')" Include="$(_PackageReadmeFullPath)" Pack="True" PackagePath="" />
-  </ItemGroup>
 </Project>
