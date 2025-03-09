@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project>
+  <PropertyGroup>
+    <Copyright>$([MSBuild]::ValueOrDefault('$(Copyright)', 'Martin Costello (c) $([System.DateTime]::Now.ToString(yyyy))'))</Copyright>
+    <NeutralLanguage>$([MSBuild]::ValueOrDefault('$(NeutralLanguage)', 'en-US'))</NeutralLanguage>
+    <Summary>$([MSBuild]::ValueOrDefault('$(Summary)', '$(Description)'))</Summary>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(IsGitHubActions)' == 'true' ">
+    <PublishRepositoryUrl></PublishRepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>$(GITHUB_SERVER_URL)/$(GITHUB_REPOSITORY).git</RepositoryUrl>
+    <Company>$([MSBuild]::ValueOrDefault('$(Company)', '$(RepositoryUrl)'))</Company>
+  </PropertyGroup>
+</Project>

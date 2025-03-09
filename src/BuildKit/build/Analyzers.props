@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project>
+  <PropertyGroup>
+    <AnalysisMode>$([MSBuild]::ValueOrDefault('$(AnalysisMode)', 'All'))</AnalysisMode>
+    <EnableNETAnalyzers>$([MSBuild]::ValueOrDefault('$(EnableNETAnalyzers)', 'true'))</EnableNETAnalyzers>
+    <EnableStyleCopAnalyzers>$([MSBuild]::ValueOrDefault('$(EnableStyleCopAnalyzers)', 'true'))</EnableStyleCopAnalyzers>
+    <EnforceCodeStyleInBuild>$([MSBuild]::ValueOrDefault('$(EnforceCodeStyleInBuild)', 'true'))</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(EnableReferenceTrimmer)' == 'true' AND '$(GenerateDocumentationFile)' == 'false' ">
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);419;1570;1573;1574;1584;1591;SA1600;SA1602</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(GenerateDocumentationFile)' != 'true' ">
+    <NoWarn>$(NoWarn);SA0001;SA1600</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(EnableStyleCopAnalyzers)' == 'true' ">
+    <_StyleCopSettingsFileName>stylecop.json</_StyleCopSettingsFileName>
+    <_StyleCopSettings>$(ProjectDir)\$(_StyleCopSettingsFileName)</_StyleCopSettings>
+    <_StyleCopSettings Condition="!Exists('$(_StyleCopSettings)')">$([System.IO.Path]::Combine($(ProjectDir), '..', '..', '$(_StyleCopSettingsFileName)'))</_StyleCopSettings>
+  </PropertyGroup>
+  <ItemGroup Condition="Exists('$(_StyleCopSettings)')">
+    <AdditionalFiles Include="$(_StyleCopSettings)" Link="stylecop.json" />
+  </ItemGroup>
+</Project>

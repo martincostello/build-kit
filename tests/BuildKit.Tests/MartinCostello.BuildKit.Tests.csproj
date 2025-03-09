@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <Description>Tests for MartinCostello.BuildKit.</Description>
-    <NoWarn>$(NoWarn);SA1600</NoWarn>
     <OutputType>Exe</OutputType>
     <RootNamespace>MartinCostello.BuildKit</RootNamespace>
     <TargetFramework>net9.0</TargetFramework>
@@ -30,7 +29,7 @@
     <Using Include="Shouldly" />
     <Using Include="Xunit" />
   </ItemGroup>
-  <PropertyGroup Condition=" '$(BuildingInsideVisualStudio)' != 'true' ">
+  <PropertyGroup>
     <CollectCoverage>true</CollectCoverage>
     <Threshold>80</Threshold>
   </PropertyGroup>
