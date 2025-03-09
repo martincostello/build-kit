@@ -10,12 +10,10 @@
     <PackageReleaseNotes Condition=" '$(GitHubTag)' != '' ">$([MSBuild]::ValueOrDefault('$(PackageReleaseNotes)', 'See $(PackageProjectUrl)/releases/tag/$(GitHubTag) for details.'))</PackageReleaseNotes>
   </PropertyGroup>
   <PropertyGroup>
+    <PackageIcon>$([MSBuild]::ValueOrDefault('$(PackageIcon)', 'package-icon.png'))</PackageIcon>
     <PackageLicenseExpression>$([MSBuild]::ValueOrDefault('$(PackageLicenseExpression)', 'Apache-2.0'))</PackageLicenseExpression>
+    <PackageReadmeFile>$([MSBuild]::ValueOrDefault('$(PackageReadmeFile)', 'package-readme.md'))</PackageReadmeFile>
     <PackageRequireLicenseAcceptance>$([MSBuild]::ValueOrDefault('$(PackageRequireLicenseAcceptance)', 'false'))</PackageRequireLicenseAcceptance>
     <SymbolPackageFormat>$([MSBuild]::ValueOrDefault('$(SymbolPackageFormat)', 'snupkg'))</SymbolPackageFormat>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PackageIcon>$([MSBuild]::ValueOrDefault('$(PackageIcon)', 'package-icon.png'))</PackageIcon>
-    <PackageReadmeFile>$([MSBuild]::ValueOrDefault('$(PackageReadmeFile)', 'package-readme.md'))</PackageReadmeFile>
   </PropertyGroup>
 </Project>
