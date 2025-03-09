@@ -5,7 +5,7 @@
     <Authors>$([MSBuild]::ValueOrDefault('$(Authors)', 'martin_costello'))</Authors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(IsGitHubActions)' == 'true' ">
-    <PackageProjectUrl>$([MSBuild]::ValueOrDefault('$(PackageProjectUrl)', '$(GITHUB_SERVER_URL)/$(GITHUB_REPOSITORY)'))</PackageProjectUrl>
+    <PackageProjectUrl>$([MSBuild]::ValueOrDefault('$(PackageProjectUrl)', '$(GitHubRepositoryUrl)'))</PackageProjectUrl>
     <PackageReleaseNotes Condition=" '$(GitHubTag)' == '' ">$([MSBuild]::ValueOrDefault('$(PackageReleaseNotes)', 'See $(PackageProjectUrl)/releases for details.'))</PackageReleaseNotes>
     <PackageReleaseNotes Condition=" '$(GitHubTag)' != '' ">$([MSBuild]::ValueOrDefault('$(PackageReleaseNotes)', 'See $(PackageProjectUrl)/releases/tag/$(GitHubTag) for details.'))</PackageReleaseNotes>
   </PropertyGroup>

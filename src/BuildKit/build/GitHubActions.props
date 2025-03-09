@@ -11,5 +11,6 @@
     <GitHubBranchName Condition=" '$(GitHubIsPullRequest)' == 'false' ">$(GITHUB_REF_NAME)</GitHubBranchName>
     <GitHubPullRequest Condition=" '$(GitHubIsPullRequest)' == 'true' ">$(GITHUB_REF_NAME.Replace('/merge', ''))</GitHubPullRequest>
     <GitHubTag Condition=" '$(GitHubIsTag)' == 'true' ">$(GITHUB_REF.Replace('refs/tags/', ''))</GitHubTag>
+    <GitHubRepositoryUrl>$(GITHUB_SERVER_URL)/$(GITHUB_REPOSITORY)</GitHubRepositoryUrl>
   </PropertyGroup>
 </Project>

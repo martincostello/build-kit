@@ -8,7 +8,7 @@
   <PropertyGroup Condition=" '$(IsGitHubActions)' == 'true' ">
     <PublishRepositoryUrl></PublishRepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>$(GITHUB_SERVER_URL)/$(GITHUB_REPOSITORY).git</RepositoryUrl>
+    <RepositoryUrl>$(GitHubRepositoryUrl).git</RepositoryUrl>
     <Company>$([MSBuild]::ValueOrDefault('$(Company)', '$(RepositoryUrl)'))</Company>
   </PropertyGroup>
 </Project>
