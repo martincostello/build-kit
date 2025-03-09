@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project>
+  <PropertyGroup>
+    <_NpmPackageJson>$([System.IO.Path]::Combine('$(ProjectDir)', 'package.json'))</_NpmPackageJson>
+  </PropertyGroup>
+  <Target Name="RestoreNpmPackages" BeforeTargets="BeforeBuild" Condition="Exists('$(_NpmPackageJson)')">
+    <PropertyGroup>
+      <_NpmModulesPath>$([System.IO.Path]::Combine('$(ProjectDir)', 'node_modules'))</_NpmModulesPath>
+      <_NpmRestoreCommand Condition=" '$(CI)' == 'true' ">ci</_NpmRestoreCommand>
+      <_NpmRestoreCommand Condition=" '$(CI)' != 'true' ">install</_NpmRestoreCommand>
+    </PropertyGroup>
+    <Exec Command="npm $(_NpmRestoreCommand)" Condition=" !Exists('$(_NpmModulesPath)') " />
+  </Target>
+</Project>

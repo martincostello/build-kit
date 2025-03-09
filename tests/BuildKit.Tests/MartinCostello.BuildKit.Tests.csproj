@@ -25,10 +25,6 @@
     <ProjectReference Include="..\..\samples\NuGetPackage\NuGetPackage.csproj" />
     <ProjectReference Include="..\..\src\BuildKit\MartinCostello.BuildKit.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Using Include="Shouldly" />
-    <Using Include="Xunit" />
-  </ItemGroup>
   <PropertyGroup>
     <CollectCoverage>true</CollectCoverage>
     <Threshold>80</Threshold>
