@@ -69,8 +69,6 @@ jobs:
       run: ./build.ps1
 
     - uses: codecov/codecov-action@0565863a31f2c772f9f0395002a31e3f06189574 # v5.4.0
-      # TODO Enable once the repository is public
-      if: false
       name: Upload coverage to Codecov
       with:
         flags: ${{ matrix.os-name }}
@@ -92,12 +90,10 @@ jobs:
 
     - name: Attest artifacts
       uses: actions/attest-build-provenance@c074443f1aee8d4aeeae555aebba3282517141b2 # v2.2.3
-      # TODO Enable once repository is public
-      if: false
-      #if: |
-      #  runner.os == 'Windows' &&
-      #  github.event.repository.fork == false &&
-      #  (github.ref_name == github.event.repository.default_branch || startsWith(github.ref, 'refs/tags/v'))
+      if: |
+        runner.os == 'Windows' &&
+        github.event.repository.fork == false &&
+        (github.ref_name == github.event.repository.default_branch || startsWith(github.ref, 'refs/tags/v'))
       with:
         subject-path: |
           ./artifacts/bin/MartinCostello.BuildKit/release*/*.dll

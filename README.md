@@ -3,9 +3,12 @@
 <!--
 [![NuGet][package-badge-version]][package-download]
 [![NuGet Downloads][package-badge-downloads]][package-download]
+-->
 
 [![Build status][build-badge]][build-status]
 [![codecov][coverage-badge]][coverage-report]
+
+<!--
 [![OpenSSF Scorecard][scorecard-badge]][scorecard-report]
 -->
 
@@ -13,9 +16,13 @@
 
 A NuGet package containing reusable MSBuild targets for my other .NET projects.
 
-## Quick Start
+### Installation
 
-TODO
+To install the library from [NuGet](https://www.nuget.org/packages/MartinCostello.BuildKit/ "MartinCostello.BuildKit on NuGet.org") using the .NET SDK run:
+
+```sh
+dotnet add package MartinCostello.BuildKit
+```
 
 ## Building and Testing
 
@@ -42,16 +49,17 @@ The repository is hosted in [GitHub][repo]: <https://github.com/martincostello/b
 
 This project is licensed under the [Apache 2.0][license] license.
 
+[build-badge]: https://github.com/martincostello/build-kit/actions/workflows/build.yml/badge.svg?branch=main&event=push
+[build-status]: https://github.com/martincostello/build-kit/actions?query=workflow%3Abuild+branch%3Amain+event%3Apush "Continuous Integration for this project"
+[coverage-badge]: https://codecov.io/gh/martincostello/build-kit/branch/main/graph/badge.svg
+[coverage-report]: https://codecov.io/gh/martincostello/build-kit "Code coverage report for this project"
 [dotnet-sdk]: https://dotnet.microsoft.com/download "Download the .NET SDK"
 [issues]: https://github.com/martincostello/build-kit "Issues for this project on GitHub.com"
 [license]: https://www.apache.org/licenses/LICENSE-2.0.txt "The Apache 2.0 license"
 [repo]: https://github.com/martincostello/build-kit "This project on GitHub.com"
 
 <!--
-[build-badge]: https://github.com/martincostello/build-kit/actions/workflows/build.yml/badge.svg?branch=main&event=push
-[build-status]: https://github.com/martincostello/build-kit/actions?query=workflow%3Abuild+branch%3Amain+event%3Apush "Continuous Integration for this project"
-[coverage-badge]: https://codecov.io/gh/martincostello/build-kit/branch/main/graph/badge.svg
-[coverage-report]: https://codecov.io/gh/martincostello/build-kit "Code coverage report for this project"
+TODO Enable NuGet badges
 [package-badge-downloads]: https://img.shields.io/nuget/dt/MartinCostello.BuildKit?logo=nuget&label=Downloads&color=blue
 [package-badge-version]: https://img.shields.io/nuget/v/MartinCostello.BuildKit?logo=nuget&label=Latest&color=blue
 [package-download]: https://www.nuget.org/packages/MartinCostello.BuildKit "Download MartinCostello.BuildKit from NuGet"
