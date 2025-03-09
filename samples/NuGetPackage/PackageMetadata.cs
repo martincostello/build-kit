@@ -26,6 +26,11 @@ public static class PackageMetadata
     public static string Commit { get; } = GetMetadataValue("CommitHash", "HEAD");
 
     /// <summary>
+    /// Gets the value for a piece of assembly metadata that does not exist.
+    /// </summary>
+    public static string DoesNotExist { get; } = GetMetadataValue("DoesNotExist", string.Empty);
+
+    /// <summary>
     /// Gets the date and time that the package was built.
     /// </summary>
     public static DateTimeOffset Timestamp { get; } = DateTimeOffset.Parse(GetMetadataValue("BuildTimestamp", DateTimeOffset.UtcNow.ToString("u", CultureInfo.InvariantCulture)), CultureInfo.InvariantCulture);

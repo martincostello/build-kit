@@ -13,8 +13,12 @@ public static class NuGetPackageTests
         // Act and Assert
         PackageMetadata.BuildId.ShouldNotBeNull();
         PackageMetadata.Branch.ShouldNotBeNull();
+        PackageMetadata.Branch.ShouldNotBeEmpty();
         PackageMetadata.Commit.ShouldNotBeNull();
+        PackageMetadata.Commit.ShouldNotBeEmpty();
         PackageMetadata.Timestamp.ShouldNotBe(default);
         PackageMetadata.Version.ShouldNotBeNullOrWhiteSpace();
+        PackageMetadata.DoesNotExist.ShouldNotBeNull();
+        PackageMetadata.DoesNotExist.ShouldBeEmpty();
     }
 }
