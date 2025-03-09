@@ -6,6 +6,9 @@
   <ItemGroup Condition="@(PackageReference-&gt;AnyHaveMetadataValue(`Identity`, `xunit`)) OR @(PackageReference-&gt;AnyHaveMetadataValue(`Identity`, `xunit.v3`))">
     <Using Include="Xunit" />
   </ItemGroup>
+  <ItemGroup Condition="@(PackageReference-&gt;AnyHaveMetadataValue(`Identity`, `xunit`))">
+    <Using Include="Xunit.Abstractions" />
+  </ItemGroup>
   <PropertyGroup>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);SA0001;SA1600</NoWarn>
