@@ -1,4 +1,3 @@
 {
-  "$schema": "https://raw.githubusercontent.com/martincostello/github-automation/main/.github/update-dotnet-sdk-schema.json",
-  "update-nuget-packages": false
+  "$schema": "https://raw.githubusercontent.com/martincostello/github-automation/main/.github/update-dotnet-sdk-schema.json"
 }
