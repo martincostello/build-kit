@@ -7,10 +7,10 @@
     <ContainerTitle>$(GITHUB_REPOSITORY)</ContainerTitle>
     <ContainerVendor>$(GITHUB_REPOSITORY_OWNER)</ContainerVendor>
     <ContainerVersion>$(GITHUB_SHA)</ContainerVersion>
-    <Description>$([MSBuild]::ValueOrDefault('$(Description)', '$(GITHUB_SERVER_URL)/$(GITHUB_REPOSITORY)'))</Description>
+    <Description>$([MSBuild]::ValueOrDefault('$(Description)', '$(GitHubRepositoryUrl)'))</Description>
   </PropertyGroup>
   <ItemGroup Condition=" '$(IsGitHubActions)' == 'true' ">
-    <ContainerLabel Include="com.docker.extension.changelog" Value="$(GITHUB_SERVER_URL)/$(GITHUB_REPOSITORY)/commit/$(GITHUB_SHA)" />
+    <ContainerLabel Include="com.docker.extension.changelog" Value="$(GitHubRepositoryUrl)/commit/$(GITHUB_SHA)" />
     <ContainerLabel Include="com.docker.extension.publisher-url" Value="$(GITHUB_SERVER_URL)/$(GITHUB_REPOSITORY_OWNER)" />
   </ItemGroup>
 </Project>
