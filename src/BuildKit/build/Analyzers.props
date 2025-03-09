@@ -15,7 +15,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(EnableStyleCopAnalyzers)' == 'true' ">
     <_StyleCopSettingsFileName>stylecop.json</_StyleCopSettingsFileName>
-    <_StyleCopSettings>$(ProjectDir)\$(_StyleCopSettingsFileName)</_StyleCopSettings>
+    <_StyleCopSettings>$([System.IO.Path]::Combine($(ProjectDir), '$(_StyleCopSettingsFileName)'))</_StyleCopSettings>
     <_StyleCopSettings Condition="!Exists('$(_StyleCopSettings)')">$([System.IO.Path]::Combine($(ProjectDir), '..', '..', '$(_StyleCopSettingsFileName)'))</_StyleCopSettings>
   </PropertyGroup>
   <ItemGroup Condition="Exists('$(_StyleCopSettings)')">
