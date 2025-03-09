@@ -1,23 +1,19 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <Description>Tests for MartinCostello.BuildKit.</Description>
-    <IsPackable>false</IsPackable>
-    <IsTestProject>true</IsTestProject>
-    <NoWarn>$(NoWarn);CA1707;CA2007;SA1600</NoWarn>
+    <NoWarn>$(NoWarn);SA1600</NoWarn>
     <OutputType>Exe</OutputType>
     <RootNamespace>MartinCostello.BuildKit</RootNamespace>
     <TargetFramework>net9.0</TargetFramework>
-    <UserSecretsId>MartinCostello.BuildKit</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="xunit.runner.json" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
-    <!-- TODO References to samples -->
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="coverlet.msbuild" />
-    <PackageReference Include="GitHubActionsTestLogger" NoWarn="RT0003" />
+    <PackageReference Include="GitHubActionsTestLogger" />
+    <PackageReference Include="MartinCostello.Logging.XUnit.v3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="ReportGenerator" />
     <PackageReference Include="Shouldly" />
@@ -25,16 +21,17 @@
     <PackageReference Include="xunit.v3" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\samples\ConsoleApp\ConsoleApp.csproj" />
+    <ProjectReference Include="..\..\samples\ContainerApp\ContainerApp.csproj" />
+    <ProjectReference Include="..\..\samples\NuGetPackage\NuGetPackage.csproj" />
+    <ProjectReference Include="..\..\src\BuildKit\MartinCostello.BuildKit.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <Using Include="Shouldly" />
     <Using Include="Xunit" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(BuildingInsideVisualStudio)' != 'true' ">
     <CollectCoverage>true</CollectCoverage>
-    <CoverletOutputFormat>cobertura,json</CoverletOutputFormat>
-    <Exclude>[*.Test*]*,[xunit.*]*</Exclude>
-    <ExcludeByAttribute>GeneratedCodeAttribute</ExcludeByAttribute>
-    <!--
-    <Threshold></Threshold>
-    -->
+    <Threshold>80</Threshold>
   </PropertyGroup>
 </Project>
