@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>A NuGet package containing reusable MSBuild targets for my other .NET projects.</Description>
+    <IsPackable>true</IsPackable>
+    <OutputType>Library</OutputType>
+    <PackageId>MartinCostello.BuildKit</PackageId>
+    <Summary>$(Description)</Summary>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <Title>MartinCostello.BuildKit</Title>
+  </PropertyGroup>
+</Project>
