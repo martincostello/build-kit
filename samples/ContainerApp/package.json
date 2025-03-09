@@ -1,0 +1,16 @@
+{
+  "name": "martincostellobuildkit",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Container application for testing MartinCostello.BuildKit",
+  "scripts": {
+    "postinstall": "mkdir node_modules || exit 0",
+    "test": "cd node_modules || exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/martincostello/build-kit.git"
+  },
+  "author": "martincostello",
+  "license": "Apache-2.0"
+}
