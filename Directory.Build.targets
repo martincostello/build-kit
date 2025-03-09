@@ -4,6 +4,7 @@
     <Using Include="System.Text" />
   </ItemGroup>
   <PropertyGroup>
+    <BuildId Condition=" '$(BuildId)' == '' ">$(GITHUB_RUN_ID)</BuildId>
     <CommitBranch Condition=" '$(CommitBranch)' == '' ">$(BUILD_SOURCEBRANCHNAME)</CommitBranch>
     <CommitBranch Condition=" '$(CommitBranch)' == '' and '$(GITHUB_REF_NAME)' != '' ">$(GITHUB_REF_NAME)</CommitBranch>
     <CommitHash Condition=" '$(CommitHash)' == '' ">$(GITHUB_SHA)</CommitHash>
@@ -18,9 +19,10 @@
       <Output TaskParameter="ConsoleOutput" PropertyName="CommitBranch" />
     </Exec>
     <ItemGroup>
+      <AssemblyMetadata Include="BuildId" Value="$(BuildId)" Condition=" $(BuildId) != '' " />
       <AssemblyMetadata Include="BuildTimestamp" Value="$([System.DateTime]::UtcNow.ToString('yyyy-MM-ddTHH:mm:ssK'))" />
-      <AssemblyMetadata Include="CommitHash" Value="$(CommitHash)" Condition=" $(CommitHash) != '' " />
       <AssemblyMetadata Include="CommitBranch" Value="$(CommitBranch)" Condition=" $(CommitBranch) != '' " />
+      <AssemblyMetadata Include="CommitHash" Value="$(CommitHash)" Condition=" $(CommitHash) != '' " />
     </ItemGroup>
   </Target>
   <PropertyGroup Condition=" '$(CollectCoverage)' == 'true' ">
@@ -31,7 +33,8 @@
     <_ReportGeneratorTargetDirectory>$([System.IO.Path]::Combine($(ArtifactsPath), 'coverage'))</_ReportGeneratorTargetDirectory>
     <CoverletOutput>$([System.IO.Path]::Combine($(_CoveragePath), '$(MSBuildProjectName)', 'coverage'))</CoverletOutput>
     <CoverletOutputFormat>cobertura,json</CoverletOutputFormat>
-    <ExcludeByAttribute>GeneratedCodeAttribute</ExcludeByAttribute>
+    <Exclude>$(Exclude),[*.Test*]*,[xunit.*]*</Exclude>
+    <ExcludeByAttribute>$(ExcludeByAttribute),GeneratedCodeAttribute</ExcludeByAttribute>
   </PropertyGroup>
   <UsingTask TaskName="WriteLinesToFileWithRetry" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
     <ParameterGroup>
@@ -106,5 +109,22 @@
     <WriteLinesToFile File="$(_PackageNamesPath)" Lines="@(_UniquePackageNames)" Overwrite="true" WriteOnlyWhenDifferent="true" />
     <WriteLinesToFile File="$(GITHUB_OUTPUT)" Lines="package-names=$(_UniquePackageNames)" />
     <WriteLinesToFile File="$(GITHUB_OUTPUT)" Lines="package-version=$(Version)" />
+  </Target>
+  <!--
+  <Target Name="BundleAssets" BeforeTargets="BeforeBuild" Condition="Exists('$(ProjectDir)\package.json')">
+    <Exec Command="npm ci" Condition=" !Exists('$(ProjectDir)\node_modules') AND '$(GITHUB_ACTIONS)' != '' " />
+    <Exec Command="npm install" Condition=" !Exists('$(ProjectDir)\node_modules') AND '$(GITHUB_ACTIONS)' == '' " />
+    <Exec Command="npm run build" Condition=" !Exists('$(ProjectDir)\wwwroot\static\js\main.js') " />
+  </Target>
+  -->
+  <Target Name="SetGitHubContainerOutputs" AfterTargets="PublishContainer" Condition=" '$(GITHUB_OUTPUT)' != '' AND '$(ContainerRegistry)' != '' ">
+    <PropertyGroup>
+      <_ContainerImage>$(ContainerRegistry)/$(ContainerRepository)</_ContainerImage>
+      <_ContainerImage>$(_ContainerImage.ToLowerInvariant())</_ContainerImage>
+      <_ContainerTag>$(_ContainerImage):github-$(GITHUB_RUN_NUMBER)</_ContainerTag>
+    </PropertyGroup>
+    <WriteLinesToFile File="$(GITHUB_OUTPUT)" Lines="container-digest=$(GeneratedContainerDigest)" />
+    <WriteLinesToFile File="$(GITHUB_OUTPUT)" Lines="container-image=$(_ContainerImage)" />
+    <WriteLinesToFile File="$(GITHUB_OUTPUT)" Lines="container-tag=$(_ContainerTag)" />
   </Target>
 </Project>

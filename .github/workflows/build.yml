@@ -69,10 +69,18 @@ jobs:
       run: ./build.ps1
 
     - uses: codecov/codecov-action@0565863a31f2c772f9f0395002a31e3f06189574 # v5.4.0
+      # TODO Enable once the repository is public
+      if: false
       name: Upload coverage to Codecov
       with:
         flags: ${{ matrix.os-name }}
         token: ${{ secrets.CODECOV_TOKEN }}
+
+    - name: Publish container
+      id: publish-container
+      if: runner.os == 'Linux'
+      run: |
+        dotnet publish ./samples/ContainerApp --arch x64 --os linux -p:PublishProfile=DefaultContainer
 
     - name: Generate SBOM
       uses: anchore/sbom-action@f325610c9f50a54015d37c8d16cb3b0e2c8f4de0 # v0.18.0
