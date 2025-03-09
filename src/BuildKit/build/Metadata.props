@@ -6,7 +6,7 @@
     <Summary>$([MSBuild]::ValueOrDefault('$(Summary)', '$(Description)'))</Summary>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(IsGitHubActions)' == 'true' ">
-    <PublishRepositoryUrl></PublishRepositoryUrl>
+    <PublishRepositoryUrl>$([MSBuild]::ValueOrDefault('$(PublishRepositoryUrl)', 'true'))</PublishRepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>$(GitHubRepositoryUrl).git</RepositoryUrl>
     <Company>$([MSBuild]::ValueOrDefault('$(Company)', '$(RepositoryUrl)'))</Company>
