@@ -15,4 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\BuildKit\MartinCostello.BuildKit.csproj" />
   </ItemGroup>
+  <Target Name="BundleAssets" BeforeTargets="BeforeBuild" DependsOnTargets="RestoreNpmPackages">
+    <Exec Command="npm test" />
+  </Target>
 </Project>
