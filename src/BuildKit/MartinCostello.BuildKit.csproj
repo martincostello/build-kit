@@ -7,11 +7,11 @@
     <NoPackageAnalysis>true</NoPackageAnalysis>
     <OutputType>Library</OutputType>
     <PackageId>MartinCostello.BuildKit</PackageId>
-    <Summary>$(Description)</Summary>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Title>MartinCostello.BuildKit</Title>
   </PropertyGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)\build\**\*" Pack="True" PackagePath="build" />
+    <None Include="$(MSBuildThisFileDirectory)\buildTransitive\**\*" Pack="True" PackagePath="buildTransitive" />
   </ItemGroup>
 </Project>

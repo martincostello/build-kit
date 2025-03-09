@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project>
+  <PropertyGroup>
+    <ChecksumAlgorithm>$([MSBuild]::ValueOrDefault('$(ChecksumAlgorithm)', 'SHA256'))</ChecksumAlgorithm>
+    <ContinuousIntegrationBuild>$([MSBuild]::ValueOrDefault('$(CI)', 'false'))</ContinuousIntegrationBuild>
+    <DebugType>$([MSBuild]::ValueOrDefault('$(DebugType)', 'portable'))</DebugType>
+    <Deterministic>$([MSBuild]::ValueOrDefault('$(Deterministic)', 'true'))</Deterministic>
+    <EmbedUntrackedSources>$([MSBuild]::ValueOrDefault('$(EmbedUntrackedSources)', 'true'))</EmbedUntrackedSources>
+    <GenerateGitMetadata>$([MSBuild]::ValueOrDefault('$(GenerateGitMetadata)', 'true'))</GenerateGitMetadata>
+    <ImplicitUsings>$([MSBuild]::ValueOrDefault('$(ImplicitUsings)', 'enable'))</ImplicitUsings>
+    <LangVersion>$([MSBuild]::ValueOrDefault('$(LangVersion)', 'latest'))</LangVersion>
+    <Nullable>$([MSBuild]::ValueOrDefault('$(Nullable)', 'enable'))</Nullable>
+    <TreatWarningsAsErrors>$([MSBuild]::ValueOrDefault('$(TreatWarningsAsErrors)', 'true'))</TreatWarningsAsErrors>
+    <TrimmerSingleWarn>$([MSBuild]::ValueOrDefault('$(TrimmerSingleWarn)', 'false'))</TrimmerSingleWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(OutputType)' == 'Library' ">
+    <GenerateDocumentationFile>$([MSBuild]::ValueOrDefault('$(GenerateDocumentationFile)', 'true'))</GenerateDocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(AssemblyOriginatorKeyFile)' != '' ">
+    <SignAssembly>$([MSBuild]::ValueOrDefault('$(SignAssembly)', 'true'))</SignAssembly>
+    <PublicSign Condition=" !$([System.OperatingSystem]::IsWindows()) AND '$(SignAssembly)' == 'true' ">true</PublicSign>
+  </PropertyGroup>
+</Project>

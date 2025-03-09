@@ -1,3 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <Project>
+  <Import Project="$(MSBuildThisFileDirectory)GitHubActions.props" />
+  <Import Project="$(MSBuildThisFileDirectory)Metadata.props" />
+  <Import Project="$(MSBuildThisFileDirectory)Version.props" />
+  <Import Project="$(MSBuildThisFileDirectory)Build.props" />
+  <Import Project="$(MSBuildThisFileDirectory)Analyzers.props" />
+  <Import Project="$(MSBuildThisFileDirectory)Containers.props" />
+  <Import Project="$(MSBuildThisFileDirectory)Packages.props" />
+  <Import Project="$(MSBuildThisFileDirectory)Testing.props" />
 </Project>

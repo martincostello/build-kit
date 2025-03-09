@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project>
+  <PropertyGroup Condition=" '$(GITHUB_ACTIONS)' == 'true' AND '$(DEPENDABOT_JOB_ID)' == '' ">
+    <IsGitHubActions>true</IsGitHubActions>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(IsGitHubActions)' == 'true' ">
+    <GitHubIsPullRequest Condition=" '$(GITHUB_HEAD_REF)' == '' ">false</GitHubIsPullRequest>
+    <GitHubIsPullRequest Condition=" '$(GITHUB_HEAD_REF)' != '' ">true</GitHubIsPullRequest>
+    <GitHubIsTag Condition=" $(GITHUB_REF.StartsWith(`refs/tags/v`)) ">true</GitHubIsTag>
+    <GitHubIsTag Condition=" !$(GITHUB_REF.StartsWith(`refs/tags/v`)) ">false</GitHubIsTag>
+    <GitHubBranchName Condition=" '$(GitHubIsPullRequest)' == 'false' ">$(GITHUB_REF_NAME)</GitHubBranchName>
+    <GitHubPullRequest Condition=" '$(GitHubIsPullRequest)' == 'true' ">$(GITHUB_REF_NAME.Replace('/merge', ''))</GitHubPullRequest>
+    <GitHubTag Condition=" '$(GitHubIsTag)' == 'true' ">$(GITHUB_REF.Replace('refs/tags/', ''))</GitHubTag>
+  </PropertyGroup>
+</Project>
