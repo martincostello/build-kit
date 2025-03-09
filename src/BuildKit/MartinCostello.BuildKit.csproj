@@ -12,6 +12,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)\build\**\*" Pack="True" PackagePath="build" />
+    <None Include="$(MSBuildThisFileDirectory)\buildMultiTargeting\**\*" Pack="True" PackagePath="buildMultiTargeting" />
     <None Include="$(MSBuildThisFileDirectory)\buildTransitive\**\*" Pack="True" PackagePath="buildTransitive" />
   </ItemGroup>
 </Project>
