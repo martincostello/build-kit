@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <Project>
   <PropertyGroup Condition=" '$(IsGitHubActions)' == 'true' ">
+    <ContainerAuthors>$([MSBuild]::ValueOrDefault('$(ContainerAuthors)', '$(GITHUB_REPOSITORY_OWNER)'))</ContainerAuthors>
+    <ContainerDescription>$([MSBuild]::ValueOrDefault('$(ContainerDescription)', '$(GitHubRepositoryUrl)'))</ContainerDescription>
     <ContainerImageTags>github-$(GITHUB_RUN_NUMBER)</ContainerImageTags>
     <ContainerImageTags Condition=" '$(GitHubPullRequest)' == '' ">$(ContainerImageTags);latest</ContainerImageTags>
-    <ContainerRepository>$(GITHUB_REPOSITORY)</ContainerRepository>
-    <ContainerTitle>$(GITHUB_REPOSITORY)</ContainerTitle>
-    <ContainerVendor>$(GITHUB_REPOSITORY_OWNER)</ContainerVendor>
-    <ContainerVersion>$(GITHUB_SHA)</ContainerVersion>
-    <Description>$([MSBuild]::ValueOrDefault('$(Description)', '$(GitHubRepositoryUrl)'))</Description>
+    <ContainerRepository>$([MSBuild]::ValueOrDefault('$(ContainerRepository)', '$(GITHUB_REPOSITORY)'))</ContainerRepository>
+    <ContainerTitle>$([MSBuild]::ValueOrDefault('$(ContainerTitle)', '$(GITHUB_REPOSITORY)'))</ContainerTitle>
+    <ContainerVendor>$([MSBuild]::ValueOrDefault('$(ContainerVendor)', '$(GITHUB_REPOSITORY_OWNER)'))</ContainerVendor>
+    <ContainerVersion>$([MSBuild]::ValueOrDefault('$(ContainerVersion)', '$(GITHUB_SHA)'))</ContainerVersion>
   </PropertyGroup>
   <ItemGroup Condition=" '$(IsGitHubActions)' == 'true' ">
     <ContainerLabel Include="com.docker.extension.changelog" Value="$(GitHubRepositoryUrl)/commit/$(GITHUB_SHA)" />
