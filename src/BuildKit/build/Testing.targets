@@ -29,7 +29,8 @@
     <CoverletOutputFormat>cobertura,json</CoverletOutputFormat>
   </PropertyGroup>
   <ItemGroup Condition=" '$(CollectCoverage)' == 'true' ">
-    <CoverletExclude Include="$([MSBuild]::Escape('[*.Test*]*'))" />
+    <CoverletExclude Include="$([MSBuild]::Escape('[*.Tests]*'))" />
+    <CoverletExclude Include="$([MSBuild]::Escape('[*.*Tests]*'))" />
     <CoverletExclude Include="$([MSBuild]::Escape('[xunit.*]*'))" />
     <CoverletExcludeByAttribute Include="GeneratedCodeAttribute" />
     <CoverletExcludeByFile Include="$([MSBuild]::Escape('$(ArtifactsPath)/obj/**/*'))" />
@@ -72,6 +73,9 @@
     </CreateProperty>
     <CreateProperty Value="@(CoverletExcludeByFile->'%(Identity)', ',')">
       <Output TaskParameter="Value" PropertyName="ExcludeByFile" />
+    </CreateProperty>
+    <CreateProperty Value="@(CoverletInclude->'%(Identity)', ',')">
+      <Output TaskParameter="Value" PropertyName="Include" />
     </CreateProperty>
   </Target>
   <Target Name="GenerateCoverageReports" AfterTargets="GenerateCoverageResultAfterTest" Condition=" '$(CollectCoverage)' == 'true' ">
