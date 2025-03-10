@@ -2,7 +2,8 @@
 <Project>
   <Target Name="SetGitHubContainerOutputs" AfterTargets="PublishContainer"  DependsOnTargets="PublishContainer" Condition=" '$(GITHUB_OUTPUT)' != '' AND ('$(ContainerRegistry)' != '' OR '$(SetGitHubContainerPublishingOutputs)' == 'true') ">
     <PropertyGroup>
-      <_ContainerImage>$(ContainerRegistry)/$(ContainerRepository)</_ContainerImage>
+      <_ContainerImage Condition=" '$(ContainerRegistry)' == '' ">$(ContainerRepository)</_ContainerImage>
+      <_ContainerImage Condition=" '$(ContainerRegistry)' != '' ">$(ContainerRegistry)/$(ContainerRepository)</_ContainerImage>
       <_ContainerImage>$(_ContainerImage.ToLowerInvariant())</_ContainerImage>
       <_ContainerTag>$(_ContainerImage):github-$(GITHUB_RUN_NUMBER)</_ContainerTag>
     </PropertyGroup>
