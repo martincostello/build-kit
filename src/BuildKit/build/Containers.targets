@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <Project>
-  <Target Name="SetGitHubContainerOutputs" AfterTargets="PublishContainer" Condition=" '$(GITHUB_OUTPUT)' != '' AND '$(ContainerRegistry)' != '' ">
+  <Target Name="SetGitHubContainerOutputs" AfterTargets="PublishContainer" Condition=" '$(GITHUB_OUTPUT)' != '' AND ('$(ContainerRegistry)' != '' OR '$(SetGitHubContainerPublishingOutputs)' == 'true') ">
     <PropertyGroup>
       <_ContainerImage>$(ContainerRegistry)/$(ContainerRepository)</_ContainerImage>
       <_ContainerImage>$(_ContainerImage.ToLowerInvariant())</_ContainerImage>

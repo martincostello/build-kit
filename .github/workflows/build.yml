@@ -77,6 +77,8 @@ jobs:
     - name: Publish container
       id: publish-container
       if: runner.os == 'Linux'
+      env:
+        SetGitHubContainerOutputs: true
       run: |
         dotnet publish ./samples/ContainerApp --arch x64 --os linux -p:PublishProfile=DefaultContainer
 
