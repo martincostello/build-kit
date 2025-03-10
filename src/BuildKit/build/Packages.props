@@ -16,4 +16,7 @@
     <PackageRequireLicenseAcceptance>$([MSBuild]::ValueOrDefault('$(PackageRequireLicenseAcceptance)', 'false'))</PackageRequireLicenseAcceptance>
     <SymbolPackageFormat>$([MSBuild]::ValueOrDefault('$(SymbolPackageFormat)', 'snupkg'))</SymbolPackageFormat>
   </PropertyGroup>
+  <PropertyGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">
+    <IsAotCompatible>$([MSBuild]::ValueOrDefault('$(IsAotCompatible)', 'true'))</IsAotCompatible>
+  </PropertyGroup>
 </Project>
