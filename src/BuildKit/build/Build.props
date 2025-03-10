@@ -9,6 +9,7 @@
     <GenerateGitMetadata>$([MSBuild]::ValueOrDefault('$(GenerateGitMetadata)', 'true'))</GenerateGitMetadata>
     <ImplicitUsings>$([MSBuild]::ValueOrDefault('$(ImplicitUsings)', 'enable'))</ImplicitUsings>
     <LangVersion>$([MSBuild]::ValueOrDefault('$(LangVersion)', 'latest'))</LangVersion>
+    <MSBuildTreatWarningsAsErrors>$([MSBuild]::ValueOrDefault('$(MSBuildTreatWarningsAsErrors)', 'true'))</MSBuildTreatWarningsAsErrors>
     <Nullable>$([MSBuild]::ValueOrDefault('$(Nullable)', 'enable'))</Nullable>
     <TreatWarningsAsErrors>$([MSBuild]::ValueOrDefault('$(TreatWarningsAsErrors)', 'true'))</TreatWarningsAsErrors>
     <TrimmerSingleWarn>$([MSBuild]::ValueOrDefault('$(TrimmerSingleWarn)', 'false'))</TrimmerSingleWarn>
