@@ -4,7 +4,7 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <PackageTags>msbuild</PackageTags>
     <UseArtifactsOutput>true</UseArtifactsOutput>
-    <VersionPrefix>0.1.0</VersionPrefix>
+    <VersionPrefix>0.1.1</VersionPrefix>
   </PropertyGroup>
   <ItemGroup>
     <AssemblyAttribute Include="System.CLSCompliant">
