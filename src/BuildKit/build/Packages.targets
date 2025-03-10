@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <Project>
   <PropertyGroup>
+    <EnablePackageValidation>$([MSBuild]::ValueOrDefault('$(EnablePackageValidation)', 'true'))</EnablePackageValidation>
+  </PropertyGroup>
+  <PropertyGroup>
     <_PackageIconFullPath>$(ProjectDir)\$(PackageIcon)</_PackageIconFullPath>
     <_PackageIconFullPath Condition="!Exists('$(_PackageIconFullPath)')">$([System.IO.Path]::Combine($(ProjectDir), '..', '..', '$(PackageIcon)'))</_PackageIconFullPath>
     <_PackageReadmeFullPath>$(ProjectDir)\$(PackageReadmeFile)</_PackageReadmeFullPath>
