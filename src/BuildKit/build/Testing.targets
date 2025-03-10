@@ -10,6 +10,9 @@
     <Using Include="Xunit.Abstractions" />
   </ItemGroup>
   <PropertyGroup>
+    <NoWarn>$(NoWarn);CA1062;CA1308;CA1707;CA1711;CA1812;CA1861;CA2007</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);SA0001;SA1600</NoWarn>
   </PropertyGroup>
