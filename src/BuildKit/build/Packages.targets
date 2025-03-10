@@ -2,6 +2,7 @@
 <Project>
   <PropertyGroup>
     <EnablePackageValidation>$([MSBuild]::ValueOrDefault('$(EnablePackageValidation)', 'true'))</EnablePackageValidation>
+    <Title>$([MSBuild]::ValueOrDefault('$(Title)', '$(PackageId)'))</Title>
   </PropertyGroup>
   <PropertyGroup>
     <_PackageIconFullPath>$(ProjectDir)\$(PackageIcon)</_PackageIconFullPath>
