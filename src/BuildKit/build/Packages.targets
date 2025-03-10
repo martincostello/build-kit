@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <Project>
   <PropertyGroup>
-    <EnablePackageValidation>$([MSBuild]::ValueOrDefault('$(EnablePackageValidation)', 'true'))</EnablePackageValidation>
     <Title>$([MSBuild]::ValueOrDefault('$(Title)', '$(PackageId)'))</Title>
   </PropertyGroup>
   <PropertyGroup>
