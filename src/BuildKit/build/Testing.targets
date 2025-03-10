@@ -27,9 +27,12 @@
     <_ReportGeneratorTargetDirectory>$([System.IO.Path]::Combine($(ArtifactsPath), 'coverage'))</_ReportGeneratorTargetDirectory>
     <CoverletOutput>$([System.IO.Path]::Combine($(_CoveragePath), '$(MSBuildProjectName)', 'coverage'))</CoverletOutput>
     <CoverletOutputFormat>cobertura,json</CoverletOutputFormat>
-    <Exclude>$(Exclude),[*.Test*]*,[xunit.*]*</Exclude>
-    <ExcludeByAttribute>$(ExcludeByAttribute),GeneratedCodeAttribute</ExcludeByAttribute>
   </PropertyGroup>
+  <ItemGroup Condition=" '$(CollectCoverage)' == 'true' ">
+    <CoverletExclude Include="$([MSBuild]::Escape('[*.Test*]*'))" />
+    <CoverletExclude Include="$([MSBuild]::Escape('[xunit.*]*'))" />
+    <CoverletExcludeByAttribute Include="GeneratedCodeAttribute" />
+  </ItemGroup>
   <UsingTask TaskName="WriteLinesToFileWithRetry" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
     <ParameterGroup>
       <File ParameterType="System.String" Required="true" />
@@ -59,6 +62,17 @@
    ]]></Code>
     </Task>
   </UsingTask>
+  <Target Name="GenerateCoverageExclusions" BeforeTargets="InstrumentModules" Condition=" '$(CollectCoverage)' == 'true' ">
+    <CreateProperty Value="@(CoverletExclude->'%(Identity)', ',')">
+      <Output TaskParameter="Value" PropertyName="Exclude" />
+    </CreateProperty>
+    <CreateProperty Value="@(CoverletExcludeByAttribute->'%(Identity)', ',')">
+      <Output TaskParameter="Value" PropertyName="ExcludeByAttribute" />
+    </CreateProperty>
+    <CreateProperty Value="@(CoverletExcludeByFile->'%(Identity)', ',')">
+      <Output TaskParameter="Value" PropertyName="ExcludeByFile" />
+    </CreateProperty>
+  </Target>
   <Target Name="GenerateCoverageReports" AfterTargets="GenerateCoverageResultAfterTest" Condition=" '$(CollectCoverage)' == 'true' ">
     <ItemGroup>
       <_CoverageReports Include="$(_CoveragePath)\**\coverage.cobertura.xml" />
