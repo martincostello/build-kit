@@ -32,6 +32,7 @@
     <CoverletExclude Include="$([MSBuild]::Escape('[*.Test*]*'))" />
     <CoverletExclude Include="$([MSBuild]::Escape('[xunit.*]*'))" />
     <CoverletExcludeByAttribute Include="GeneratedCodeAttribute" />
+    <CoverletExcludeByFile Include="$([MSBuild]::Escape('$(ArtifactsPath)/obj/**/*'))" />
   </ItemGroup>
   <UsingTask TaskName="WriteLinesToFileWithRetry" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
     <ParameterGroup>
