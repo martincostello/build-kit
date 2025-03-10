@@ -82,7 +82,7 @@
     </PropertyGroup>
     <ReportGenerator Condition=" '@(_CoverageReports->Count())' &gt; 0 " ReportFiles="@(_CoverageReports)" ReportTypes="$(_ReportGeneratorReportTypes)" Tag="$(Version)" TargetDirectory="$(_ReportGeneratorTargetDirectory)" Title="$(AssemblyName)" VerbosityLevel="Warning" />
     <PropertyGroup Condition=" '$(_ReportGeneratorOutputMarkdown)' == 'true' AND Exists('$(_CoverageGitHubSummary)') ">
-      <_ReportSummaryContent>&lt;details&gt;&lt;summary&gt;:chart_with_upwards_trend: &lt;b&gt;$(AssemblyName) Code Coverage report&lt;/b&gt;&lt;/summary&gt;</_ReportSummaryContent>
+      <_ReportSummaryContent>&lt;details&gt;&lt;summary&gt;:chart_with_upwards_trend: &lt;b&gt;$(AssemblyName) Code Coverage report&lt;/b&gt; %28$(TargetFramework)%29&lt;/summary&gt;</_ReportSummaryContent>
       <_ReportSummaryContent>$(_ReportSummaryContent)$([System.Environment]::NewLine)</_ReportSummaryContent>
       <_ReportSummaryContent>$(_ReportSummaryContent)$([System.Environment]::NewLine)</_ReportSummaryContent>
       <_ReportSummaryContent>$(_ReportSummaryContent)$([System.IO.File]::ReadAllText('$(_CoverageGitHubSummary)'))</_ReportSummaryContent>
