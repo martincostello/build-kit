@@ -78,7 +78,7 @@ jobs:
       id: publish-container
       if: runner.os == 'Linux'
       run: |
-        dotnet publish ./samples/ContainerApp --arch x64 --os linux -p:PublishProfile=DefaultContainer -p:SetGitHubContainerOutputs=true -v:diag
+        dotnet publish ./samples/ContainerApp --arch x64 --os linux -p:PublishProfile=DefaultContainer -p:SetGitHubContainerPublishingOutputs=true
 
     - name: Inspect container
       if: runner.os == 'Linux'
