@@ -84,8 +84,7 @@ jobs:
       if: runner.os == 'Linux'
       env:
         CONTAINER_TAG: ${{ steps.publish-container.outputs.container-tag }}
-      run: |
-        docker pull "${CONTAINER_TAG}" && docker inspect "${CONTAINER_TAG}"
+      run: docker inspect "${CONTAINER_TAG}"
 
     - name: Generate SBOM
       uses: anchore/sbom-action@f325610c9f50a54015d37c8d16cb3b0e2c8f4de0 # v0.18.0
