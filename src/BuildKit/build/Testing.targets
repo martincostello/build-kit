@@ -21,12 +21,11 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(CollectCoverage)' == 'true' ">
     <_CoveragePath>$([System.IO.Path]::Combine($(ArtifactsPath), 'coverage'))</_CoveragePath>
-    <_ReportGeneratorOutputMarkdown Condition=" '$(GITHUB_SHA)' != '' ">true</_ReportGeneratorOutputMarkdown>
-    <_ReportGeneratorReportTypes>HTML</_ReportGeneratorReportTypes>
-    <_ReportGeneratorReportTypes Condition=" '$(_ReportGeneratorOutputMarkdown)' == 'true' ">$(_ReportGeneratorReportTypes);MarkdownSummaryGitHub</_ReportGeneratorReportTypes>
-    <_ReportGeneratorTargetDirectory>$([System.IO.Path]::Combine($(ArtifactsPath), 'coverage'))</_ReportGeneratorTargetDirectory>
+    <_ReportGeneratorOutputMarkdown Condition=" '$(IsGitHubActions)' == 'true' ">true</_ReportGeneratorOutputMarkdown>
+    <ReportGeneratorReportTypes>$([MSBuild]::ValueOrDefault('$(ReportGeneratorReportTypes)', 'HTML'))</ReportGeneratorReportTypes>
+    <ReportGeneratorReportTypes Condition=" '$(_ReportGeneratorOutputMarkdown)' == 'true' ">$(ReportGeneratorReportTypes);MarkdownSummaryGitHub</ReportGeneratorReportTypes>
     <CoverletOutput>$([System.IO.Path]::Combine($(_CoveragePath), '$(MSBuildProjectName)', 'coverage'))</CoverletOutput>
-    <CoverletOutputFormat>cobertura,json</CoverletOutputFormat>
+    <CoverletOutputFormat>$([MSBuild]::ValueOrDefault('$(CoverletOutputFormat)', 'cobertura,json'))</CoverletOutputFormat>
   </PropertyGroup>
   <ItemGroup Condition=" '$(CollectCoverage)' == 'true' ">
     <CoverletExclude Include="$([MSBuild]::Escape('[*.Tests]*'))" />
@@ -83,9 +82,9 @@
       <_CoverageReports Include="$(_CoveragePath)\**\coverage.cobertura.xml" />
     </ItemGroup>
     <PropertyGroup>
-      <_CoverageGitHubSummary>$([System.IO.Path]::Combine($(_ReportGeneratorTargetDirectory), 'SummaryGithub.md'))</_CoverageGitHubSummary>
+      <_CoverageGitHubSummary>$([System.IO.Path]::Combine($(_CoveragePath), 'SummaryGithub.md'))</_CoverageGitHubSummary>
     </PropertyGroup>
-    <ReportGenerator Condition=" '@(_CoverageReports->Count())' &gt; 0 " ReportFiles="@(_CoverageReports)" ReportTypes="$(_ReportGeneratorReportTypes)" Tag="$(Version)" TargetDirectory="$(_ReportGeneratorTargetDirectory)" Title="$(AssemblyName)" VerbosityLevel="Warning" />
+    <ReportGenerator Condition=" '@(_CoverageReports->Count())' &gt; 0 " ReportFiles="@(_CoverageReports)" ReportTypes="$(_ReportGeneratorReportTypes)" Tag="$(Version)" TargetDirectory="$(_CoveragePath)" Title="$(AssemblyName)" VerbosityLevel="Warning" />
     <PropertyGroup Condition=" '$(_ReportGeneratorOutputMarkdown)' == 'true' AND Exists('$(_CoverageGitHubSummary)') ">
       <_ReportSummaryContent>&lt;details&gt;&lt;summary&gt;:chart_with_upwards_trend: &lt;b&gt;$(AssemblyName) Code Coverage report&lt;/b&gt; %28$(TargetFramework)%29&lt;/summary&gt;</_ReportSummaryContent>
       <_ReportSummaryContent>$(_ReportSummaryContent)$([System.Environment]::NewLine)</_ReportSummaryContent>
@@ -98,7 +97,7 @@
     <WriteLinesToFileWithRetry Condition=" '$(_ReportGeneratorOutputMarkdown)' == 'true' AND Exists('$(_CoverageGitHubSummary)') " ContinueOnError="WarnAndContinue" File="$(GITHUB_STEP_SUMMARY)" Lines="$(_ReportSummaryContent)" />
   </Target>
   <Target Name="CleanCoverageReports">
-    <RemoveDir Condition="Exists('$(_ReportGeneratorTargetDirectory)')" Directories="$(_ReportGeneratorTargetDirectory)" />
+    <RemoveDir Condition="Exists('$(_CoveragePath)')" Directories="$(_CoveragePath)" />
   </Target>
   <PropertyGroup>
     <CleanDependsOn>$(CleanDependsOn);CleanCoverageReports</CleanDependsOn>
