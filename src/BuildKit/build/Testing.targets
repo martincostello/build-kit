@@ -30,6 +30,7 @@
     <CoverletExclude Include="$([MSBuild]::Escape('[xunit.*]*'))" />
     <CoverletExcludeByAttribute Include="GeneratedCodeAttribute" />
     <CoverletExcludeByFile Include="$([MSBuild]::Escape('$(ArtifactsPath)/obj/**/*'))" />
+    <CoverletExcludeByFile Include="$([MSBuild]::Escape('/_/artifacts/obj/**/*'))" />
     <CoverletOutputFormats Include="cobertura" />
     <CoverletOutputFormats Include="json" />
   </ItemGroup>
