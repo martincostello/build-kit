@@ -8,5 +8,11 @@
         <Attribute>^System\.Diagnostics\.DebuggerNonUserCodeAttribute$</Attribute>
       </Exclude>
     </Attributes>
+    <ModulePaths>
+      <Exclude>
+        <ModulePath>.*\\obj\\.*</ModulePath>
+        <ModulePath>.*\/obj\/.*</ModulePath>
+      </Exclude>
+    </ModulePaths>
   </CodeCoverage>
 </Configuration>
