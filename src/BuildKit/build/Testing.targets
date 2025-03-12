@@ -23,7 +23,7 @@
     <_ReportGeneratorOutputMarkdown Condition=" '$(IsGitHubActions)' == 'true' ">true</_ReportGeneratorOutputMarkdown>
     <CoverageFormat>$([MSBuild]::ValueOrDefault('$(CoverageFormat)', 'cobertura'))</CoverageFormat>
     <CoverageOutputPath>$([MSBuild]::ValueOrDefault('$(CoverageOutputPath)', '$([System.IO.Path]::Combine($(ArtifactsPath), 'coverage'))'))</CoverageOutputPath>
-    <CoverageOutput>$([MSBuild]::ValueOrDefault('$(CoverageOutput)', '$([System.IO.Path]::Combine($(CoverageOutputPath), '$(MSBuildProjectName).coverage.xml'))'))</CoverageOutput>
+    <CoverageOutput>$([MSBuild]::ValueOrDefault('$(CoverageOutput)', '$([System.IO.Path]::Combine($(CoverageOutputPath), '$(MSBuildProjectName)', 'coverage.xml'))'))</CoverageOutput>
     <CoverletOutput>$([System.IO.Path]::Combine($(CoverageOutputPath), '$(MSBuildProjectName)', 'coverage'))</CoverletOutput>
   </PropertyGroup>
   <!-- Automatically exclude various common non-user code from coverage when using Coverlet -->
@@ -111,8 +111,8 @@
   <Target Name="GenerateCoverageReports" AfterTargets="GenerateCoverageResultAfterTest;InvokeTestingPlatform" DependsOnTargets="$(GenerateCoverageReportsDependsOn)" Condition=" '$(CollectCoverage)' == 'true' ">
     <!-- Collect any coverage output XML files from both coverlet and Microsoft Testing Platform -->
     <ItemGroup>
+      <_CoverageReports Include="$(CoverageOutputPath)\**\coverage.xml" />
       <_CoverageReports Include="$(CoverageOutputPath)\**\coverage.cobertura.xml" />
-      <_CoverageReports Include="$(CoverageOutputPath)\**\*.coverage.xml" />
     </ItemGroup>
     <PropertyGroup>
       <_CoverageGitHubSummary>$([System.IO.Path]::Combine($(CoverageOutputPath), 'SummaryGithub.md'))</_CoverageGitHubSummary>
