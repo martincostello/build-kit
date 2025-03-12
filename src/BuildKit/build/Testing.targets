@@ -157,9 +157,25 @@
       <_LineCoverage>$([MSBuild]::Multiply($([System.Double]::Parse('$(_LineCoverage)')), 100.0))</_LineCoverage>
       <_LineCoverage>$([System.Math]::Round($(_LineCoverage), 2))</_LineCoverage>
     </PropertyGroup>
-    <!-- TODO Add support for <Threshold>75,80</Threshold> format for compatibility with Coverlet -->
+    <!--
+      Extract the values from the Theshold if using Coverlet-style syntax.
+      See https://github.com/coverlet-coverage/coverlet/blob/e106d0d701f37e5b38144509165189ad38d61baa/Documentation/MSBuildIntegration.md?plain=1#L116-L121.
+    -->
+    <ItemGroup>
+      <_ThresholdSplit Include="$(Threshold.Split(','))" />
+    </ItemGroup>
+    <PropertyGroup Condition=" '@(_ThresholdSplit->Count())' &gt; 1 ">
+      <_LineThreshold>$(Threshold.Split(',')[0])</_LineThreshold>
+      <_LineThreshold>$([System.Double]::Parse('$(_LineThreshold)'))</_LineThreshold>
+      <_BranchThreshold>$(Threshold.Split(',')[1])</_BranchThreshold>
+      <_BranchThreshold>$([System.Double]::Parse('$(_BranchThreshold)'))</_BranchThreshold>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '@(_ThresholdSplit->Count())' == 1 ">
+      <_BranchThreshold>$([System.Double]::Parse('$(Threshold)'))</_BranchThreshold>
+      <_LineThreshold>$([System.Double]::Parse('$(Threshold)'))</_LineThreshold>
+    </PropertyGroup>
     <!-- Fail if either coverage threshold is not met -->
-    <Error Condition=" '$(_BranchCoverage)' &lt; '$(Threshold)' " Text="Branch coverage is below the threshold of $(Threshold)%. Value: $(_BranchCoverage)%." />
-    <Error Condition=" '$(_LineCoverage)' &lt; '$(Threshold)' " Text="Line coverage is below the threshold of $(Threshold)%. Value: $(_LineCoverage)%." />
+    <Error Condition=" '$(_LineCoverage)' &lt; '$(_LineThreshold)' " Text="Line coverage is below the threshold of $(_LineThreshold)%. Value: $(_LineCoverage)%." />
+    <Error Condition=" '$(_BranchCoverage)' &lt; '$(_BranchThreshold)' " Text="Branch coverage is below the threshold of $(_BranchThreshold)%. Value: $(_BranchCoverage)%." />
   </Target>
 </Project>
