@@ -4,6 +4,10 @@
   <PropertyGroup Condition=" '$(BuildingInsideVisualStudio)' == 'true' ">
     <CollectCoverage>false</CollectCoverage>
   </PropertyGroup>
+  <!-- Allow all tests to be skipped when using Microsoft Testing Platform -->
+  <ItemGroup>
+    <TestingPlatformIgnoreExitCodes Include="8" />
+  </ItemGroup>
   <!-- Provide a default .runsettings file for Microsoft Testing Platform -->
   <PropertyGroup>
     <_CoverageRunSettingsFileName>MartinCostello.BuildKit.runsettings</_CoverageRunSettingsFileName>
