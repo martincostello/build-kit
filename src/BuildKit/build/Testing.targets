@@ -98,13 +98,6 @@
   </Target>
   <!-- Create properties for Microsoft Testing Platform from custom properties -->
   <Target Name="CreateTestPlatformProperties" BeforeTargets="InvokeTestingPlatform" Condition=" '$(CollectCoverage)' == 'true' ">
-    <PropertyGroup Condition=" '$(CoverageRunSettings)' == '' ">
-      <_CoverageRunSettingsFileName>tests.runsettings</_CoverageRunSettingsFileName>
-      <_CoverageSettings>$(ProjectDir)\$(_CoverageRunSettingsFileName)</_CoverageSettings>
-      <_CoverageSettings Condition="!Exists('$(_CoverageSettings)')">$([System.IO.Path]::Combine($(ProjectDir), '..', '$(_CoverageRunSettingsFileName)'))</_CoverageSettings>
-      <_CoverageSettings Condition="!Exists('$(_CoverageSettings)')">$([System.IO.Path]::Combine($(ProjectDir), '..', '..', '$(_CoverageRunSettingsFileName)'))</_CoverageSettings>
-      <CoverageRunSettings Condition="Exists('$(_CoverageSettings)')">$(_CoverageSettings)</CoverageRunSettings>
-    </PropertyGroup>
     <PropertyGroup Condition=" '$(CollectCoverage)' == 'true' ">
       <_TestingPlatformCommandLineArguments>--coverage</_TestingPlatformCommandLineArguments>
       <_TestingPlatformCommandLineArguments Condition=" '$(CoverageFormat)' != '' ">$(_TestingPlatformCommandLineArguments) --coverage-output-format %22$(CoverageFormat)%22</_TestingPlatformCommandLineArguments>

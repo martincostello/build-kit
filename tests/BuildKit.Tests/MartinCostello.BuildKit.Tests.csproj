@@ -4,11 +4,6 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>MartinCostello.BuildKit</RootNamespace>
     <TargetFramework>net9.0</TargetFramework>
-    <!--
-    <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
-    <TestingPlatformShowTestsFailure>true</TestingPlatformShowTestsFailure>
-    <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
-    -->
   </PropertyGroup>
   <ItemGroup>
     <Content Include="xunit.runner.json" CopyToPublishDirectory="PreserveNewest" />

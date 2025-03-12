@@ -12,6 +12,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)\MartinCostello.BuildKit.ruleset" Pack="True" PackagePath="" />
+    <None Include="$(MSBuildThisFileDirectory)\MartinCostello.BuildKit.runsettings" Pack="True" PackagePath="" />
     <None Include="$(MSBuildThisFileDirectory)\MartinCostello.BuildKit.snk" Pack="True" PackagePath="" />
     <None Include="$(MSBuildThisFileDirectory)\stylecop.json" Pack="True" PackagePath="" />
     <None Include="$(MSBuildThisFileDirectory)\build\**\*" Pack="True" PackagePath="build" />
