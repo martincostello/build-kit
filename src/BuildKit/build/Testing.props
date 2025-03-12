@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <Project>
+  <!-- -->
+  <PropertyGroup>
+    <AssemblyIsCLSCompliant>false</AssemblyIsCLSCompliant>
+  </PropertyGroup>
   <!-- Disable code coverage when building and running tests in Visual Studio -->
   <PropertyGroup Condition=" '$(BuildingInsideVisualStudio)' == 'true' ">
     <CollectCoverage>false</CollectCoverage>
