@@ -34,8 +34,6 @@
     <CoverletExcludeByAttribute Include="GeneratedCodeAttribute" />
     <CoverletExcludeByFile Include="$([MSBuild]::Escape('$(ArtifactsPath)/obj/**/*'))" />
     <CoverletExcludeByFile Include="$([MSBuild]::Escape('/_/artifacts/obj/**/*'))" />
-    <CoverletOutputFormats Include="cobertura" />
-    <CoverletOutputFormats Include="json" />
   </ItemGroup>
   <!-- Default to JSON and Cobertura outputs when using Coverlet for use with codecov.io and ReportGenerator -->
   <ItemGroup Condition=" '$(CollectCoverage)' == 'true' ">
