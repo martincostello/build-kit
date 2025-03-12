@@ -96,8 +96,8 @@
     </CreateProperty>
   </Target>
   <!-- Update properties for Microsoft Testing Platform from custom properties -->
-  <Target Name="UpdateTestPlatformProperties" BeforeTargets="InvokeTestingPlatform" Condition=" '$(CollectCoverage)' == 'true' ">
-    <PropertyGroup>
+  <Target Name="UpdateTestPlatformProperties" BeforeTargets="InvokeTestingPlatform">
+    <PropertyGroup Condition=" '$(CollectCoverage)' == 'true' ">
       <_TestingPlatformCommandLineArguments>--coverage</_TestingPlatformCommandLineArguments>
       <_TestingPlatformCommandLineArguments Condition=" '$(CoverageFormat)' != '' ">$(_TestingPlatformCommandLineArguments) --coverage-output-format %22$(CoverageFormat)%22</_TestingPlatformCommandLineArguments>
       <_TestingPlatformCommandLineArguments Condition=" '$(CoverageOutput)' != '' ">$(_TestingPlatformCommandLineArguments) --coverage-output %22$(CoverageOutput)%22</_TestingPlatformCommandLineArguments>
@@ -106,7 +106,7 @@
     <PropertyGroup Condition=" '@(TestingPlatformIgnoreExitCodes->Count())' &gt; 0 ">
       <_TestingPlatformCommandLineArguments>$(_TestingPlatformCommandLineArguments) --ignore-exit-code %22@(TestingPlatformIgnoreExitCodes->'%(Identity)', '%3B')%22</_TestingPlatformCommandLineArguments>
     </PropertyGroup>
-    <CreateProperty Value="$(TestingPlatformCommandLineArguments) $(_TestingPlatformCommandLineArguments)">
+    <CreateProperty Value="$(TestingPlatformCommandLineArguments) $(_TestingPlatformCommandLineArguments)" Condition=" '$(_TestingPlatformCommandLineArguments)' != '' ">
       <Output TaskParameter="Value" PropertyName="TestingPlatformCommandLineArguments" />
     </CreateProperty>
   </Target>
