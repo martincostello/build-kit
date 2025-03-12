@@ -21,7 +21,10 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(CollectCoverage)' == 'true' ">
     <_ReportGeneratorOutputMarkdown Condition=" '$(IsGitHubActions)' == 'true' ">true</_ReportGeneratorOutputMarkdown>
+    <CoverageFormat>$([MSBuild]::ValueOrDefault('$(CoverageFormat)', 'cobertura'))</CoverageFormat>
     <CoverageOutputPath>$([MSBuild]::ValueOrDefault('$(CoverageOutputPath)', '$([System.IO.Path]::Combine($(ArtifactsPath), 'coverage'))'))</CoverageOutputPath>
+    <CoverageOutput>$([MSBuild]::ValueOrDefault('$(CoverageOutput)', '$([System.IO.Path]::Combine($(CoverageOutputPath), '$(MSBuildProjectName).coverage.xml'))'))</CoverageOutput>
+    <CoverageSettings>$([MSBuild]::ValueOrDefault('$(CoverageSettings)', '$([System.IO.Path]::Combine($(MSBuildThisFileDirectory), 'tests.runsettings'))'))</CoverageSettings>
     <CoverletOutput>$([System.IO.Path]::Combine($(CoverageOutputPath), '$(MSBuildProjectName)', 'coverage'))</CoverletOutput>
   </PropertyGroup>
   <!-- Automatically exclude various common non-user code from coverage when using Coverlet -->
@@ -93,16 +96,37 @@
       <Output TaskParameter="Value" PropertyName="CoverletOutputFormat" />
     </CreateProperty>
   </Target>
-  <!-- Generate code coverage reports using ReportGenerator after Coverlet report generation -->
-  <Target Name="GenerateCoverageReports" AfterTargets="GenerateCoverageResultAfterTest" Condition=" '$(CollectCoverage)' == 'true' ">
-    <!-- Collect any coverage output XML files from coverlet -->
+  <!-- Create properties for Microsoft Testing Platform from custom properties -->
+  <Target Name="CreateTestPlatformProperties" BeforeTargets="InvokeTestingPlatform" Condition=" '$(CollectCoverage)' == 'true' ">
+    <PropertyGroup Condition=" '$(CoverageRunSettings)' == '' ">
+      <_CoverageRunSettingsFileName>tests.runsettings</_CoverageRunSettingsFileName>
+      <_CoverageSettings>$(ProjectDir)\$(_CoverageRunSettingsFileName)</_CoverageSettings>
+      <_CoverageSettings Condition="!Exists('$(_CoverageSettings)')">$([System.IO.Path]::Combine($(ProjectDir), '..', '$(_CoverageRunSettingsFileName)'))</_CoverageSettings>
+      <_CoverageSettings Condition="!Exists('$(_CoverageSettings)')">$([System.IO.Path]::Combine($(ProjectDir), '..', '..', '$(_CoverageRunSettingsFileName)'))</_CoverageSettings>
+      <CoverageRunSettings Condition="Exists('$(_CoverageSettings)')">$(_CoverageSettings)</CoverageRunSettings>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(CollectCoverage)' == 'true' ">
+      <_TestingPlatformCommandLineArguments>--coverage</_TestingPlatformCommandLineArguments>
+      <_TestingPlatformCommandLineArguments Condition=" '$(CoverageFormat)' != '' ">$(_TestingPlatformCommandLineArguments) --coverage-output-format %22$(CoverageFormat)%22</_TestingPlatformCommandLineArguments>
+      <_TestingPlatformCommandLineArguments Condition=" '$(CoverageOutput)' != '' ">$(_TestingPlatformCommandLineArguments) --coverage-output %22$(CoverageOutput)%22</_TestingPlatformCommandLineArguments>
+      <_TestingPlatformCommandLineArguments Condition=" '$(CoverageRunSettings)' != '' ">$(_TestingPlatformCommandLineArguments) --coverage-settings %22$(CoverageRunSettings)%22</_TestingPlatformCommandLineArguments>
+    </PropertyGroup>
+    <CreateProperty Value="$(TestingPlatformCommandLineArguments) $(_TestingPlatformCommandLineArguments)">
+      <Output TaskParameter="Value" PropertyName="TestingPlatformCommandLineArguments" />
+    </CreateProperty>
+  </Target>
+  <!-- Generate code coverage reports using ReportGenerator after Coverlet report generation or after Microsoft Testing Platform finishes -->
+  <Target Name="GenerateCoverageReports" AfterTargets="GenerateCoverageResultAfterTest;InvokeTestingPlatform" Condition=" '$(CollectCoverage)' == 'true' ">
+    <!-- Collect any coverage output XML files from both coverlet and Microsoft Testing Platform -->
     <ItemGroup>
       <_CoverageReports Include="$(CoverageOutputPath)\**\coverage.cobertura.xml" />
+      <_CoverageReports Include="$(CoverageOutputPath)\**\*.coverage.xml" />
     </ItemGroup>
     <PropertyGroup>
       <_CoverageGitHubSummary>$([System.IO.Path]::Combine($(CoverageOutputPath), 'SummaryGithub.md'))</_CoverageGitHubSummary>
       <_ReportGeneratorReportTypes>@(ReportGeneratorReportTypes->'%(Identity)', ';')</_ReportGeneratorReportTypes>
     </PropertyGroup>
+    <!-- TODO Fix Microsoft Testing Platform not incrementally building up the report from all coverage output files -->
     <!-- Generate additional coverage reports using ReportGenerator -->
     <ReportGenerator Condition=" '@(_CoverageReports->Count())' &gt; 0 " ReportFiles="@(_CoverageReports)" ReportTypes="$(_ReportGeneratorReportTypes)" Tag="$(Version)" TargetDirectory="$(CoverageOutputPath)" Title="$(AssemblyName)" VerbosityLevel="Warning" />
     <!-- Generate customized summary for GitHub Actions workflow runs -->
@@ -124,4 +148,25 @@
   <PropertyGroup>
     <CleanDependsOn>$(CleanDependsOn);CleanCoverageReports</CleanDependsOn>
   </PropertyGroup>
+  <!-- Workaround for https://github.com/microsoft/codecoverage/issues/160 -->
+  <Target Name="CheckCodeCoverageThreshold" AfterTargets="GenerateCoverageReports" Condition=" '$(CollectCoverage)' == 'true' AND Exists('$(CoverageOutput)') AND '$(Threshold)' != '' ">
+    <!-- Read branch and line coverage from the XML report -->
+    <XmlPeek XmlInputPath="$(CoverageOutput)" Query="/coverage/@branch-rate">
+      <Output TaskParameter="Result" PropertyName="_BranchCoverage" />
+    </XmlPeek>
+    <XmlPeek XmlInputPath="$(CoverageOutput)" Query="/coverage/@line-rate">
+      <Output TaskParameter="Result" PropertyName="_LineCoverage" />
+    </XmlPeek>
+    <!-- Convert XML coverage ratios text to a percentage -->
+    <PropertyGroup>
+      <_BranchCoverage>$([MSBuild]::Multiply($([System.Double]::Parse('$(_BranchCoverage)')), 100.0))</_BranchCoverage>
+      <_BranchCoverage>$([System.Math]::Round($(_BranchCoverage), 2))</_BranchCoverage>
+      <_LineCoverage>$([MSBuild]::Multiply($([System.Double]::Parse('$(_LineCoverage)')), 100.0))</_LineCoverage>
+      <_LineCoverage>$([System.Math]::Round($(_LineCoverage), 2))</_LineCoverage>
+    </PropertyGroup>
+    <!-- TODO Add support for <Threshold>75,80</Threshold> format for compatibility with Coverlet -->
+    <!-- Fail if either coverage threshold is not met -->
+    <Error Condition=" '$(_BranchCoverage)' &lt; '$(Threshold)' " Text="Branch coverage is below the threshold of $(Threshold)%. Value: $(_BranchCoverage)%." />
+    <Error Condition=" '$(_LineCoverage)' &lt; '$(Threshold)' " Text="Line coverage is below the threshold of $(Threshold)%. Value: $(_LineCoverage)%." />
+  </Target>
 </Project>
