@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <Project>
+  <!-- Default to use the Package's ID as the title -->
   <PropertyGroup>
     <Title>$([MSBuild]::ValueOrDefault('$(Title)', '$(PackageId)'))</Title>
   </PropertyGroup>
+  <!-- Attempt to find default files for NuGet package icon and README -->
   <PropertyGroup>
     <_PackageIconFullPath>$(ProjectDir)\$(PackageIcon)</_PackageIconFullPath>
     <_PackageIconFullPath Condition="!Exists('$(_PackageIconFullPath)')">$([System.IO.Path]::Combine($(ProjectDir), '..', '$(PackageIcon)'))</_PackageIconFullPath>
@@ -15,6 +17,7 @@
     <None Condition="Exists('$(_PackageIconFullPath)')" Include="$(_PackageIconFullPath)" Pack="True" PackagePath="" />
     <None Condition="Exists('$(_PackageReadmeFullPath)')" Include="$(_PackageReadmeFullPath)" Pack="True" PackagePath="" />
   </ItemGroup>
+  <!-- Automatically configure baselines files for Public API analyzers -->
   <ItemGroup Condition="@(PackageReference-&gt;AnyHaveMetadataValue(`Identity`, `Microsoft.CodeAnalysis.PublicApiAnalyzers`))">
     <AdditionalFiles Include="PublicAPI\PublicAPI.Shipped.txt" />
     <AdditionalFiles Include="PublicAPI\PublicAPI.Unshipped.txt" />
@@ -30,9 +33,10 @@
     <AdditionalFiles Include="PublicAPI\$(_TargetFrameworkIdentifier)\PublicAPI.Shipped.txt" />
     <AdditionalFiles Include="PublicAPI\$(_TargetFrameworkIdentifier)\PublicAPI.Unshipped.txt" />
   </ItemGroup>
+  <!-- Set GitHub Actions step outputs for easy re-use elsewhere in a GitHub Actions workflow -->
   <Target Name="SetNuGetPackageOutputs" AfterTargets="Pack" Condition=" '$(GITHUB_OUTPUT)' != '' ">
     <PropertyGroup>
-      <_PackageNamesPath>$(ArtifactsPath)\package-names.txt</_PackageNamesPath>
+      <_PackageNamesPath>$([System.IO.Path]::Combine('$(ArtifactsPath)', 'package-names.txt'))</_PackageNamesPath>
     </PropertyGroup>
     <ReadLinesFromFile File="$(_PackageNamesPath)">
       <Output TaskParameter="Lines" ItemName="_PackageNames" />

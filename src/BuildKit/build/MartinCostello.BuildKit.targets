@@ -2,7 +2,7 @@
 <Project>
   <Import Project="$(MSBuildThisFileDirectory)Build.targets" />
   <Import Project="$(MSBuildThisFileDirectory)Containers.targets" />
+  <Import Project="$(MSBuildThisFileDirectory)Web.targets" />
   <Import Project="$(MSBuildThisFileDirectory)Packages.targets" Condition=" '$(IsPackable)' == 'true' " />
   <Import Project="$(MSBuildThisFileDirectory)Testing.targets" Condition=" '$(IsTestProject)' == 'true' " />
-  <Import Project="$(MSBuildThisFileDirectory)Web.targets" />
 </Project>

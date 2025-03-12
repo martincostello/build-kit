@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <Project>
+  <!-- Set GitHub Actions step outputs for easy re-use elsewhere in a GitHub Actions workflow -->
   <Target Name="SetGitHubContainerOutputs" AfterTargets="PublishContainer"  DependsOnTargets="PublishContainer" Condition=" '$(GITHUB_OUTPUT)' != '' AND ('$(ContainerRegistry)' != '' OR '$(SetGitHubContainerPublishingOutputs)' == 'true') ">
     <PropertyGroup>
       <_ContainerImage Condition=" '$(ContainerRegistry)' == '' ">$(ContainerRepository)</_ContainerImage>

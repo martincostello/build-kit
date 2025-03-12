@@ -1,32 +1,15 @@
 ﻿// Copyright (c) Martin Costello, 2025. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
-using MartinCostello.BuildKit.NuGetPackage;
-
 namespace MartinCostello.BuildKit;
 
-public static class NuGetPackageTests
+public static class SelfTests
 {
     [Fact]
-    public static void Package_Metadata_Is_Valid()
-    {
-        // Act and Assert
-        PackageMetadata.BuildId.ShouldNotBeNull();
-        PackageMetadata.Branch.ShouldNotBeNull();
-        PackageMetadata.Branch.ShouldNotBeEmpty();
-        PackageMetadata.Commit.ShouldNotBeNull();
-        PackageMetadata.Commit.ShouldNotBeEmpty();
-        PackageMetadata.Timestamp.ShouldNotBe(default);
-        PackageMetadata.Version.ShouldNotBeNullOrWhiteSpace();
-        PackageMetadata.DoesNotExist.ShouldNotBeNull();
-        PackageMetadata.DoesNotExist.ShouldBeEmpty();
-    }
-
-    [Fact]
-    public static void Package_Is_Strong_Named()
+    public static void Tests_Are_Strong_Named()
     {
         // Arrange
-        var assembly = typeof(NuGetPackageTests).Assembly;
+        var assembly = typeof(SelfTests).Assembly;
 
         // Act
         var name = assembly.GetName();

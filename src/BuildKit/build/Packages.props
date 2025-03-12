@@ -1,22 +1,32 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <Project>
+  <!-- Automatically include PDB files in NuGet packages, if present and use .snupkg symbols -->
   <PropertyGroup>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <SymbolPackageFormat>$([MSBuild]::ValueOrDefault('$(SymbolPackageFormat)', 'snupkg'))</SymbolPackageFormat>
+  </PropertyGroup>
+  <!-- Set default profile that owns the NuGet packages -->
+  <PropertyGroup>
     <Authors>$([MSBuild]::ValueOrDefault('$(Authors)', 'martin_costello'))</Authors>
   </PropertyGroup>
+  <!-- Default to Apache 2.0 license for NuGet packages -->
+  <PropertyGroup>
+    <PackageLicenseExpression>$([MSBuild]::ValueOrDefault('$(PackageLicenseExpression)', 'Apache-2.0'))</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>$([MSBuild]::ValueOrDefault('$(PackageRequireLicenseAcceptance)', 'false'))</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+  <!-- Apply default icon and README file names -->
+  <PropertyGroup>
+    <PackageIcon>$([MSBuild]::ValueOrDefault('$(PackageIcon)', 'package-icon.png'))</PackageIcon>
+    <PackageReadmeFile>$([MSBuild]::ValueOrDefault('$(PackageReadmeFile)', 'package-readme.md'))</PackageReadmeFile>
+  </PropertyGroup>
+  <!-- Automatically mark NuGet packages as native AoT compatible -->
+  <PropertyGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">
+    <IsAotCompatible>$([MSBuild]::ValueOrDefault('$(IsAotCompatible)', 'true'))</IsAotCompatible>
+  </PropertyGroup>
+  <!-- Set default package metadata when publishing from GitHub Actions -->
   <PropertyGroup Condition=" '$(IsGitHubActions)' == 'true' ">
     <PackageProjectUrl>$([MSBuild]::ValueOrDefault('$(PackageProjectUrl)', '$(GitHubRepositoryUrl)'))</PackageProjectUrl>
     <PackageReleaseNotes Condition=" '$(GitHubTag)' == '' ">$([MSBuild]::ValueOrDefault('$(PackageReleaseNotes)', 'See $(PackageProjectUrl)/releases for details.'))</PackageReleaseNotes>
     <PackageReleaseNotes Condition=" '$(GitHubTag)' != '' ">$([MSBuild]::ValueOrDefault('$(PackageReleaseNotes)', 'See $(PackageProjectUrl)/releases/tag/$(GitHubTag) for details.'))</PackageReleaseNotes>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PackageIcon>$([MSBuild]::ValueOrDefault('$(PackageIcon)', 'package-icon.png'))</PackageIcon>
-    <PackageLicenseExpression>$([MSBuild]::ValueOrDefault('$(PackageLicenseExpression)', 'Apache-2.0'))</PackageLicenseExpression>
-    <PackageReadmeFile>$([MSBuild]::ValueOrDefault('$(PackageReadmeFile)', 'package-readme.md'))</PackageReadmeFile>
-    <PackageRequireLicenseAcceptance>$([MSBuild]::ValueOrDefault('$(PackageRequireLicenseAcceptance)', 'false'))</PackageRequireLicenseAcceptance>
-    <SymbolPackageFormat>$([MSBuild]::ValueOrDefault('$(SymbolPackageFormat)', 'snupkg'))</SymbolPackageFormat>
-  </PropertyGroup>
-  <PropertyGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">
-    <IsAotCompatible>$([MSBuild]::ValueOrDefault('$(IsAotCompatible)', 'true'))</IsAotCompatible>
   </PropertyGroup>
 </Project>

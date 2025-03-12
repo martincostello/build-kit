@@ -14,7 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 		.vsconfig = .vsconfig
 		build.ps1 = build.ps1
-		BuildKit.ruleset = BuildKit.ruleset
 		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
 		Directory.Build.props = Directory.Build.props
 		Directory.Build.targets = Directory.Build.targets
@@ -30,7 +29,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		SECURITY.MD = SECURITY.MD
 		startvs.cmd = startvs.cmd
 		startvscode.cmd = startvscode.cmd
-		stylecop.json = stylecop.json
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".vscode", ".vscode", "{85351CCC-FA6D-4DBD-A8E0-752EFDDB4023}"

@@ -8,6 +8,7 @@
     <ProjectReference Include="..\..\src\BuildKit\MartinCostello.BuildKit.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <InternalsVisibleTo Include="MartinCostello.BuildKit.Tests" />
+    <InternalsVisibleTo Include="DynamicProxyGenAssembly2" PublicKey="$(DynamicProxyGenAssembly2StrongNamePublicKey)" />
+    <InternalsVisibleTo Include="MartinCostello.BuildKit.Tests" PublicKey="$(StrongNamePublicKey)" />
   </ItemGroup>
 </Project>

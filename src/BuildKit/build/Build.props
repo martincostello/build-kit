@@ -1,26 +1,69 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <Project>
+  <!-- Enable maximal handling of warnings as errors -->
   <PropertyGroup>
-    <ChecksumAlgorithm>$([MSBuild]::ValueOrDefault('$(ChecksumAlgorithm)', 'SHA256'))</ChecksumAlgorithm>
-    <ContinuousIntegrationBuild>$([MSBuild]::ValueOrDefault('$(CI)', 'false'))</ContinuousIntegrationBuild>
-    <DebugType>$([MSBuild]::ValueOrDefault('$(DebugType)', 'portable'))</DebugType>
-    <Deterministic>$([MSBuild]::ValueOrDefault('$(Deterministic)', 'true'))</Deterministic>
-    <EmbedUntrackedSources>$([MSBuild]::ValueOrDefault('$(EmbedUntrackedSources)', 'true'))</EmbedUntrackedSources>
-    <GenerateGitMetadata>$([MSBuild]::ValueOrDefault('$(GenerateGitMetadata)', 'true'))</GenerateGitMetadata>
-    <ImplicitUsings>$([MSBuild]::ValueOrDefault('$(ImplicitUsings)', 'enable'))</ImplicitUsings>
-    <LangVersion>$([MSBuild]::ValueOrDefault('$(LangVersion)', 'latest'))</LangVersion>
     <MSBuildTreatWarningsAsErrors>$([MSBuild]::ValueOrDefault('$(MSBuildTreatWarningsAsErrors)', 'true'))</MSBuildTreatWarningsAsErrors>
-    <Nullable>$([MSBuild]::ValueOrDefault('$(Nullable)', 'enable'))</Nullable>
     <TreatWarningsAsErrors>$([MSBuild]::ValueOrDefault('$(TreatWarningsAsErrors)', 'true'))</TreatWarningsAsErrors>
     <TrimmerSingleWarn>$([MSBuild]::ValueOrDefault('$(TrimmerSingleWarn)', 'false'))</TrimmerSingleWarn>
   </PropertyGroup>
+  <!-- Enable modern C# features by default -->
+  <PropertyGroup>
+    <ImplicitUsings>$([MSBuild]::ValueOrDefault('$(ImplicitUsings)', 'enable'))</ImplicitUsings>
+    <LangVersion>$([MSBuild]::ValueOrDefault('$(LangVersion)', 'latest'))</LangVersion>
+    <Nullable>$([MSBuild]::ValueOrDefault('$(Nullable)', 'enable'))</Nullable>
+  </PropertyGroup>
+  <!-- Set properties to improve support for SourceLink -->
+  <PropertyGroup>
+    <DebugType>$([MSBuild]::ValueOrDefault('$(DebugType)', 'portable'))</DebugType>
+    <EmbedUntrackedSources>$([MSBuild]::ValueOrDefault('$(EmbedUntrackedSources)', 'true'))</EmbedUntrackedSources>
+    <GenerateGitMetadata>$([MSBuild]::ValueOrDefault('$(GenerateGitMetadata)', 'true'))</GenerateGitMetadata>
+  </PropertyGroup>
+  <!-- Set properties to enable deterministic builds -->
+  <PropertyGroup>
+    <ContinuousIntegrationBuild>$([MSBuild]::ValueOrDefault('$(CI)', 'false'))</ContinuousIntegrationBuild>
+    <Deterministic>$([MSBuild]::ValueOrDefault('$(Deterministic)', 'true'))</Deterministic>
+  </PropertyGroup>
+  <!-- Automatically produce XML documentation for libraries -->
   <PropertyGroup Condition=" '$(OutputType)' == 'Library' ">
     <GenerateDocumentationFile>$([MSBuild]::ValueOrDefault('$(GenerateDocumentationFile)', 'true'))</GenerateDocumentationFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(AssemblyOriginatorKeyFile)' != '' ">
-    <_DefaultStrongNamePublicKey>00240000048000009400000006020000002400005253413100040000010001004b0b2efbada897147aa03d2076278890aefe2f8023562336d206ec8a719b06e89461c31b43abec615918d509158629f93385930c030494509e418bf396d69ce7dbe0b5b2db1a81543ab42777cb98210677fed69dbeb3237492a7ad69e87a1911ed20eb2d7c300238dc6f6403e3d04a1351c5cb369de4e022b18fbec70f7d21ed</_DefaultStrongNamePublicKey>
-    <SignAssembly>$([MSBuild]::ValueOrDefault('$(SignAssembly)', 'true'))</SignAssembly>
-    <PublicSign Condition=" !$([System.OperatingSystem]::IsWindows()) AND '$(SignAssembly)' == 'true' ">true</PublicSign>
-    <StrongNamePublicKey Condition=" '$(SignAssembly)' == 'true' ">$([MSBuild]::ValueOrDefault('$(StrongNamePublicKey)', '$(_DefaultStrongNamePublicKey)'))</StrongNamePublicKey>
+  <!-- Provide a default strong-name key file and public key -->
+  <PropertyGroup>
+    <_BuildKitAssemblyOriginatorKeyFileName>MartinCostello.BuildKit.snk</_BuildKitAssemblyOriginatorKeyFileName>
+    <MartinCostelloBuildKitAssemblyOriginatorKeyFile>$([System.IO.Path]::Combine($(MSBuildThisFileDirectory), '..', '$(_BuildKitAssemblyOriginatorKeyFileName)'))</MartinCostelloBuildKitAssemblyOriginatorKeyFile>
+    <MartinCostelloBuildKitStrongNamePublicKey>00240000048000009400000006020000002400005253413100040000010001004b0b2efbada897147aa03d2076278890aefe2f8023562336d206ec8a719b06e89461c31b43abec615918d509158629f93385930c030494509e418bf396d69ce7dbe0b5b2db1a81543ab42777cb98210677fed69dbeb3237492a7ad69e87a1911ed20eb2d7c300238dc6f6403e3d04a1351c5cb369de4e022b18fbec70f7d21ed</MartinCostelloBuildKitStrongNamePublicKey>
   </PropertyGroup>
+  <!-- Automatically strong name assemblies if a .snk file is configured -->
+  <PropertyGroup Condition=" '$(UseDefaultAssemblyOriginatorKeyFile)' == 'true' ">
+    <AssemblyOriginatorKeyFile>$(MartinCostelloBuildKitAssemblyOriginatorKeyFile)</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(UseDefaultAssemblyOriginatorKeyFile)' == 'true'">
+    <AdditionalFiles Include="$(AssemblyOriginatorKeyFile)" Link="$(_BuildKitAssemblyOriginatorKeyFileName)" />
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(AssemblyOriginatorKeyFile)' != '' ">
+    <SignAssembly>$([MSBuild]::ValueOrDefault('$(SignAssembly)', 'true'))</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(SignAssembly)' == 'true' ">
+    <DynamicProxyGenAssembly2StrongNamePublicKey>0024000004800000940000000602000000240000525341310004000001000100c547cac37abd99c8db225ef2f6c8a3602f3b3606cc9891605d02baa56104f4cfc0734aa39b93bf7852f7d9266654753cc297e7d2edfe0bac1cdcf9f717241550e0a7b191195b7667bb4f64bcb8e2121380fd1d9d46ad2d92d2d15605093924cceaf74c4861eff62abf69b9291ed0a340e113be11e6a7d3113e92484cf7045cc7</DynamicProxyGenAssembly2StrongNamePublicKey>
+    <PublicSign Condition=" !$([System.OperatingSystem]::IsWindows()) ">true</PublicSign>
+    <StrongNamePublicKey>$([MSBuild]::ValueOrDefault('$(StrongNamePublicKey)', '$(MartinCostelloBuildKitStrongNamePublicKey)'))</StrongNamePublicKey>
+  </PropertyGroup>
+  <!-- Enable SHA256 checksums to avoid BinSkim warnings about SHA1 -->
+  <PropertyGroup>
+    <ChecksumAlgorithm>$([MSBuild]::ValueOrDefault('$(ChecksumAlgorithm)', 'SHA256'))</ChecksumAlgorithm>
+  </PropertyGroup>
+  <!-- Use en-US for the default language for resource strings -->
+  <PropertyGroup>
+    <NeutralLanguage>$([MSBuild]::ValueOrDefault('$(NeutralLanguage)', 'en-US'))</NeutralLanguage>
+  </PropertyGroup>
+  <!-- Automatically mark an assembly as CLS compliant (or not) -->
+  <PropertyGroup>
+    <AssemblyIsCLSCompliant>$([MSBuild]::ValueOrDefault('$(AssemblyIsCLSCompliant)', 'true'))</AssemblyIsCLSCompliant>
+  </PropertyGroup>
+  <ItemGroup>
+    <AssemblyAttribute Include="System.CLSCompliant">
+      <_Parameter1>$(AssemblyIsCLSCompliant)</_Parameter1>
+      <_Parameter1_IsLiteral>true</_Parameter1_IsLiteral>
+    </AssemblyAttribute>
+  </ItemGroup>
 </Project>

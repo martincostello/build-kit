@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <Project>
+  <!-- In GitHub Actions automatically associate information about the repostory with the container labels -->
   <PropertyGroup Condition=" '$(IsGitHubActions)' == 'true' ">
     <ContainerAuthors>$([MSBuild]::ValueOrDefault('$(ContainerAuthors)', '$(GITHUB_REPOSITORY_OWNER)'))</ContainerAuthors>
     <ContainerDescription>$([MSBuild]::ValueOrDefault('$(ContainerDescription)', '$(GitHubRepositoryUrl)'))</ContainerDescription>
