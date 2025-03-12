@@ -96,9 +96,9 @@
       <Output TaskParameter="Value" PropertyName="CoverletOutputFormat" />
     </CreateProperty>
   </Target>
-  <!-- Create properties for Microsoft Testing Platform from custom properties -->
-  <Target Name="CreateTestPlatformProperties" BeforeTargets="InvokeTestingPlatform" Condition=" '$(CollectCoverage)' == 'true' ">
-    <PropertyGroup Condition=" '$(CollectCoverage)' == 'true' ">
+  <!-- Update properties for Microsoft Testing Platform from custom properties -->
+  <Target Name="UpdateTestPlatformProperties" BeforeTargets="InvokeTestingPlatform" Condition=" '$(CollectCoverage)' == 'true' ">
+    <PropertyGroup>
       <_TestingPlatformCommandLineArguments>--coverage</_TestingPlatformCommandLineArguments>
       <_TestingPlatformCommandLineArguments Condition=" '$(CoverageFormat)' != '' ">$(_TestingPlatformCommandLineArguments) --coverage-output-format %22$(CoverageFormat)%22</_TestingPlatformCommandLineArguments>
       <_TestingPlatformCommandLineArguments Condition=" '$(CoverageOutput)' != '' ">$(_TestingPlatformCommandLineArguments) --coverage-output %22$(CoverageOutput)%22</_TestingPlatformCommandLineArguments>
