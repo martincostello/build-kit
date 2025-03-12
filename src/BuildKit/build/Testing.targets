@@ -103,6 +103,9 @@
       <_TestingPlatformCommandLineArguments Condition=" '$(CoverageOutput)' != '' ">$(_TestingPlatformCommandLineArguments) --coverage-output %22$(CoverageOutput)%22</_TestingPlatformCommandLineArguments>
       <_TestingPlatformCommandLineArguments Condition=" '$(CoverageRunSettings)' != '' ">$(_TestingPlatformCommandLineArguments) --coverage-settings %22$(CoverageRunSettings)%22</_TestingPlatformCommandLineArguments>
     </PropertyGroup>
+    <PropertyGroup Condition=" '@(TestingPlatformIgnoreExitCodes->Count())' &gt; 0 ">
+      <_TestingPlatformCommandLineArguments>$(_TestingPlatformCommandLineArguments) --ignore-exit-code %22@(TestingPlatformIgnoreExitCodes->'%(Identity)', '%3B')%22</_TestingPlatformCommandLineArguments>
+    </PropertyGroup>
     <CreateProperty Value="$(TestingPlatformCommandLineArguments) $(_TestingPlatformCommandLineArguments)">
       <Output TaskParameter="Value" PropertyName="TestingPlatformCommandLineArguments" />
     </CreateProperty>
