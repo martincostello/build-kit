@@ -65,7 +65,7 @@ It is recommended to set these values in `Directory.Build.props` (or the `.cspro
 | `CoverageOutput` | `artifacts/coverage/{project}/coverage.xml` | The coverage output file to use with Microsoft.Testing.Platform |
 | `CoverageOutputPath` | `artifacts/coverage` | The path to write code coverage results to |
 | `CoverageRunSettings` | - | The path to the `.runsettings` file to use with Microsoft.Testing.Platform |
-| `GenerateGitMetadata` | `true` | Whether to embed additional `[AssemblyMetdata]` for Git projects |
+| `GenerateGitMetadata` | `true` | Whether to embed additional `[AssemblyMetadata]` for Git projects |
 | `TestResultsDirectory` | `artifacts/tests` | The path to write test logs to with Microsoft.Testing.Platform |
 | `UseDefaultAssemblyOriginatorKeyFile` | `false` | Whether to use the built-in `.snk` file |
 | `UseDefaultCodeAnalysisRuleSet` | `false` | Whether to use the built-in `.ruleset` file |
@@ -106,7 +106,7 @@ The following custom targets are provided:
 
 | **Target** | **Description** |
 |------------|-----------------|
-| `AddGitMetadaAssemblyAttributes` | Embeds additional `[AssemblyMetdata]` into assemblies with Git information |
+| `AddGitMetadataAssemblyAttributes` | Embeds additional `[AssemblyMetadata]` into assemblies with Git information |
 | `CheckCodeCoverageThreshold` | Checks the code coverage of a project meets a specified line and/or branch threshold when using Microsoft.Testing.Platform |
 | `GenerateCoverageReports` | Generates code coverage reports using ReportGenerator |
 | `SetGitHubContainerOutputs` | Writes a published container's digest, image and tag to `GITHUB_OUTPUT` |
