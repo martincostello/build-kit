@@ -106,7 +106,7 @@ The following custom targets are provided:
 
 | **Target** | **Description** |
 |------------|-----------------|
-| `AddGitMetadataAssemblyAttributes` | Embeds additional `[AssemblyMetadata]` into assemblies with Git information |
+| `AddGitHubMetadataAssemblyAttributes` | Embeds additional `[AssemblyMetadata]` into assemblies with Git and GitHub information |
 | `CheckCodeCoverageThreshold` | Checks the code coverage of a project meets a specified line and/or branch threshold when using Microsoft.Testing.Platform |
 | `GenerateCoverageReports` | Generates code coverage reports using ReportGenerator |
 | `SetGitHubContainerOutputs` | Writes a published container's digest, image and tag to `GITHUB_OUTPUT` |

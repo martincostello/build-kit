@@ -5,8 +5,8 @@
     <Using Include="System.Globalization" />
     <Using Include="System.Text" />
   </ItemGroup>
-  <!-- Embed additional Git metadata into the assembly -->
-  <Target Name="AddGitMetadataAssemblyAttributes" BeforeTargets="GetAssemblyAttributes" Condition=" '$(GenerateGitMetadata)' == 'true' ">
+  <!-- Embed additional Git/GitHub metadata into the assembly -->
+  <Target Name="AddGitHubMetadataAssemblyAttributes" BeforeTargets="GetAssemblyAttributes" Condition=" '$(GenerateGitMetadata)' == 'true' ">
     <PropertyGroup>
       <BuildId>$([MSBuild]::ValueOrDefault('$(BuildId)', '$(GITHUB_RUN_ID)'))</BuildId>
       <CommitBranch>$([MSBuild]::ValueOrDefault('$(CommitBranch)', '$(GITHUB_REF_NAME)'))</CommitBranch>
