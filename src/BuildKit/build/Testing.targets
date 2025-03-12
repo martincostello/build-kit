@@ -109,7 +109,7 @@
     </CreateProperty>
   </Target>
   <!-- Generate code coverage reports using ReportGenerator after Coverlet report generation or after Microsoft Testing Platform finishes -->
-  <Target Name="GenerateCoverageReports" AfterTargets="GenerateCoverageResultAfterTest;InvokeTestingPlatform" Condition=" '$(CollectCoverage)' == 'true' ">
+  <Target Name="GenerateCoverageReports" AfterTargets="GenerateCoverageResultAfterTest;InvokeTestingPlatform" DependsOnTargets="$(GenerateCoverageReportsDependsOn)" Condition=" '$(CollectCoverage)' == 'true' ">
     <!-- Collect any coverage output XML files from both coverlet and Microsoft Testing Platform -->
     <ItemGroup>
       <_CoverageReports Include="$(CoverageOutputPath)\**\coverage.cobertura.xml" />
