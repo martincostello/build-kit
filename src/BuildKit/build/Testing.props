@@ -4,4 +4,15 @@
   <PropertyGroup Condition=" '$(BuildingInsideVisualStudio)' == 'true' ">
     <CollectCoverage>false</CollectCoverage>
   </PropertyGroup>
+  <!-- Provide a default .runsettings file for Microsoft Testing Platform -->
+  <PropertyGroup>
+    <_CoverageRunSettingsFileName>MartinCostello.BuildKit.runsettings</_CoverageRunSettingsFileName>
+    <MartinCostelloBuildKitRunSettings>$([System.IO.Path]::Combine($(MSBuildThisFileDirectory), '..', '$(_CoverageRunSettingsFileName)'))</MartinCostelloBuildKitRunSettings>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(UseDefaultTestRunSettings)' == 'true' ">
+    <CoverageRunSettings>$(MartinCostelloBuildKitRunSettings)</CoverageRunSettings>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(UseDefaultTestRunSettings)' == 'true'">
+    <AdditionalFiles Include="$(CoverageRunSettings)" Link="$(_CoverageRunSettingsFileName)" />
+  </ItemGroup>
 </Project>
