@@ -10,6 +10,9 @@
   </ItemGroup>
   <!-- Provide a default .runsettings file for Microsoft Testing Platform -->
   <PropertyGroup>
+    <UseDefaultTestRunSettings>$([MSBuild]::ValueOrDefault('$(UseDefaultTestRunSettings)', 'true'))</UseDefaultTestRunSettings>
+  </PropertyGroup>
+  <PropertyGroup>
     <_CoverageRunSettingsFileName>MartinCostello.BuildKit.runsettings</_CoverageRunSettingsFileName>
     <MartinCostelloBuildKitRunSettings>$([System.IO.Path]::Combine($(MSBuildThisFileDirectory), '..', '$(_CoverageRunSettingsFileName)'))</MartinCostelloBuildKitRunSettings>
   </PropertyGroup>

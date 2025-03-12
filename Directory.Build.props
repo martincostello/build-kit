@@ -7,7 +7,6 @@
     <UseArtifactsOutput>true</UseArtifactsOutput>
     <UseDefaultAssemblyOriginatorKeyFile>true</UseDefaultAssemblyOriginatorKeyFile>
     <UseDefaultCodeAnalysisRuleSet>true</UseDefaultCodeAnalysisRuleSet>
-    <UseDefaultTestRunSettings>true</UseDefaultTestRunSettings>
     <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
     <VersionPrefix>0.2.0</VersionPrefix>
   </PropertyGroup>
