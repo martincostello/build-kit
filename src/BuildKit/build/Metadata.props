@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <Project>
+  <!-- Apply default copyright and description for projects -->
   <PropertyGroup>
     <Copyright>$([MSBuild]::ValueOrDefault('$(Copyright)', 'Martin Costello (c) $([System.DateTime]::Now.ToString(yyyy))'))</Copyright>
-    <NeutralLanguage>$([MSBuild]::ValueOrDefault('$(NeutralLanguage)', 'en-US'))</NeutralLanguage>
     <Summary>$([MSBuild]::ValueOrDefault('$(Summary)', '$(Description)'))</Summary>
   </PropertyGroup>
+  <!-- Configure defaults from GitHub Actions environment for SourceLink and NuGet packages -->
   <PropertyGroup Condition=" '$(IsGitHubActions)' == 'true' ">
     <PublishRepositoryUrl>$([MSBuild]::ValueOrDefault('$(PublishRepositoryUrl)', 'true'))</PublishRepositoryUrl>
     <RepositoryType>git</RepositoryType>

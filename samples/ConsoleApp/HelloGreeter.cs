@@ -3,13 +3,7 @@
 
 namespace MartinCostello.BuildKit.ConsoleApp;
 
-internal static class Program
+internal class HelloGreeter : IGreeter
 {
-    public static void Main()
-    {
-        var greeter = new HelloGreeter();
-        var greeting = greeter.Greet("World");
-
-        Console.WriteLine(greeting);
-    }
+    public virtual string Greet(string name) => $"Hello, {name}!";
 }

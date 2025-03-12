@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RuleSet Name="BuildKit Rules" Description="This rule set contains rules for the BuildKit solution." ToolsVersion="17.0">
+<RuleSet Name="MartinCostello.BuildKit Rules" Description="This rule set contains default rules for using with MartinCostello.BuildKit." ToolsVersion="17.0">
   <IncludeAll Action="Warning" />
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
     <Rule Id="CA1014" Action="None" />

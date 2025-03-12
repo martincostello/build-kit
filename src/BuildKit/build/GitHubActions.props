@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <Project>
+  <!-- Configure useful properties for computing other properties' values in GitHub Actions builds -->
   <PropertyGroup Condition=" '$(GITHUB_ACTIONS)' == 'true' AND '$(DEPENDABOT_JOB_ID)' == '' ">
     <IsGitHubActions>true</IsGitHubActions>
   </PropertyGroup>

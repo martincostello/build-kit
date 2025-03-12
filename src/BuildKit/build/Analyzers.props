@@ -1,18 +1,34 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <Project>
+  <!-- Provide a default code analysis ruleset -->
+  <PropertyGroup>
+    <_BuildKitCodeAnalysisRuleSetName>MartinCostello.BuildKit.ruleset</_BuildKitCodeAnalysisRuleSetName>
+    <MartinCostelloBuildKitCodeAnalysisRuleSet>$([System.IO.Path]::Combine($(MSBuildThisFileDirectory), '..', '$(_BuildKitCodeAnalysisRuleSetName)'))</MartinCostelloBuildKitCodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(UseDefaultCodeAnalysisRuleSet)' == 'true' ">
+    <CodeAnalysisRuleSet>$(MartinCostelloBuildKitCodeAnalysisRuleSet)</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(UseDefaultCodeAnalysisRuleSet)' == 'true'">
+    <AdditionalFiles Include="$(CodeAnalysisRuleSet)" Link="$(_BuildKitCodeAnalysisRuleSetName)" />
+  </ItemGroup>
+  <!-- Opt-in to all static and style analysis by default -->
   <PropertyGroup>
     <AnalysisMode>$([MSBuild]::ValueOrDefault('$(AnalysisMode)', 'All'))</AnalysisMode>
     <EnableNETAnalyzers>$([MSBuild]::ValueOrDefault('$(EnableNETAnalyzers)', 'true'))</EnableNETAnalyzers>
     <EnableStyleCopAnalyzers>$([MSBuild]::ValueOrDefault('$(EnableStyleCopAnalyzers)', 'true'))</EnableStyleCopAnalyzers>
     <EnforceCodeStyleInBuild>$([MSBuild]::ValueOrDefault('$(EnforceCodeStyleInBuild)', 'true'))</EnforceCodeStyleInBuild>
   </PropertyGroup>
+  <!-- Suppress warnings related to XML documentation when it is not being produced -->
   <PropertyGroup Condition=" '$(GenerateDocumentationFile)' != 'true' ">
     <NoWarn>$(NoWarn);SA0001;SA1600</NoWarn>
   </PropertyGroup>
+  <!-- Automatically attempt to add a stylecop.json file to the current project -->
   <PropertyGroup Condition=" '$(EnableStyleCopAnalyzers)' == 'true' ">
     <_StyleCopSettingsFileName>stylecop.json</_StyleCopSettingsFileName>
     <_StyleCopSettings>$([System.IO.Path]::Combine($(ProjectDir), '$(_StyleCopSettingsFileName)'))</_StyleCopSettings>
+    <_StyleCopSettings Condition="!Exists('$(_StyleCopSettings)')">$([System.IO.Path]::Combine($(ProjectDir), '..', '$(_StyleCopSettingsFileName)'))</_StyleCopSettings>
     <_StyleCopSettings Condition="!Exists('$(_StyleCopSettings)')">$([System.IO.Path]::Combine($(ProjectDir), '..', '..', '$(_StyleCopSettingsFileName)'))</_StyleCopSettings>
+    <_StyleCopSettings Condition="!Exists('$(_StyleCopSettings)')">$([System.IO.Path]::Combine($(MSBuildThisFileDirectory), '..', '$(_StyleCopSettingsFileName)'))</_StyleCopSettings>
   </PropertyGroup>
   <ItemGroup Condition="Exists('$(_StyleCopSettings)')">
     <AdditionalFiles Include="$(_StyleCopSettings)" Link="stylecop.json" />

@@ -11,6 +11,9 @@
     <Title>MartinCostello.BuildKit</Title>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)\MartinCostello.BuildKit.ruleset" Pack="True" PackagePath="" />
+    <None Include="$(MSBuildThisFileDirectory)\MartinCostello.BuildKit.snk" Pack="True" PackagePath="" />
+    <None Include="$(MSBuildThisFileDirectory)\stylecop.json" Pack="True" PackagePath="" />
     <None Include="$(MSBuildThisFileDirectory)\build\**\*" Pack="True" PackagePath="build" />
     <None Include="$(MSBuildThisFileDirectory)\buildMultiTargeting\**\*" Pack="True" PackagePath="buildMultiTargeting" />
     <None Include="$(MSBuildThisFileDirectory)\buildTransitive\**\*" Pack="True" PackagePath="buildTransitive" />

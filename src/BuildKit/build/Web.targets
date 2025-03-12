@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <Project>
+  <!-- Automatically install npm packages if the project contains a package.json file -->
   <PropertyGroup>
     <_NpmPackageJson>$([System.IO.Path]::Combine('$(ProjectDir)', 'package.json'))</_NpmPackageJson>
   </PropertyGroup>
-  <Target Name="RestoreNpmPackages" BeforeTargets="BeforeBuild" Condition="Exists('$(_NpmPackageJson)')">
+  <Target Name="RestoreNpmPackages" BeforeTargets="BeforeBuild" DependsOnTargets="$(RestoreNpmPackagesDependsOn)" Condition="Exists('$(_NpmPackageJson)')">
     <PropertyGroup>
       <_NpmModulesPath>$([System.IO.Path]::Combine('$(ProjectDir)', 'node_modules'))</_NpmModulesPath>
       <_NpmRestoreCommand Condition=" '$(CI)' == 'true' ">ci</_NpmRestoreCommand>

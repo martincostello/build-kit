@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <Project>
+  <!-- Add usings for Shouldly and xunit(.v3) depending on referenced NuGet packages -->
   <ItemGroup Condition="@(PackageReference-&gt;AnyHaveMetadataValue(`Identity`, `Shouldly`))">
     <Using Include="Shouldly" />
   </ItemGroup>
@@ -9,21 +10,21 @@
   <ItemGroup Condition="@(PackageReference-&gt;AnyHaveMetadataValue(`Identity`, `xunit`))">
     <Using Include="Xunit.Abstractions" />
   </ItemGroup>
+  <!-- Disable code analysis rules that are not useful in test projects -->
   <PropertyGroup>
     <NoWarn>$(NoWarn);CA1062;CA1308;CA1707;CA1711;CA1812;CA1861;CA2007</NoWarn>
   </PropertyGroup>
+  <!-- Automatically disable XML documentation and associated StyleCop rules -->
   <PropertyGroup>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);SA0001;SA1600</NoWarn>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(BuildingInsideVisualStudio)' == 'true' ">
-    <CollectCoverage>false</CollectCoverage>
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(CollectCoverage)' == 'true' ">
-    <_CoveragePath>$([System.IO.Path]::Combine($(ArtifactsPath), 'coverage'))</_CoveragePath>
     <_ReportGeneratorOutputMarkdown Condition=" '$(IsGitHubActions)' == 'true' ">true</_ReportGeneratorOutputMarkdown>
-    <CoverletOutput>$([System.IO.Path]::Combine($(_CoveragePath), '$(MSBuildProjectName)', 'coverage'))</CoverletOutput>
+    <CoverageOutputPath>$([MSBuild]::ValueOrDefault('$(CoverageOutputPath)', '$([System.IO.Path]::Combine($(ArtifactsPath), 'coverage'))'))</CoverageOutputPath>
+    <CoverletOutput>$([System.IO.Path]::Combine($(CoverageOutputPath), '$(MSBuildProjectName)', 'coverage'))</CoverletOutput>
   </PropertyGroup>
+  <!-- Automatically exclude various common non-user code from coverage when using Coverlet -->
   <ItemGroup Condition=" '$(CollectCoverage)' == 'true' ">
     <CoverletExclude Include="$([MSBuild]::Escape('[*.Tests]*'))" />
     <CoverletExclude Include="$([MSBuild]::Escape('[*.*Tests]*'))" />
@@ -34,10 +35,17 @@
     <CoverletOutputFormats Include="cobertura" />
     <CoverletOutputFormats Include="json" />
   </ItemGroup>
+  <!-- Default to JSON and Cobertura outputs when using Coverlet for use with codecov.io and ReportGenerator -->
+  <ItemGroup Condition=" '$(CollectCoverage)' == 'true' ">
+    <CoverletOutputFormats Include="cobertura" />
+    <CoverletOutputFormats Include="json" />
+  </ItemGroup>
+  <!-- Produce HTML coverage report for humans and GitHub Markdown summary for GitHub Actions workflows -->
   <ItemGroup Condition=" '$(CollectCoverage)' == 'true' ">
     <ReportGeneratorReportTypes Include="HTML" />
     <ReportGeneratorReportTypes Include="MarkdownSummaryGitHub" Condition=" '$(_ReportGeneratorOutputMarkdown)' == 'true' " />
   </ItemGroup>
+  <!-- Equivalent task to WriteLinesToFile but with retries to avoid file-write concurrency issues -->
   <UsingTask TaskName="WriteLinesToFileWithRetry" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
     <ParameterGroup>
       <File ParameterType="System.String" Required="true" />
@@ -67,6 +75,7 @@
    ]]></Code>
     </Task>
   </UsingTask>
+  <!-- Create properties for Coverlet from custom Items -->
   <Target Name="CreateCoverletProperties" BeforeTargets="InstrumentModules" Condition=" '$(CollectCoverage)' == 'true' ">
     <CreateProperty Value="@(CoverletExclude->'%(Identity)', ',')">
       <Output TaskParameter="Value" PropertyName="Exclude" />
@@ -84,15 +93,19 @@
       <Output TaskParameter="Value" PropertyName="CoverletOutputFormat" />
     </CreateProperty>
   </Target>
+  <!-- Generate code coverage reports using ReportGenerator after Coverlet report generation -->
   <Target Name="GenerateCoverageReports" AfterTargets="GenerateCoverageResultAfterTest" Condition=" '$(CollectCoverage)' == 'true' ">
+    <!-- Collect any coverage output XML files from coverlet -->
     <ItemGroup>
-      <_CoverageReports Include="$(_CoveragePath)\**\coverage.cobertura.xml" />
+      <_CoverageReports Include="$(CoverageOutputPath)\**\coverage.cobertura.xml" />
     </ItemGroup>
     <PropertyGroup>
-      <_CoverageGitHubSummary>$([System.IO.Path]::Combine($(_CoveragePath), 'SummaryGithub.md'))</_CoverageGitHubSummary>
+      <_CoverageGitHubSummary>$([System.IO.Path]::Combine($(CoverageOutputPath), 'SummaryGithub.md'))</_CoverageGitHubSummary>
       <_ReportGeneratorReportTypes>@(ReportGeneratorReportTypes->'%(Identity)', ';')</_ReportGeneratorReportTypes>
     </PropertyGroup>
-    <ReportGenerator Condition=" '@(_CoverageReports->Count())' &gt; 0 " ReportFiles="@(_CoverageReports)" ReportTypes="$(_ReportGeneratorReportTypes)" Tag="$(Version)" TargetDirectory="$(_CoveragePath)" Title="$(AssemblyName)" VerbosityLevel="Warning" />
+    <!-- Generate additional coverage reports using ReportGenerator -->
+    <ReportGenerator Condition=" '@(_CoverageReports->Count())' &gt; 0 " ReportFiles="@(_CoverageReports)" ReportTypes="$(_ReportGeneratorReportTypes)" Tag="$(Version)" TargetDirectory="$(CoverageOutputPath)" Title="$(AssemblyName)" VerbosityLevel="Warning" />
+    <!-- Generate customized summary for GitHub Actions workflow runs -->
     <PropertyGroup Condition=" '$(_ReportGeneratorOutputMarkdown)' == 'true' AND Exists('$(_CoverageGitHubSummary)') ">
       <_ReportSummaryContent>&lt;details&gt;&lt;summary&gt;:chart_with_upwards_trend: &lt;b&gt;$(AssemblyName) Code Coverage report&lt;/b&gt; %28$(TargetFramework)%29&lt;/summary&gt;</_ReportSummaryContent>
       <_ReportSummaryContent>$(_ReportSummaryContent)$([System.Environment]::NewLine)</_ReportSummaryContent>
@@ -104,30 +117,11 @@
     </PropertyGroup>
     <WriteLinesToFileWithRetry Condition=" '$(_ReportGeneratorOutputMarkdown)' == 'true' AND Exists('$(_CoverageGitHubSummary)') " ContinueOnError="WarnAndContinue" File="$(GITHUB_STEP_SUMMARY)" Lines="$(_ReportSummaryContent)" />
   </Target>
+  <!-- Clean coverage reports for dotnet clean -->
   <Target Name="CleanCoverageReports">
-    <RemoveDir Condition="Exists('$(_CoveragePath)')" Directories="$(_CoveragePath)" />
+    <RemoveDir Condition="Exists('$(CoverageOutputPath)')" Directories="$(CoverageOutputPath)" />
   </Target>
   <PropertyGroup>
     <CleanDependsOn>$(CleanDependsOn);CleanCoverageReports</CleanDependsOn>
   </PropertyGroup>
-  <Target Name="SetNuGetPackageOutputs" AfterTargets="Pack" Condition=" '$(GITHUB_OUTPUT)' != '' ">
-    <PropertyGroup>
-      <_PackageNamesPath>$(ArtifactsPath)\package-names.txt</_PackageNamesPath>
-    </PropertyGroup>
-    <ReadLinesFromFile File="$(_PackageNamesPath)">
-      <Output TaskParameter="Lines" ItemName="_PackageNames" />
-    </ReadLinesFromFile>
-    <ItemGroup>
-      <_PackageNames Include="$(PackageId)" />
-    </ItemGroup>
-    <RemoveDuplicates Inputs="@(_PackageNames)">
-      <Output TaskParameter="Filtered" ItemName="_UniquePackageNames" />
-    </RemoveDuplicates>
-    <PropertyGroup>
-      <_UniquePackageNames>@(_UniquePackageNames->'%(Identity)', ',')</_UniquePackageNames>
-    </PropertyGroup>
-    <WriteLinesToFile File="$(_PackageNamesPath)" Lines="@(_UniquePackageNames)" Overwrite="true" WriteOnlyWhenDifferent="true" />
-    <WriteLinesToFile File="$(GITHUB_OUTPUT)" Lines="package-names=$(_UniquePackageNames)" />
-    <WriteLinesToFile File="$(GITHUB_OUTPUT)" Lines="package-version=$(Version)" />
-  </Target>
 </Project>
