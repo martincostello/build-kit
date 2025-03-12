@@ -14,7 +14,7 @@ A NuGet package containing reusable MSBuild properties, items and targets for bu
 
 The functionality provided is very opinionated, even though it provides the ability to customize the build process.
 
-As such, is not intended to be used by other people other than myself - but you're welcome to take inspiration from it!
+As such, is not intended to be used by people other than myself - but you're welcome to take inspiration from it!
 
 ## Installation
 
@@ -24,7 +24,7 @@ in your `Directory.Packages.props` file as shown below:
 ```xml
 <Project>
   <ItemGroup>
-    <GlobalPackageReference Include="MartinCostello.BuildKit" Version="0.1.2" />
+    <GlobalPackageReference Include="MartinCostello.BuildKit" Version="0.2.1" />
   </ItemGroup>
 </Project>
 ```
@@ -33,17 +33,17 @@ in your `Directory.Packages.props` file as shown below:
 
 At a high-level, the package provides the following features:
 
-- Configures warnings as errors.
-- Configures .NET and code style analysis.
-- Enables C# implicit using statements and nullable reference types.
-- Configures reproducible builds.
-- Simplifies the configuration of strong naming.
-- Adds more default global using statements.
-- Embeds additional Git metadata in assemblies.
-- Installs/restores npm packages.
-- Configures versions plus container and package metadata for builds that take place in GitHub Actions.
-- Configures code coverage using when using VSTest (with [Coverlet][coverlet]) or [Microsoft.Testing.Platform][mtp].
-- Generate code coverage reports using [ReportGenerator][reportgenerator].
+- Configures warnings as errors
+- Configures .NET and code style analysis
+- Enables C# implicit using statements and nullable reference types
+- Configures reproducible builds
+- Simplifies the configuration of strong naming
+- Adds more default global using statements
+- Embeds additional Git metadata in assemblies
+- Installs/restores npm packages
+- Configures versions plus container and package metadata for builds that take place in GitHub Actions
+- Configures code coverage using when using VSTest (with [Coverlet][coverlet]) or [Microsoft.Testing.Platform][mtp]
+- Generate code coverage reports using [ReportGenerator][reportgenerator]
 - Assumes the use of [artifacts output][artifacts-output]
 
 ## MSBuild Documentation
@@ -62,7 +62,7 @@ It is recommended to set these values in `Directory.Build.props` (or the `.cspro
 |--------------|-----------------|-------------------|
 | `AssemblyIsCLSCompliant` | `true` (`false` for test projects) | Emits the `[CLSCompliant]` attribute with the specified value |
 | `CoverageFormat` | `cobertura` | The coverage output format to use with Microsoft.Testing.Platform  |
-| `CoverageOutput` | `artifacts/coverage/{project name}/coverage.xml` | The coverage output file to use with Microsoft.Testing.Platform |
+| `CoverageOutput` | `artifacts/coverage/{project}/coverage.xml` | The coverage output file to use with Microsoft.Testing.Platform |
 | `CoverageOutputPath` | `artifacts/coverage` | The path to write code coverage results to |
 | `CoverageRunSettings` | - | The path to the `.runsettings` file to use with Microsoft.Testing.Platform |
 | `GenerateGitMetadata` | `true` | Whether to embed additional `[AssemblyMetdata]` for Git projects |
@@ -77,12 +77,12 @@ The following properties are made available for use in the build process:
 |--------------|-----------------|
 | `DynamicProxyGenAssembly2StrongNamePublicKey` | The public key to use with `[InternalsVisibleTo]` for DynamicProxyGenAssembly2 when using NSubstitute or Moq |
 | `GitHubBranchName` | The name of the current Git branch when not a pull request |
-| `GitHubIsPullRequest` | Whether the current build was triggered by a pull request |
-| `GitHubIsTag` | Whether the current build was triggered by a tag |
 | `GitHubPullRequest` | The number of the pull request that triggered the current build, if any |
 | `GitHubRepositoryUrl` | The URL of the GitHub repository |
 | `GitHubTag` | The value of the tag that triggered the current build, if any |
 | `IsGitHubActions` | Set to `true` when running in GitHub Actions |
+| `IsGitHubPullRequest` | Whether the current build was triggered by a pull request |
+| `IsGitHubTag` | Whether the current build was triggered by a tag |
 | `StrongNamePublicKey` | When `UseDefaultAssemblyOriginatorKeyFile=true` contains the public key for the `.snk` file |
 
 ### Items
@@ -93,7 +93,7 @@ The following custom items are provided:
 |--------------|--------------|-----------------|
 | `CoverletExclude` | Tests and xunit | Patterns to exclude from code coverage when using Coverlet (ensure values are [escaped][msbuild-escape]) |
 | `CoverletExcludeByAttribute` | `GeneratedCodeAttribute` | Patterns for attributes to exclude from code coverage when using Coverlet |
-| `CoverletExcludeByFile` | `artifacts/obj/*` | Patterns for files to exclude from code coverage when using Coverlet (ensure values are [escaped][msbuild-escape]) |
+| `CoverletExcludeByFile` | `artifacts/obj/**/*` | Patterns for files to exclude from code coverage when using Coverlet (ensure values are [escaped][msbuild-escape]) |
 | `CoverletInclude` | - | Patterns to include in code coverage when using Coverlet (ensure values are [escaped][msbuild-escape]) |
 | `CoverletOutputFormats` | `cobertura` and `json` | The output formats to use with Coverlet |
 | `ReportGeneratorReportTypes` | `HTML` | The report types to generate with ReportGenerator |
@@ -114,7 +114,7 @@ The following custom targets are provided:
 
 ## Building and Testing
 
-Compiling the application yourself requires Git and the [.NET SDK][dotnet-sdk] to be installed.
+Compiling the package yourself requires Git and the [.NET SDK][dotnet-sdk] to be installed.
 
 To build and test the package locally from a terminal/command-line, run the
 following set of commands:
