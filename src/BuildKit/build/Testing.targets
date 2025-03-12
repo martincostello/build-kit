@@ -93,9 +93,9 @@
       <Output TaskParameter="Value" PropertyName="CoverletOutputFormat" />
     </CreateProperty>
   </Target>
-  <!-- Update properties for Microsoft Testing Platform from custom properties -->
+  <!-- Update properties for Microsoft.Testing.Platform from custom properties -->
   <Target Name="UpdateTestPlatformProperties" BeforeTargets="InvokeTestingPlatform">
-    <!-- Override the TestResults directory for Microsoft Testing Platform -->
+    <!-- Override the TestResults directory for Microsoft.Testing.Platform -->
     <PropertyGroup>
       <TestResultsDirectory>$([MSBuild]::ValueOrDefault('$(TestResultsDirectory)', '$([System.IO.Path]::Combine($(ArtifactsPath), 'tests'))'))</TestResultsDirectory>
     </PropertyGroup>
@@ -115,9 +115,9 @@
       <Output TaskParameter="Value" PropertyName="TestingPlatformCommandLineArguments" />
     </CreateProperty>
   </Target>
-  <!-- Generate code coverage reports using ReportGenerator after Coverlet report generation or after Microsoft Testing Platform finishes -->
+  <!-- Generate code coverage reports using ReportGenerator after Coverlet report generation or after Microsoft.Testing.Platform finishes -->
   <Target Name="GenerateCoverageReports" AfterTargets="GenerateCoverageResultAfterTest;InvokeTestingPlatform" DependsOnTargets="$(GenerateCoverageReportsDependsOn)" Condition=" '$(CollectCoverage)' == 'true' ">
-    <!-- Collect any coverage output XML files from both coverlet and Microsoft Testing Platform -->
+    <!-- Collect any coverage output XML files from both coverlet and Microsoft.Testing.Platform -->
     <ItemGroup>
       <_CoverageReports Include="$(CoverageOutputPath)\**\coverage.xml" />
       <_CoverageReports Include="$(CoverageOutputPath)\**\coverage.cobertura.xml" />

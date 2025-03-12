@@ -8,11 +8,11 @@
   <PropertyGroup Condition=" '$(BuildingInsideVisualStudio)' == 'true' ">
     <CollectCoverage>false</CollectCoverage>
   </PropertyGroup>
-  <!-- Allow all tests to be skipped when using Microsoft Testing Platform -->
+  <!-- Allow all tests to be skipped when using Microsoft.Testing.Platform -->
   <ItemGroup>
     <TestingPlatformIgnoreExitCodes Include="8" />
   </ItemGroup>
-  <!-- Provide a default .runsettings file for Microsoft Testing Platform -->
+  <!-- Provide a default .runsettings file for Microsoft.Testing.Platform -->
   <PropertyGroup>
     <UseDefaultTestRunSettings>$([MSBuild]::ValueOrDefault('$(UseDefaultTestRunSettings)', 'true'))</UseDefaultTestRunSettings>
   </PropertyGroup>
