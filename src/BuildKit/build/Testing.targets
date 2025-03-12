@@ -97,8 +97,15 @@
   </Target>
   <!-- Update properties for Microsoft Testing Platform from custom properties -->
   <Target Name="UpdateTestPlatformProperties" BeforeTargets="InvokeTestingPlatform">
+    <!-- Override the TestResults directory for Microsoft Testing Platform -->
+    <PropertyGroup>
+      <TestResultsDirectory>$([MSBuild]::ValueOrDefault('$(TestResultsDirectory)', '$([System.IO.Path]::Combine($(ArtifactsPath), 'tests'))'))</TestResultsDirectory>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(TestResultsDirectory)' != '' ">
+      <_TestingPlatformCommandLineArguments>--results-directory %22$(TestResultsDirectory)%22</_TestingPlatformCommandLineArguments>
+    </PropertyGroup>
     <PropertyGroup Condition=" '$(CollectCoverage)' == 'true' ">
-      <_TestingPlatformCommandLineArguments>--coverage</_TestingPlatformCommandLineArguments>
+      <_TestingPlatformCommandLineArguments>$(_TestingPlatformCommandLineArguments) --coverage</_TestingPlatformCommandLineArguments>
       <_TestingPlatformCommandLineArguments Condition=" '$(CoverageFormat)' != '' ">$(_TestingPlatformCommandLineArguments) --coverage-output-format %22$(CoverageFormat)%22</_TestingPlatformCommandLineArguments>
       <_TestingPlatformCommandLineArguments Condition=" '$(CoverageOutput)' != '' ">$(_TestingPlatformCommandLineArguments) --coverage-output %22$(CoverageOutput)%22</_TestingPlatformCommandLineArguments>
       <_TestingPlatformCommandLineArguments Condition=" '$(CoverageRunSettings)' != '' ">$(_TestingPlatformCommandLineArguments) --coverage-settings %22$(CoverageRunSettings)%22</_TestingPlatformCommandLineArguments>
