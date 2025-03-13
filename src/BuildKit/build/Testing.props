@@ -23,7 +23,7 @@
   <PropertyGroup Condition=" '$(CoverageRunSettings)' == '' AND '$(UseDefaultTestRunSettings)' == 'true' ">
     <CoverageRunSettings>$(MartinCostelloBuildKitRunSettings)</CoverageRunSettings>
   </PropertyGroup>
-  <ItemGroup Condition=" '$(UseDefaultTestRunSettings)' == 'true' AND '$(CoverageRunSettings)' == '$(MartinCostelloBuildKitRunSettings)' ">
+  <ItemGroup Condition=" '$(UseMicrosoftTestingPlatformRunner)' == 'true' AND '$(UseDefaultTestRunSettings)' == 'true' AND '$(CoverageRunSettings)' == '$(MartinCostelloBuildKitRunSettings)' ">
     <AdditionalFiles Include="$(CoverageRunSettings)" Link="$(_CoverageRunSettingsFileName)" />
   </ItemGroup>
 </Project>
