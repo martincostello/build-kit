@@ -76,7 +76,7 @@
     </Task>
   </UsingTask>
   <!-- Create properties for Coverlet from custom Items -->
-  <Target Name="CreateCoverletProperties" BeforeTargets="InstrumentModules" Condition=" '$(CollectCoverage)' == 'true' ">
+  <Target Name="_CreateCoverletProperties" BeforeTargets="InstrumentModules" Condition=" '$(CollectCoverage)' == 'true' ">
     <CreateProperty Value="@(CoverletExclude->'%(Identity)', ',')">
       <Output TaskParameter="Value" PropertyName="Exclude" />
     </CreateProperty>
@@ -94,7 +94,7 @@
     </CreateProperty>
   </Target>
   <!-- Update properties for Microsoft.Testing.Platform from custom properties -->
-  <Target Name="UpdateTestPlatformProperties" BeforeTargets="InvokeTestingPlatform">
+  <Target Name="_UpdateTestPlatformProperties" BeforeTargets="InvokeTestingPlatform">
     <!-- Override the TestResults directory for Microsoft.Testing.Platform -->
     <PropertyGroup>
       <TestResultsDirectory>$([MSBuild]::ValueOrDefault('$(TestResultsDirectory)', '$([System.IO.Path]::Combine($(ArtifactsPath), 'tests'))'))</TestResultsDirectory>
@@ -141,11 +141,11 @@
     <WriteLinesToFileWithRetry Condition=" '$(_ReportGeneratorOutputMarkdown)' == 'true' AND Exists('$(_CoverageGitHubSummary)') " ContinueOnError="WarnAndContinue" File="$(GITHUB_STEP_SUMMARY)" Lines="$(_ReportSummaryContent)" />
   </Target>
   <!-- Clean coverage reports for dotnet clean -->
-  <Target Name="CleanCoverageReports">
+  <Target Name="_CleanCoverageReports">
     <RemoveDir Condition="Exists('$(CoverageOutputPath)')" Directories="$(CoverageOutputPath)" />
   </Target>
   <PropertyGroup>
-    <CleanDependsOn>$(CleanDependsOn);CleanCoverageReports</CleanDependsOn>
+    <CleanDependsOn>$(CleanDependsOn);_CleanCoverageReports</CleanDependsOn>
   </PropertyGroup>
   <!-- Workaround for https://github.com/microsoft/codecoverage/issues/160 -->
   <Target Name="CheckCodeCoverageThreshold" AfterTargets="GenerateCoverageReports" Condition=" '$(CollectCoverage)' == 'true' AND Exists('$(CoverageOutput)') AND '$(Threshold)' != '' ">
