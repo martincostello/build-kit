@@ -109,6 +109,7 @@ The following custom targets are provided:
 | `AddGitHubMetadataAssemblyAttributes` | Embeds additional `[AssemblyMetadata]` into assemblies with Git and GitHub information |
 | `CheckCodeCoverageThreshold` | Checks the code coverage of a project meets a specified line and/or branch threshold when using Microsoft.Testing.Platform |
 | `GenerateCoverageReports` | Generates code coverage reports using ReportGenerator |
+| `RestoreNpmPackages` | Runs `npm install`/`npm ci` if `node_modules` does not exist when a `package.json` file is found in a project |
 | `SetGitHubContainerOutputs` | Writes a published container's digest, image and tag to `GITHUB_OUTPUT` |
 | `SetNuGetPackageOutputs` | Writes the comma-separated names and version of any published NuGet packages to `GITHUB_OUTPUT` |
 
