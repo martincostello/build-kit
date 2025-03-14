@@ -29,4 +29,19 @@
     <PackageReleaseNotes Condition=" '$(GitHubTag)' == '' ">$([MSBuild]::ValueOrDefault('$(PackageReleaseNotes)', 'See $(PackageProjectUrl)/releases for details.'))</PackageReleaseNotes>
     <PackageReleaseNotes Condition=" '$(GitHubTag)' != '' ">$([MSBuild]::ValueOrDefault('$(PackageReleaseNotes)', 'See $(PackageProjectUrl)/releases/tag/$(GitHubTag) for details.'))</PackageReleaseNotes>
   </PropertyGroup>
+  <!-- Ignore NuGet warnings about using preview packages for the dotnet-vnext branch -->
+  <PropertyGroup>
+    <GenerateNuspecDependsOn>$(GenerateNuspecDependsOn);_TryIgnoreNuGetPreviewPackageWarnings</GenerateNuspecDependsOn>
+  </PropertyGroup>
+  <Target Name="_TryIgnoreNuGetPreviewPackageWarnings" BeforeTargets="GenerateNuspec">
+    <PropertyGroup>
+      <_GitBranch>$([MSBuild]::ValueOrDefault('$(GITHUB_HEAD_REF)', '$(GITHUB_REF_NAME)'))</_GitBranch>
+    </PropertyGroup>
+    <Exec Command="git rev-parse --abbrev-ref HEAD" ConsoleToMSBuild="true" StandardOutputImportance="low" IgnoreExitCode="true" Condition=" '$(_GitBranch)' == '' ">
+      <Output TaskParameter="ConsoleOutput" PropertyName="_GitBranch" />
+    </Exec>
+    <CreateProperty Value="$(NoWarn);NU5104" Condition=" '$(_GitBranch)' == 'dotnet-vnext' ">
+      <Output TaskParameter="Value" PropertyName="NoWarn" />
+    </CreateProperty>
+  </Target>
 </Project>

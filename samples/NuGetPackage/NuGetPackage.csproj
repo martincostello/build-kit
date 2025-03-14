@@ -1,5 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <IsPackable>true</IsPackable>
     <RootNamespace>MartinCostello.BuildKit.NuGetPackage</RootNamespace>
     <TargetFrameworks>net9.0;netstandard2.0</TargetFrameworks>
   </PropertyGroup>
