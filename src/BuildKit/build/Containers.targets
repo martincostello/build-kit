@@ -12,6 +12,10 @@
     <WriteLinesToFile File="$(GITHUB_OUTPUT)" Lines="container-image=$(_ContainerImage)" />
     <WriteLinesToFile File="$(GITHUB_OUTPUT)" Lines="container-tag=$(_ContainerTag)" />
   </Target>
+  <!-- Configure labels for Pyroscope profiles -->
+  <ItemGroup Condition=" '$(UsePyroscope)' == 'true' ">
+    <ContainerEnvironmentVariable Include="PYROSCOPE_LABELS" Value="@(PyroscopeLabels->'%(Identity)', ',')" />
+  </ItemGroup>
   <!-- Add the native binaries for Pyroscope to the container -->
   <Target Name="_AddPyroscopeBinaries" BeforeTargets="AssignTargetPaths" Condition=" '$(UsePyroscope)' == 'true' ">
     <Error Condition="!Exists('$(PyroscopeBinariesPath)')" Text="Cannot find the Pyroscope binaries directory '$(PyroscopeBinariesPath)'." />
@@ -19,9 +23,6 @@
       <Content Include="$(PyroscopeBinariesPath)\**\*" CopyToPublishDirectory="PreserveNewest" />
     </ItemGroup>
   </Target>
-  <ItemGroup Condition=" '$(UsePyroscope)' == 'true' ">
-    <ContainerEnvironmentVariable Include="PYROSCOPE_LABELS" Value="@(PyroscopeLabels->'%(Identity)', ',')" />
-  </ItemGroup>
   <!--
     HACK The chiseled images do not contain the appropriate certificates for uploading profiles.
     See https://github.com/dotnet/dotnet-docker/issues/5045#issuecomment-2726588006.
@@ -40,6 +41,7 @@
       <Content Include="$(_PyroscopeCertificateBundlePath)" CopyToPublishDirectory="PreserveNewest" />
     </ItemGroup>
   </Target>
+  <!-- Configure the environment variables that depend on knowing the path of the application in the container -->
   <Target Name="_ConfigurePyroscope" BeforeTargets="PublishContainer" DependsOnTargets="ComputeContainerConfig" Condition=" '$(UsePyroscope)' == 'true' ">
     <ItemGroup>
       <ContainerEnvironmentVariables Include="CORECLR_PROFILER_PATH" Value="$(ContainerWorkingDirectory)Pyroscope.Profiler.Native.so" />

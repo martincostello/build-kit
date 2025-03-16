@@ -85,6 +85,7 @@ The following properties are made available for use in the build process:
 | `IsGitHubActions` | Set to `true` when running in GitHub Actions |
 | `IsGitHubPullRequest` | Whether the current build was triggered by a pull request |
 | `IsGitHubTag` | Whether the current build was triggered by a tag |
+| `PyroscopeApplicationName` | The name of the application to profile with Pyroscope |
 | `StrongNamePublicKey` | When `UseDefaultAssemblyOriginatorKeyFile=true` contains the public key for the `.snk` file |
 
 ### Items
@@ -98,6 +99,7 @@ The following custom items are provided:
 | `CoverletExcludeByFile` | `artifacts/obj/**/*` | Patterns for files to exclude from code coverage when using Coverlet (ensure values are [escaped][msbuild-escape]) |
 | `CoverletInclude` | - | Patterns to include in code coverage when using Coverlet (ensure values are [escaped][msbuild-escape]) |
 | `CoverletOutputFormats` | `cobertura` and `json` | The output formats to use with Coverlet |
+| `PyroscopeLabels` | - | Labels to use with Pyroscope when profiling applications |
 | `ReportGeneratorReportTypes` | `HTML` | The report types to generate with ReportGenerator |
 | `TestingPlatformIgnoreExitCodes` | `8` | Exit codes to ignore as failures when running tests with Microsoft.Testing.Platform |
 | `Using` | `System.Globalization` and `System.Text` | Additional global using statements |
