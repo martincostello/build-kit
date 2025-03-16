@@ -19,6 +19,9 @@
       <Content Include="$(PyroscopeBinariesPath)\**\*" CopyToPublishDirectory="PreserveNewest" />
     </ItemGroup>
   </Target>
+  <ItemGroup Condition=" '$(UsePyroscope)' == 'true' ">
+    <ContainerEnvironmentVariable Include="PYROSCOPE_LABELS" Value="@(PyroscopeLabels->'%(Identity)', ',')" />
+  </ItemGroup>
   <!--
     HACK The chiseled images do not contain the appropriate certificates for uploading profiles.
     See https://github.com/dotnet/dotnet-docker/issues/5045#issuecomment-2726588006.
