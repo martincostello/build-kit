@@ -12,6 +12,12 @@
     <WriteLinesToFile File="$(GITHUB_OUTPUT)" Lines="container-image=$(_ContainerImage)" />
     <WriteLinesToFile File="$(GITHUB_OUTPUT)" Lines="container-tag=$(_ContainerTag)" />
   </Target>
+  <!-- Create properties for Pyroscope from custom items -->
+  <Target Name="_CreatePyroscopeProperties" BeforeTargets="PublishContainer" Condition=" '$(UsePyroscope)' == 'true' ">
+    <ItemGroup>
+      <ContainerEnvironmentVariable Include="PYROSCOPE_LABELS" Value="@(PyroscopeLabels->'%(Identity)', ',')" />
+    </ItemGroup>
+  </Target>
   <Target Name="_AddPyroscopeBinaries" BeforeTargets="AssignTargetPaths" Condition=" '$(UsePyroscope)' == 'true' ">
     <Error Condition="!Exists('$(PyroscopeBinariesPath)')" Text="Cannot find the Pyroscope binaries directory '$(PyroscopeBinariesPath)'." />
     <ItemGroup>
