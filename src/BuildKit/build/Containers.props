@@ -23,7 +23,6 @@
     <_PyroscopeBinariesPath Condition="!Exists('$(_PyroscopeBinariesPath)')">$([System.IO.Path]::Combine($(ProjectDir), '..', '..', '$(_PyroscopeBinariesDirectory)'))</_PyroscopeBinariesPath>
     <PyroscopeApplicationName>$([MSBuild]::ValueOrDefault('$(PyroscopeApplicationName)', ''))</PyroscopeApplicationName>
     <PyroscopeBinariesPath>$([MSBuild]::ValueOrDefault('$(PyroscopeBinariesPath)', '$(_PyroscopeBinariesPath)'))</PyroscopeBinariesPath>
-    <PyroscopeContainerProfilerPath>$([MSBuild]::ValueOrDefault('$(PyroscopeContainerProfilerPath)', '/app'))</PyroscopeContainerProfilerPath>
     <PyroscopeEnableAllocationProfiling>$([MSBuild]::ValueOrDefault('$(PyroscopeEnableAllocationProfiling)', 'true'))</PyroscopeEnableAllocationProfiling>
     <PyroscopeEnableContentionProfiling>$([MSBuild]::ValueOrDefault('$(PyroscopeEnableContentionProfiling)', 'true'))</PyroscopeEnableContentionProfiling>
     <PyroscopeEnableCpuProfiling>$([MSBuild]::ValueOrDefault('$(PyroscopeEnableCpuProfiling)', 'true'))</PyroscopeEnableCpuProfiling>
@@ -35,8 +34,6 @@
   <ItemGroup Condition=" '$(UsePyroscope)' == 'true' ">
     <ContainerEnvironmentVariable Include="CORECLR_ENABLE_PROFILING" Value="1" />
     <ContainerEnvironmentVariable Include="CORECLR_PROFILER" Value="{BD1A650D-AC5D-4896-B64F-D6FA25D6B26A}" />
-    <ContainerEnvironmentVariable Include="CORECLR_PROFILER_PATH" Value="$(PyroscopeContainerProfilerPath)/Pyroscope.Profiler.Native.so" />
-    <ContainerEnvironmentVariable Include="LD_PRELOAD" Value="$(PyroscopeContainerProfilerPath)/Pyroscope.Linux.ApiWrapper.x64.so" />
     <ContainerEnvironmentVariable Include="PYROSCOPE_APPLICATION_NAME" Value="$(PyroscopeApplicationName)" Condition=" '$(PyroscopeApplicationName)' != '' " />
     <ContainerEnvironmentVariable Include="PYROSCOPE_PROFILING_ENABLED" Value="1" />
     <ContainerEnvironmentVariable Include="PYROSCOPE_PROFILING_ALLOCATION_ENABLED" Value="$(PyroscopeEnableAllocationProfiling)" />
