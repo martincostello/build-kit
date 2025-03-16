@@ -44,11 +44,4 @@
     <ContainerEnvironmentVariable Include="PYROSCOPE_PROFILING_LOCK_ENABLED" Value="$(PyroscopeEnableLockProfiling)" />
     <ContainerEnvironmentVariable Include="PYROSCOPE_PROFILING_WALLTIME_ENABLED" Value="$(PyroscopeEnableWalltimeProfiling)" />
   </ItemGroup>
-  <!--
-    HACK Pyroscope's profiler does not yet work with native AoT
-  -->
-  <PropertyGroup Condition=" '$(UsePyroscope)' == 'true' ">
-    <PublishAot>false</PublishAot>
-    <PublishSelfContained>false</PublishSelfContained>
-  </PropertyGroup>
 </Project>
