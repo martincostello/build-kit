@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <Project>
   <!-- Set GitHub Actions step outputs for easy re-use elsewhere in a GitHub Actions workflow -->
-  <Target Name="SetGitHubContainerOutputs" AfterTargets="PublishContainer"  DependsOnTargets="PublishContainer" Condition=" '$(GITHUB_OUTPUT)' != '' AND ('$(ContainerRegistry)' != '' OR '$(SetGitHubContainerPublishingOutputs)' == 'true') ">
+  <Target Name="SetGitHubContainerOutputs" AfterTargets="PublishContainer" DependsOnTargets="PublishContainer" Condition=" '$(GITHUB_OUTPUT)' != '' AND ('$(ContainerRegistry)' != '' OR '$(SetGitHubContainerPublishingOutputs)' == 'true') ">
     <PropertyGroup>
       <_ContainerImage Condition=" '$(ContainerRegistry)' == '' ">$(ContainerRepository)</_ContainerImage>
       <_ContainerImage Condition=" '$(ContainerRegistry)' != '' ">$(ContainerRegistry)/$(ContainerRepository)</_ContainerImage>
@@ -11,5 +11,22 @@
     <WriteLinesToFile File="$(GITHUB_OUTPUT)" Lines="container-digest=$(GeneratedContainerDigest)" />
     <WriteLinesToFile File="$(GITHUB_OUTPUT)" Lines="container-image=$(_ContainerImage)" />
     <WriteLinesToFile File="$(GITHUB_OUTPUT)" Lines="container-tag=$(_ContainerTag)" />
+  </Target>
+  <Target Name="_AddPyroscopeBinaries" BeforeTargets="AssignTargetPaths" Condition=" '$(UsePyroscope)' == 'true' ">
+    <Error Condition="!Exists('$(PyroscopeBinariesPath)')" Text="Cannot find the Pyroscope binaries directory '$(PyroscopeBinariesPath)'." />
+    <ItemGroup>
+      <Content Include="$(PyroscopeBinariesPath)\**\*" CopyToPublishDirectory="PreserveNewest" />
+    </ItemGroup>
+  </Target>
+  <!--
+    HACK The chiseled images do not contain the appropriate certificates for uploading profiles.
+    See https://github.com/dotnet/dotnet-docker/issues/5045#issuecomment-2726588006.
+  -->
+  <Target Name="_AddPyroscopeCertificateBundle" BeforeTargets="AssignTargetPaths" Condition=" '$(_UsePyroscopeCertificateBundle)' == 'true' ">
+    <Error Condition="!$([System.OperatingSystem]::IsLinux())" Text="Enabling Pyroscope for a chisled container is only supported when building on Linux." />
+    <Error Condition="!Exists('$(_PyroscopeCertificateBundlePath)')" Text="Cannot find the certificate bundle file '$(_PyroscopeCertificateBundlePath)' to use with Pyroscope." />
+    <ItemGroup>
+      <Content Include="$(_PyroscopeCertificateBundlePath)" CopyToPublishDirectory="PreserveNewest" />
+    </ItemGroup>
   </Target>
 </Project>

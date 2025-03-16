@@ -45,6 +45,7 @@ At a high-level, the package provides the following features:
 - Configures code coverage using when using VSTest (with [Coverlet][coverlet]) or [Microsoft.Testing.Platform][mtp]
 - Generate code coverage reports using [ReportGenerator][reportgenerator]
 - Assumes the use of [artifacts output][artifacts-output]
+- Enable the [Pyroscope][pyroscope] profiler in Linux containers
 
 ## MSBuild Documentation
 
@@ -70,6 +71,7 @@ It is recommended to set these values in `Directory.Build.props` (or the `.cspro
 | `UseDefaultAssemblyOriginatorKeyFile` | `false` | Whether to use the built-in `.snk` file |
 | `UseDefaultCodeAnalysisRuleSet` | `false` | Whether to use the built-in `.ruleset` file |
 | `UseDefaultTestRunSettings` | `true` | Whether to use the built-in `.runsettings` file with Microsoft.Testing.Platform |
+| `UsePyroscope` | `false` | Whether to enable Pyroscope for container applications |
 
 The following properties are made available for use in the build process:
 
@@ -153,6 +155,7 @@ This project is licensed under the [Apache 2.0][license] license.
 [package-badge-downloads]: https://img.shields.io/nuget/dt/MartinCostello.BuildKit?logo=nuget&label=Downloads&color=blue
 [package-badge-version]: https://img.shields.io/nuget/v/MartinCostello.BuildKit?logo=nuget&label=Latest&color=blue
 [package-download]: https://www.nuget.org/packages/MartinCostello.BuildKit "Download MartinCostello.BuildKit from NuGet"
+[pyroscope]: https://github.com/grafana/pyroscope-dotnet "Pyroscope .NET Agent on GitHub"
 [repo]: https://github.com/martincostello/build-kit "This project on GitHub.com"
 [reportgenerator]: https://github.com/danielpalme/ReportGenerator "ReportGenerator on GitHub"
 [scorecard-badge]: https://api.securityscorecards.dev/projects/github.com/martincostello/build-kit/badge
