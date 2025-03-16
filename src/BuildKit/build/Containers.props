@@ -24,13 +24,13 @@
     <PyroscopeApplicationName>$([MSBuild]::ValueOrDefault('$(PyroscopeApplicationName)', ''))</PyroscopeApplicationName>
     <PyroscopeBinariesPath>$([MSBuild]::ValueOrDefault('$(PyroscopeBinariesPath)', '$(_PyroscopeBinariesPath)'))</PyroscopeBinariesPath>
     <PyroscopeContainerProfilerPath>$([MSBuild]::ValueOrDefault('$(PyroscopeContainerProfilerPath)', '/app'))</PyroscopeContainerProfilerPath>
-    <PyroscopeEnableAllocationProfiling>$([MSBuild]::ValueOrDefault('$(PyroscopeEnableAllocationProfiling)', '$(true)'))</PyroscopeEnableAllocationProfiling>
-    <PyroscopeEnableContentionProfiling>$([MSBuild]::ValueOrDefault('$(PyroscopeEnableContentionProfiling)', '$(true)'))</PyroscopeEnableContentionProfiling>
-    <PyroscopeEnableCpuProfiling>$([MSBuild]::ValueOrDefault('$(PyroscopeEnableCpuProfiling)', '$(true)'))</PyroscopeEnableCpuProfiling>
-    <PyroscopeEnableExceptionProfiling>$([MSBuild]::ValueOrDefault('$(PyroscopeEnableExceptionProfiling)', '$(true)'))</PyroscopeEnableExceptionProfiling>
-    <PyroscopeEnableHeapProfiling>$([MSBuild]::ValueOrDefault('$(PyroscopeEnableHeapProfiling)', '$(true)'))</PyroscopeEnableHeapProfiling>
-    <PyroscopeEnableLockProfiling>$([MSBuild]::ValueOrDefault('$(PyroscopeEnableLockProfiling)', '$(true)'))</PyroscopeEnableLockProfiling>
-    <PyroscopeEnableWalltimeProfiling>$([MSBuild]::ValueOrDefault('$(PyroscopeEnableWalltimeProfiling)', '$(true)'))</PyroscopeEnableWalltimeProfiling>
+    <PyroscopeEnableAllocationProfiling>$([MSBuild]::ValueOrDefault('$(PyroscopeEnableAllocationProfiling)', 'true'))</PyroscopeEnableAllocationProfiling>
+    <PyroscopeEnableContentionProfiling>$([MSBuild]::ValueOrDefault('$(PyroscopeEnableContentionProfiling)', 'true'))</PyroscopeEnableContentionProfiling>
+    <PyroscopeEnableCpuProfiling>$([MSBuild]::ValueOrDefault('$(PyroscopeEnableCpuProfiling)', 'true'))</PyroscopeEnableCpuProfiling>
+    <PyroscopeEnableExceptionProfiling>$([MSBuild]::ValueOrDefault('$(PyroscopeEnableExceptionProfiling)', 'true'))</PyroscopeEnableExceptionProfiling>
+    <PyroscopeEnableHeapProfiling>$([MSBuild]::ValueOrDefault('$(PyroscopeEnableHeapProfiling)', 'true'))</PyroscopeEnableHeapProfiling>
+    <PyroscopeEnableLockProfiling>$([MSBuild]::ValueOrDefault('$(PyroscopeEnableLockProfiling)', 'true'))</PyroscopeEnableLockProfiling>
+    <PyroscopeEnableWalltimeProfiling>$([MSBuild]::ValueOrDefault('$(PyroscopeEnableWalltimeProfiling)', 'true'))</PyroscopeEnableWalltimeProfiling>
   </PropertyGroup>
   <ItemGroup Condition=" '$(UsePyroscope)' == 'true' ">
     <ContainerEnvironmentVariable Include="CORECLR_ENABLE_PROFILING" Value="1" />
