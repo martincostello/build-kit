@@ -15,4 +15,33 @@
     <ContainerLabel Include="com.docker.extension.changelog" Value="$(GitHubRepositoryUrl)/commit/$(GITHUB_SHA)" />
     <ContainerLabel Include="com.docker.extension.publisher-url" Value="$(GITHUB_SERVER_URL)/$(GITHUB_REPOSITORY_OWNER)" />
   </ItemGroup>
+  <!-- Set properties to enable use of the Pyroscope profiler in the container -->
+  <PropertyGroup Condition=" '$(UsePyroscope)' == 'true' ">
+    <_PyroscopeBinariesDirectory>.pyroscope</_PyroscopeBinariesDirectory>
+    <_PyroscopeBinariesPath>$([System.IO.Path]::Combine($(ProjectDir), '$(_PyroscopeBinariesDirectory)'))</_PyroscopeBinariesPath>
+    <_PyroscopeBinariesPath Condition="!Exists('$(_PyroscopeBinariesPath)')">$([System.IO.Path]::Combine($(ProjectDir), '..', '$(_PyroscopeBinariesDirectory)'))</_PyroscopeBinariesPath>
+    <_PyroscopeBinariesPath Condition="!Exists('$(_PyroscopeBinariesPath)')">$([System.IO.Path]::Combine($(ProjectDir), '..', '..', '$(_PyroscopeBinariesDirectory)'))</_PyroscopeBinariesPath>
+    <PyroscopeApplicationName>$([MSBuild]::ValueOrDefault('$(PyroscopeApplicationName)', ''))</PyroscopeApplicationName>
+    <PyroscopeBinariesPath>$([MSBuild]::ValueOrDefault('$(PyroscopeBinariesPath)', '$(_PyroscopeBinariesPath)'))</PyroscopeBinariesPath>
+    <PyroscopeEnableAllocationProfiling>$([MSBuild]::ValueOrDefault('$(PyroscopeEnableAllocationProfiling)', 'true'))</PyroscopeEnableAllocationProfiling>
+    <PyroscopeEnableContentionProfiling>$([MSBuild]::ValueOrDefault('$(PyroscopeEnableContentionProfiling)', 'true'))</PyroscopeEnableContentionProfiling>
+    <PyroscopeEnableCpuProfiling>$([MSBuild]::ValueOrDefault('$(PyroscopeEnableCpuProfiling)', 'true'))</PyroscopeEnableCpuProfiling>
+    <PyroscopeEnableExceptionProfiling>$([MSBuild]::ValueOrDefault('$(PyroscopeEnableExceptionProfiling)', 'true'))</PyroscopeEnableExceptionProfiling>
+    <PyroscopeEnableHeapProfiling>$([MSBuild]::ValueOrDefault('$(PyroscopeEnableHeapProfiling)', 'true'))</PyroscopeEnableHeapProfiling>
+    <PyroscopeEnableLockProfiling>$([MSBuild]::ValueOrDefault('$(PyroscopeEnableLockProfiling)', 'true'))</PyroscopeEnableLockProfiling>
+    <PyroscopeEnableWalltimeProfiling>$([MSBuild]::ValueOrDefault('$(PyroscopeEnableWalltimeProfiling)', 'true'))</PyroscopeEnableWalltimeProfiling>
+  </PropertyGroup>
+  <ItemGroup Condition=" '$(UsePyroscope)' == 'true' ">
+    <ContainerEnvironmentVariable Include="CORECLR_ENABLE_PROFILING" Value="1" />
+    <ContainerEnvironmentVariable Include="CORECLR_PROFILER" Value="{BD1A650D-AC5D-4896-B64F-D6FA25D6B26A}" />
+    <ContainerEnvironmentVariable Include="PYROSCOPE_APPLICATION_NAME" Value="$(PyroscopeApplicationName)" Condition=" '$(PyroscopeApplicationName)' != '' " />
+    <ContainerEnvironmentVariable Include="PYROSCOPE_PROFILING_ENABLED" Value="1" />
+    <ContainerEnvironmentVariable Include="PYROSCOPE_PROFILING_ALLOCATION_ENABLED" Value="$(PyroscopeEnableAllocationProfiling)" />
+    <ContainerEnvironmentVariable Include="PYROSCOPE_PROFILING_CONTENTION_ENABLED" Value="$(PyroscopeEnableContentionProfiling)" />
+    <ContainerEnvironmentVariable Include="PYROSCOPE_PROFILING_CPU_ENABLED" Value="$(PyroscopeEnableCpuProfiling)" />
+    <ContainerEnvironmentVariable Include="PYROSCOPE_PROFILING_EXCEPTION_ENABLED" Value="$(PyroscopeEnableExceptionProfiling)" />
+    <ContainerEnvironmentVariable Include="PYROSCOPE_PROFILING_HEAP_ENABLED" Value="$(PyroscopeEnableHeapProfiling)" />
+    <ContainerEnvironmentVariable Include="PYROSCOPE_PROFILING_LOCK_ENABLED" Value="$(PyroscopeEnableLockProfiling)" />
+    <ContainerEnvironmentVariable Include="PYROSCOPE_PROFILING_WALLTIME_ENABLED" Value="$(PyroscopeEnableWalltimeProfiling)" />
+  </ItemGroup>
 </Project>

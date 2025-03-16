@@ -75,7 +75,7 @@
    ]]></Code>
     </Task>
   </UsingTask>
-  <!-- Create properties for Coverlet from custom Items -->
+  <!-- Create properties for Coverlet from custom items -->
   <Target Name="_CreateCoverletProperties" BeforeTargets="InstrumentModules" Condition=" '$(CollectCoverage)' == 'true' ">
     <CreateProperty Value="@(CoverletExclude->'%(Identity)', ',')">
       <Output TaskParameter="Value" PropertyName="Exclude" />
