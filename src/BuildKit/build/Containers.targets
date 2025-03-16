@@ -31,6 +31,7 @@
   -->
   <PropertyGroup Condition=" '$(UsePyroscope)' == 'true' ">
     <PublishAot>false</PublishAot>
+    <PublishSelfContained>false</PublishSelfContained>
   </PropertyGroup>
   <!--
     HACK The chiseled images do not contain the appropriate certificates for uploading profiles.
