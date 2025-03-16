@@ -12,12 +12,7 @@
     <WriteLinesToFile File="$(GITHUB_OUTPUT)" Lines="container-image=$(_ContainerImage)" />
     <WriteLinesToFile File="$(GITHUB_OUTPUT)" Lines="container-tag=$(_ContainerTag)" />
   </Target>
-  <!-- Create properties for Pyroscope from custom items -->
-  <Target Name="_CreatePyroscopeProperties" BeforeTargets="PublishContainer" Condition=" '$(UsePyroscope)' == 'true' ">
-    <ItemGroup>
-      <ContainerEnvironmentVariable Include="PYROSCOPE_LABELS" Value="@(PyroscopeLabels->'%(Identity)', ',')" />
-    </ItemGroup>
-  </Target>
+  <!-- Add the native binaries for Pyroscope to the container -->
   <Target Name="_AddPyroscopeBinaries" BeforeTargets="AssignTargetPaths" Condition=" '$(UsePyroscope)' == 'true' ">
     <Error Condition="!Exists('$(PyroscopeBinariesPath)')" Text="Cannot find the Pyroscope binaries directory '$(PyroscopeBinariesPath)'." />
     <ItemGroup>
@@ -28,6 +23,26 @@
     HACK The chiseled images do not contain the appropriate certificates for uploading profiles.
     See https://github.com/dotnet/dotnet-docker/issues/5045#issuecomment-2726588006.
   -->
+  <!--
+    HACK Pyroscope's profiler does not yet work with native AoT
+  -->
+  <PropertyGroup Condition=" '$(UsePyroscope)' == 'true' ">
+    <PublishAot>false</PublishAot>
+  </PropertyGroup>
+  <!--
+    HACK The chiseled images do not contain the appropriate certificates for uploading profiles.
+    See https://github.com/dotnet/dotnet-docker/issues/5045#issuecomment-2726588006.
+  -->
+  <PropertyGroup Condition=" '$(UsePyroscope)' == 'true' AND $(ContainerFamily.Contains('chiseled')) ">
+    <_UsePyroscopeCertificateBundle>true</_UsePyroscopeCertificateBundle>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(_UsePyroscopeCertificateBundle)' == 'true' ">
+    <_PyroscopeCertificateBundleFile>ca-certificates.crt</_PyroscopeCertificateBundleFile>
+    <_PyroscopeCertificateBundlePath>/etc/ssl/certs/$(_PyroscopeCertificateBundleFile)</_PyroscopeCertificateBundlePath>
+  </PropertyGroup>
+  <ItemGroup Condition=" '$(_UsePyroscopeCertificateBundle)' == 'true' ">
+    <ContainerEnvironmentVariable Include="SSL_CERT_FILE" Value="$(PyroscopeContainerProfilerPath)/$(_PyroscopeCertificateBundleFile)" />
+  </ItemGroup>
   <Target Name="_AddPyroscopeCertificateBundle" BeforeTargets="AssignTargetPaths" Condition=" '$(_UsePyroscopeCertificateBundle)' == 'true' ">
     <Error Condition="!$([System.OperatingSystem]::IsLinux())" Text="Enabling Pyroscope for a chisled container is only supported when building on Linux." />
     <Error Condition="!Exists('$(_PyroscopeCertificateBundlePath)')" Text="Cannot find the certificate bundle file '$(_PyroscopeCertificateBundlePath)' to use with Pyroscope." />
