@@ -26,17 +26,6 @@
     HACK The chiseled images do not contain the appropriate certificates for uploading profiles.
     See https://github.com/dotnet/dotnet-docker/issues/5045#issuecomment-2726588006.
   -->
-  <!--
-    HACK Pyroscope's profiler does not yet work with native AoT
-  -->
-  <PropertyGroup Condition=" '$(UsePyroscope)' == 'true' ">
-    <PublishAot>false</PublishAot>
-    <PublishSelfContained>false</PublishSelfContained>
-  </PropertyGroup>
-  <!--
-    HACK The chiseled images do not contain the appropriate certificates for uploading profiles.
-    See https://github.com/dotnet/dotnet-docker/issues/5045#issuecomment-2726588006.
-  -->
   <PropertyGroup Condition=" '$(UsePyroscope)' == 'true' AND $(ContainerFamily.Contains('chiseled')) ">
     <_UsePyroscopeCertificateBundle>true</_UsePyroscopeCertificateBundle>
   </PropertyGroup>
