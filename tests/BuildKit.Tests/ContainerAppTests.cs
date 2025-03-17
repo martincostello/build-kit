@@ -9,6 +9,8 @@ using Microsoft.Extensions.Logging;
 
 namespace MartinCostello.BuildKit;
 
+#pragma warning disable CA2000
+
 public class ContainerAppTests
 {
     [Fact]
