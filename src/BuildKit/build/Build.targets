@@ -9,6 +9,15 @@
     <Using Include="System.Globalization" />
     <Using Include="System.Text" />
   </ItemGroup>
+  <!-- Configure default banned symbols if Banned API analyzers are used -->
+  <PropertyGroup>
+    <_DefaultBannedSymbolsFileName>BannedSymbols.txt</_DefaultBannedSymbolsFileName>
+    <_DefaultBannedSymbolsFile>$([System.IO.Path]::Combine($(MSBuildThisFileDirectory), '..', '$(_DefaultBannedSymbolsFileName)'))</_DefaultBannedSymbolsFile>
+    <_ProjectBannedSymbolsFile>$([System.IO.Path]::Combine($(ProjectDir), '$(_DefaultBannedSymbolsFileName)'))</_ProjectBannedSymbolsFile>
+  </PropertyGroup>
+  <ItemGroup Condition=" !Exists('$(_ProjectBannedSymbolsFile)') AND @(PackageReference-&gt;AnyHaveMetadataValue(`Identity`, `Microsoft.CodeAnalysis.BannedApiAnalyzers`)) ">
+    <AdditionalFiles Include="$(_DefaultBannedSymbolsFile)" Link="$(_DefaultBannedSymbolsFileName)" />
+  </ItemGroup>
   <!-- Embed additional Git/GitHub metadata into the assembly -->
   <Target Name="AddGitHubMetadataAssemblyAttributes" BeforeTargets="GetAssemblyAttributes" Condition=" '$(GenerateGitMetadata)' == 'true' ">
     <PropertyGroup>

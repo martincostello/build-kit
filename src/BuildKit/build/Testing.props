@@ -8,6 +8,11 @@
   <PropertyGroup>
     <AssemblyIsCLSCompliant>false</AssemblyIsCLSCompliant>
   </PropertyGroup>
+  <!-- Provide a default code analysis ruleset for tests -->
+  <PropertyGroup>
+    <_BuildKitCodeAnalysisRuleSetNameForTests>MartinCostello.BuildKit.tests.ruleset</_BuildKitCodeAnalysisRuleSetNameForTests>
+    <MartinCostelloBuildKitCodeAnalysisRuleSetForTests>$([System.IO.Path]::Combine($(MSBuildThisFileDirectory), '..', '$(_BuildKitCodeAnalysisRuleSetNameForTests)'))</MartinCostelloBuildKitCodeAnalysisRuleSetForTests>
+  </PropertyGroup>
   <!-- Disable code coverage when building and running tests in Visual Studio -->
   <PropertyGroup Condition=" '$(BuildingInsideVisualStudio)' == 'true' ">
     <CollectCoverage>false</CollectCoverage>
