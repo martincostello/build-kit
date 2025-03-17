@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--
+  Copyright (c) Martin Costello, 2025. All rights reserved.
+  Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
+-->
 <Project>
   <Import Project="$(MSBuildThisFileDirectory)Build.targets" />
   <Import Project="$(MSBuildThisFileDirectory)Containers.targets" />
