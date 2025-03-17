@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <Project>
-  <!-- -->
+  <!-- Disable CLS compliance for tests -->
   <PropertyGroup>
     <AssemblyIsCLSCompliant>false</AssemblyIsCLSCompliant>
   </PropertyGroup>
