@@ -11,6 +11,7 @@
     <Title>MartinCostello.BuildKit</Title>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)\BannedSymbols.txt" Pack="True" PackagePath="" />
     <None Include="$(MSBuildThisFileDirectory)\MartinCostello.BuildKit.ruleset" Pack="True" PackagePath="" />
     <None Include="$(MSBuildThisFileDirectory)\MartinCostello.BuildKit.runsettings" Pack="True" PackagePath="" />
     <None Include="$(MSBuildThisFileDirectory)\MartinCostello.BuildKit.snk" Pack="True" PackagePath="" />
