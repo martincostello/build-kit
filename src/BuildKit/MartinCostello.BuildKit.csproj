@@ -15,6 +15,7 @@
     <None Include="$(MSBuildThisFileDirectory)\MartinCostello.BuildKit.runsettings" Pack="True" PackagePath="" />
     <None Include="$(MSBuildThisFileDirectory)\MartinCostello.BuildKit.snk" Pack="True" PackagePath="" />
     <None Include="$(MSBuildThisFileDirectory)\stylecop.json" Pack="True" PackagePath="" />
+    <None Include="$(MSBuildThisFileDirectory)\xunit.runner.json" Pack="True" PackagePath="" />
     <None Include="$(MSBuildThisFileDirectory)\build\**\*" Pack="True" PackagePath="build" />
     <None Include="$(MSBuildThisFileDirectory)\buildMultiTargeting\**\*" Pack="True" PackagePath="buildMultiTargeting" />
     <None Include="$(MSBuildThisFileDirectory)\buildTransitive\**\*" Pack="True" PackagePath="buildTransitive" />

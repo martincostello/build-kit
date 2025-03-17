@@ -14,6 +14,15 @@
   <ItemGroup Condition="@(PackageReference-&gt;AnyHaveMetadataValue(`Identity`, `xunit`))">
     <Using Include="Xunit.Abstractions" />
   </ItemGroup>
+  <!-- Add default xunit configuration if not already present -->
+  <PropertyGroup>
+    <_DefaultXunitConfigurationFileName>xunit.runner.json</_DefaultXunitConfigurationFileName>
+    <_DefaultXunitConfigurationFile>$([System.IO.Path]::Combine($(MSBuildThisFileDirectory), '..', '$(_DefaultXunitConfigurationFileName)'))</_DefaultXunitConfigurationFile>
+    <_ProjectXunitConfigurationFile>$([System.IO.Path]::Combine($(ProjectDir), '$(_DefaultXunitConfigurationFileName)'))</_ProjectXunitConfigurationFile>
+  </PropertyGroup>
+  <ItemGroup Condition=" !Exists('$(_ProjectXunitConfigurationFile)') AND (@(PackageReference-&gt;AnyHaveMetadataValue(`Identity`, `xunit`)) OR @(PackageReference-&gt;AnyHaveMetadataValue(`Identity`, `xunit.v3`))) ">
+    <Content Include="$(_DefaultXunitConfigurationFile)" CopyToOutputDirectory="PreserveNewest" Link="$(_DefaultXunitConfigurationFileName)" />
+  </ItemGroup>
   <!-- Disable code analysis rules that are not useful in test projects -->
   <PropertyGroup>
     <NoWarn>$(NoWarn);CA1062;CA1308;CA1707;CA1711;CA1812;CA1861;CA2007</NoWarn>
