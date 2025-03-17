@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--
+  Copyright (c) Martin Costello, 2025. All rights reserved.
+  Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
+-->
 <Project>
   <!-- Set GitHub Actions step outputs for easy re-use elsewhere in a GitHub Actions workflow -->
   <Target Name="SetGitHubContainerOutputs" AfterTargets="PublishContainer" DependsOnTargets="PublishContainer" Condition=" '$(GITHUB_OUTPUT)' != '' AND ('$(ContainerRegistry)' != '' OR '$(SetGitHubContainerPublishingOutputs)' == 'true') ">
@@ -33,7 +37,7 @@
   <PropertyGroup Condition=" '$(_UsePyroscopeCertificateBundle)' == 'true' ">
     <_PyroscopeCertificateBundleFile>ca-certificates.crt</_PyroscopeCertificateBundleFile>
     <_PyroscopeCertificateBundlePath>/etc/ssl/certs/$(_PyroscopeCertificateBundleFile)</_PyroscopeCertificateBundlePath>
-  </PropertyGroup>  
+  </PropertyGroup>
   <Target Name="_AddPyroscopeCertificateBundle" BeforeTargets="AssignTargetPaths" Condition=" '$(_UsePyroscopeCertificateBundle)' == 'true' ">
     <Error Condition="!$([System.OperatingSystem]::IsLinux())" Text="Enabling Pyroscope for a chisled container is only supported when building on Linux." />
     <Error Condition="!Exists('$(_PyroscopeCertificateBundlePath)')" Text="Cannot find the certificate bundle file '$(_PyroscopeCertificateBundlePath)' to use with Pyroscope." />
