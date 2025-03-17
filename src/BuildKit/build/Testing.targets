@@ -4,6 +4,14 @@
   Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 -->
 <Project>
+  <!-- Override the default ruleset for test projects -->
+  <PropertyGroup Condition=" '$(UseDefaultCodeAnalysisRuleSet)' == 'true' ">
+    <CodeAnalysisRuleSet>$(MartinCostelloBuildKitCodeAnalysisRuleSetForTests)</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup Condition=" '$(UseDefaultCodeAnalysisRuleSet)' == 'true' ">
+    <AdditionalFiles Remove="$(MartinCostelloBuildKitCodeAnalysisRuleSetForTests)" />
+    <AdditionalFiles Include="$(CodeAnalysisRuleSet)" Link="$(_BuildKitCodeAnalysisRuleSetNameForTests)" />
+  </ItemGroup>
   <!-- Add usings for Shouldly and xunit(.v3) depending on referenced NuGet packages -->
   <ItemGroup Condition="@(PackageReference-&gt;AnyHaveMetadataValue(`Identity`, `Shouldly`))">
     <Using Include="Shouldly" />
@@ -23,10 +31,6 @@
   <ItemGroup Condition=" !Exists('$(_ProjectXunitConfigurationFile)') AND (@(PackageReference-&gt;AnyHaveMetadataValue(`Identity`, `xunit`)) OR @(PackageReference-&gt;AnyHaveMetadataValue(`Identity`, `xunit.v3`))) ">
     <Content Include="$(_DefaultXunitConfigurationFile)" CopyToOutputDirectory="PreserveNewest" Link="$(_DefaultXunitConfigurationFileName)" />
   </ItemGroup>
-  <!-- Disable code analysis rules that are not useful in test projects -->
-  <PropertyGroup>
-    <NoWarn>$(NoWarn);CA1062;CA1308;CA1707;CA1711;CA1812;CA1861;CA2007</NoWarn>
-  </PropertyGroup>
   <!-- Automatically disable XML documentation and associated StyleCop rules -->
   <PropertyGroup>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
