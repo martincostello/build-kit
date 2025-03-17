@@ -2,6 +2,7 @@
 <RuleSet Name="MartinCostello.BuildKit.Tests Rules" Description="This rule set contains default rules for test projects using with MartinCostello.BuildKit." ToolsVersion="17.0">
   <IncludeAll Action="Warning" />
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
+    <Rule Id="CA1031" Action="None" />
     <Rule Id="CA1034" Action="None" />
     <Rule Id="CA1054" Action="None" />
     <Rule Id="CA1055" Action="None" />
@@ -12,6 +13,7 @@
     <Rule Id="CA1515" Action="None" />
     <Rule Id="CA1707" Action="None" />
     <Rule Id="CA1711" Action="None" />
+    <Rule Id="CA1720" Action="None" />
     <Rule Id="CA1812" Action="None" />
     <Rule Id="CA1848" Action="None" />
     <Rule Id="CA1861" Action="None" />
