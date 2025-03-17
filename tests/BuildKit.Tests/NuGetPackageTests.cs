@@ -26,7 +26,7 @@ public static class NuGetPackageTests
     public static void Package_Is_Strong_Named()
     {
         // Arrange
-        var assembly = typeof(NuGetPackageTests).Assembly;
+        var assembly = typeof(PackageMetadata).Assembly;
 
         // Act
         var name = assembly.GetName();
