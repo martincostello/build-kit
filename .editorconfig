@@ -12,7 +12,7 @@ trim_trailing_whitespace = true
 spelling_exclusion_path = .\exclusion.dic
 spelling_languages = en-us
 
-[*.{config,csproj,json,proj,props,ruleset,runsettings,targets,yml}]
+[*.{config,csproj,json,proj,props,ruleset,runsettings,slnx,targets,yml}]
 indent_size = 2
 
 # Code files

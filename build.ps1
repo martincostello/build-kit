@@ -80,7 +80,7 @@ function DotNetPack {
 }
 
 function DotNetTest {
-    param([string]$Project)
+    param()
 
     $additionalArgs = @()
 
@@ -89,7 +89,7 @@ function DotNetTest {
         $additionalArgs += "GitHubActions;report-warnings=false"
     }
 
-    & $dotnet test $Project --configuration "Release" $additionalArgs
+    & $dotnet test --configuration "Release" $additionalArgs
 
     if ($LASTEXITCODE -ne 0) {
         throw "dotnet test failed with exit code ${LASTEXITCODE}"
@@ -100,18 +100,12 @@ $packageProjects = @(
     (Join-Path $solutionPath "src" "BuildKit" "MartinCostello.BuildKit.csproj")
 )
 
-$testProjects = @(
-    (Join-Path $solutionPath "tests" "BuildKit.Tests" "MartinCostello.BuildKit.Tests.csproj")
-)
-
 Write-Information "Packaging libraries..."
 ForEach ($project in $packageProjects) {
     DotNetPack $project $Configuration
 }
 
 if ($SkipTests -eq $false) {
-    Write-Information "Testing $($testProjects.Count) project(s)..."
-    ForEach ($project in $testProjects) {
-        DotNetTest $project
-    }
+    Write-Information "Testing solution..."
+    DotNetTest
 }
