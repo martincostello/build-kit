@@ -55,4 +55,16 @@
       <ContainerEnvironmentVariables Include="SSL_CERT_FILE" Value="$(ContainerWorkingDirectory)$(_PyroscopeCertificateBundleFile)" />
     </ItemGroup>
   </Target>
+  <!-- Use the nightly registry for the dotnet-nightly branch -->
+  <Target Name="_ConfigureContainerBaseImageForNightly" BeforeTargets="ComputeContainerBaseImage">
+    <PropertyGroup>
+      <_GitBranch>$([MSBuild]::ValueOrDefault('$(GITHUB_HEAD_REF)', '$(GITHUB_REF_NAME)'))</_GitBranch>
+    </PropertyGroup>
+    <Exec Command="git rev-parse --abbrev-ref HEAD" ConsoleToMSBuild="true" StandardOutputImportance="low" IgnoreExitCode="true" Condition=" '$(_GitBranch)' == '' ">
+      <Output TaskParameter="ConsoleOutput" PropertyName="_GitBranch" />
+    </Exec>
+    <CreateProperty Value="mcr.microsoft.com/dotnet/nightly/runtime-deps:$([MSBuild]::GetTargetFrameworkVersion('$(TargetFramework)'))-preview-$(ContainerFamily)" Condition=" '$(ContainerBaseImage)' == '' AND '$(ContainerFamily)' != '' AND '$(_GitBranch)' == 'dotnet-nightly' ">
+      <Output TaskParameter="Value" PropertyName="ContainerBaseImage" />
+    </CreateProperty>
+  </Target>
 </Project>
