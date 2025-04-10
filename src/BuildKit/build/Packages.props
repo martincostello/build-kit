@@ -44,7 +44,7 @@
     <Exec Command="git rev-parse --abbrev-ref HEAD" ConsoleToMSBuild="true" StandardOutputImportance="low" IgnoreExitCode="true" Condition=" '$(_GitBranch)' == '' ">
       <Output TaskParameter="ConsoleOutput" PropertyName="_GitBranch" />
     </Exec>
-    <CreateProperty Value="$(NoWarn);NU5104" Condition=" ('$(_GitBranch)' == 'dotnet-vnext') OR ('$(_GitBranch)' == 'dotnet-nightly') ">
+    <CreateProperty Value="$(NoWarn);NU5104" Condition=" ('$(_GitBranch)' == 'dotnet-vnext') OR ('$(_GitBranch)' == 'dotnet-nightly' OR '$(GITHUB_BASE_REF)' == 'dotnet-nightly') ">
       <Output TaskParameter="Value" PropertyName="NoWarn" />
     </CreateProperty>
   </Target>
