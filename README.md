@@ -72,6 +72,7 @@ It is recommended to set these values in `Directory.Build.props` (or the `.cspro
 | `UseDefaultCodeAnalysisRuleSet` | `false` | Whether to use the built-in `.ruleset` file |
 | `UseDefaultTestRunSettings` | `true` | Whether to use the built-in `.runsettings` file with Microsoft.Testing.Platform |
 | `UsePyroscope` | `false` | Whether to enable Pyroscope for container applications |
+| `UseSentry` | `true` | Whether to enable Sentry for container applications during publishing (requires `SentryAuthToken` to be specified) |
 
 The following properties are made available for use in the build process:
 
@@ -80,6 +81,8 @@ The following properties are made available for use in the build process:
 | `DynamicProxyGenAssembly2StrongNamePublicKey` | The public key to use with `[InternalsVisibleTo]` for DynamicProxyGenAssembly2 when using NSubstitute or Moq |
 | `GitHubBranchName` | The name of the current Git branch when not a pull request |
 | `GitHubPullRequest` | The number of the pull request that triggered the current build, if any |
+| `GitHubRepositoryName` | The name of the GitHub repository |
+| `GitHubRepositoryOwner` | The owner of the GitHub repository |
 | `GitHubRepositoryUrl` | The URL of the GitHub repository |
 | `GitHubTag` | The value of the tag that triggered the current build, if any |
 | `IsGitHubActions` | Set to `true` when running in GitHub Actions |

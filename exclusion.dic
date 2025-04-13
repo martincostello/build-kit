@@ -2,5 +2,6 @@ costello
 csproj
 dependabot
 msbuild
+octocat
 stderr
 stdout

@@ -16,6 +16,8 @@
     <GitHubBranchName Condition=" '$(IsGitHubPullRequest)' == 'false' ">$(GITHUB_REF_NAME)</GitHubBranchName>
     <GitHubPullRequest Condition=" '$(IsGitHubPullRequest)' == 'true' ">$(GITHUB_REF_NAME.Replace('/merge', ''))</GitHubPullRequest>
     <GitHubTag Condition=" '$(IsGitHubTag)' == 'true' ">$(GITHUB_REF.Replace('refs/tags/', ''))</GitHubTag>
+    <GitHubRepositoryOwner>$(GITHUB_REPOSITORY_OWNER)</GitHubRepositoryOwner>
+    <GitHubRepositoryName>$(GITHUB_REPOSITORY.Replace('$(GitHubRepositoryOwner)/', ''))</GitHubRepositoryName>
     <GitHubRepositoryUrl>$(GITHUB_SERVER_URL)/$(GITHUB_REPOSITORY)</GitHubRepositoryUrl>
   </PropertyGroup>
 </Project>
