@@ -74,8 +74,6 @@ public abstract class IntegrationTests(ITestOutputHelper outputHelper)
 
         await msbuild.WaitForExitAsync(linked.Token);
 
-        msbuild.ExitCode.ShouldBe(0);
-
         var stdout = await msbuild.StandardOutput.ReadToEndAsync(linked.Token);
         var stderr = await msbuild.StandardOutput.ReadToEndAsync(linked.Token);
 
@@ -88,6 +86,8 @@ public abstract class IntegrationTests(ITestOutputHelper outputHelper)
         {
             outputHelper.Write(stderr);
         }
+
+        msbuild.ExitCode.ShouldBe(0);
 
         var result = new Dictionary<string, string?>();
 
