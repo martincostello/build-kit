@@ -28,4 +28,7 @@
     <CollectCoverage>true</CollectCoverage>
     <Threshold>80</Threshold>
   </PropertyGroup>
+  <ItemGroup>
+    <AssemblyMetadata Include="SolutionRoot" Value="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)\..\..'))" />
+  </ItemGroup>
 </Project>
