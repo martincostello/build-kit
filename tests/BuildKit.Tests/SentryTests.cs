@@ -24,6 +24,7 @@ public class SentryTests(ITestOutputHelper outputHelper)
         {
             ["ContainerRegistry"] = string.Empty,
             ["GITHUB_ACTIONS"] = "false",
+            ["GITHUB_HEAD_REF"] = string.Empty,
             ["GITHUB_REPOSITORY"] = string.Empty,
             ["GITHUB_REPOSITORY_OWNER"] = string.Empty,
             ["SentryAuthToken"] = string.Empty,
@@ -54,6 +55,7 @@ public class SentryTests(ITestOutputHelper outputHelper)
         {
             ["ContainerRegistry"] = "containers.acr.io",
             ["GITHUB_ACTIONS"] = "true",
+            ["GITHUB_HEAD_REF"] = string.Empty,
             ["GITHUB_REPOSITORY"] = "octocat/Hello-World",
             ["GITHUB_REPOSITORY_OWNER"] = "octocat",
             ["SentryAuthToken"] = "not-a-secret",
