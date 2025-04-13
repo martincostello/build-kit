@@ -10,6 +10,7 @@ public class SentryTests(ITestOutputHelper outputHelper)
     [
         "SentryCreateRelease",
         "SentryOrg",
+        "SentryProject",
         "SentrySetCommits",
         "SentryUploadSymbols",
         "UseSentry",
@@ -23,6 +24,8 @@ public class SentryTests(ITestOutputHelper outputHelper)
         {
             ["ContainerRegistry"] = string.Empty,
             ["GITHUB_ACTIONS"] = "false",
+            ["GITHUB_REPOSITORY"] = string.Empty,
+            ["GITHUB_REPOSITORY_OWNER"] = string.Empty,
             ["SentryAuthToken"] = string.Empty,
             ["SentryProject"] = string.Empty,
         };
@@ -38,6 +41,7 @@ public class SentryTests(ITestOutputHelper outputHelper)
         actual.ShouldContainKeyAndValue("UseSentry", string.Empty);
         actual.ShouldContainKeyAndValue("SentryCreateRelease", string.Empty);
         actual.ShouldContainKeyAndValue("SentryOrg", string.Empty);
+        actual.ShouldContainKeyAndValue("SentryProject", string.Empty);
         actual.ShouldContainKeyAndValue("SentrySetCommits", string.Empty);
         actual.ShouldContainKeyAndValue("SentryUploadSymbols", string.Empty);
     }
@@ -50,8 +54,9 @@ public class SentryTests(ITestOutputHelper outputHelper)
         {
             ["ContainerRegistry"] = "containers.acr.io",
             ["GITHUB_ACTIONS"] = "true",
+            ["GITHUB_REPOSITORY"] = "octocat/Hello-World",
+            ["GITHUB_REPOSITORY_OWNER"] = "octocat",
             ["SentryAuthToken"] = "not-a-secret",
-            ["SentryProject"] = "my-project",
         };
 
         // Act
@@ -64,7 +69,8 @@ public class SentryTests(ITestOutputHelper outputHelper)
         actual.ShouldNotBeNull();
         actual.ShouldContainKeyAndValue("UseSentry", "true");
         actual.ShouldContainKeyAndValue("SentryCreateRelease", "true");
-        actual.ShouldContainKeyAndValue("SentryOrg", "martincostello");
+        actual.ShouldContainKeyAndValue("SentryOrg", "octocat");
+        actual.ShouldContainKeyAndValue("SentryProject", "Hello-World");
         actual.ShouldContainKeyAndValue("SentrySetCommits", "true");
         actual.ShouldContainKeyAndValue("SentryUploadSymbols", "true");
     }
