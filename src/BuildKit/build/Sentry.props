@@ -9,7 +9,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(UseSentry)' == 'true' ">
     <SentryCreateRelease>$([MSBuild]::ValueOrDefault('$(SentryCreateRelease)', 'true'))</SentryCreateRelease>
-    <SentryOrg>$([MSBuild]::ValueOrDefault('$(SentryOrg)', 'martin-costello'))</SentryOrg>
+    <SentryOrg>$([MSBuild]::ValueOrDefault('$(SentryOrg)', 'martincostello'))</SentryOrg>
     <SentrySetCommits>$([MSBuild]::ValueOrDefault('$(SentrySetCommits)', 'true'))</SentrySetCommits>
     <SentryUploadSymbols>$([MSBuild]::ValueOrDefault('$(SentryUploadSymbols)', 'true'))</SentryUploadSymbols>
   </PropertyGroup>

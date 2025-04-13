@@ -64,7 +64,7 @@ public class SentryTests(ITestOutputHelper outputHelper)
         actual.ShouldNotBeNull();
         actual.ShouldContainKeyAndValue("UseSentry", "true");
         actual.ShouldContainKeyAndValue("SentryCreateRelease", "true");
-        actual.ShouldContainKeyAndValue("SentryOrg", "martin-costello");
+        actual.ShouldContainKeyAndValue("SentryOrg", "martincostello");
         actual.ShouldContainKeyAndValue("SentrySetCommits", "true");
         actual.ShouldContainKeyAndValue("SentryUploadSymbols", "true");
     }
