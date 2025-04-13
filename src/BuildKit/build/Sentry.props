@@ -11,7 +11,10 @@
     <SentryCreateRelease>$([MSBuild]::ValueOrDefault('$(SentryCreateRelease)', 'true'))</SentryCreateRelease>
     <SentryOrg>$([MSBuild]::ValueOrDefault('$(SentryOrg)', '$(GitHubRepositoryOwner)'))</SentryOrg>
     <SentryProject>$([MSBuild]::ValueOrDefault('$(SentryProject)', '$(GitHubRepositoryName)'))</SentryProject>
+    <!-- HACK Disabled due to TODO -->
+    <!--
     <SentryReleaseOptions>$([MSBuild]::ValueOrDefault('$(SentryReleaseOptions)', '--finalize'))</SentryReleaseOptions>
+    -->
     <SentrySetCommits>$([MSBuild]::ValueOrDefault('$(SentrySetCommits)', 'true'))</SentrySetCommits>
     <SentryUploadSymbols>$([MSBuild]::ValueOrDefault('$(SentryUploadSymbols)', 'true'))</SentryUploadSymbols>
   </PropertyGroup>
