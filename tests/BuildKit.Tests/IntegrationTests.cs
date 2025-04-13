@@ -95,12 +95,9 @@ public abstract class IntegrationTests(ITestOutputHelper outputHelper)
 
         if (document.RootElement.TryGetProperty("Properties", out var props))
         {
-            foreach (var property in props.EnumerateObject())
+            foreach (var property in props.EnumerateObject().Where((p) => p.Value.ValueKind is JsonValueKind.String))
             {
-                if (property.Value.ValueKind is JsonValueKind.String)
-                {
-                    result[property.Name] = property.Value.GetString();
-                }
+                result[property.Name] = property.Value.GetString();
             }
         }
 
