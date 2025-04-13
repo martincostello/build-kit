@@ -75,7 +75,7 @@ public abstract class IntegrationTests(ITestOutputHelper outputHelper)
         await msbuild.WaitForExitAsync(linked.Token);
 
         var stdout = await msbuild.StandardOutput.ReadToEndAsync(linked.Token);
-        var stderr = await msbuild.StandardOutput.ReadToEndAsync(linked.Token);
+        var stderr = await msbuild.StandardError.ReadToEndAsync(linked.Token);
 
         if (stdout is { Length: > 0 })
         {
