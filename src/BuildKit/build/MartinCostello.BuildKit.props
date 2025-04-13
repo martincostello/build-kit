@@ -11,5 +11,6 @@
   <Import Project="$(MSBuildThisFileDirectory)Analyzers.props" />
   <Import Project="$(MSBuildThisFileDirectory)Containers.props" />
   <Import Project="$(MSBuildThisFileDirectory)Packages.props" />
+  <Import Project="$(MSBuildThisFileDirectory)Sentry.props" />
   <Import Project="$(MSBuildThisFileDirectory)Testing.props" />
 </Project>

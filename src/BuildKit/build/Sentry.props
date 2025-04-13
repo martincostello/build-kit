@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--
+  Copyright (c) Martin Costello, 2025. All rights reserved.
+  Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
+-->
+<Project>
+  <PropertyGroup Condition=" '$(IsGitHubActions)' == 'true' AND '$(SentryProject)' != '' AND '$(SentryAuthToken)' != '' AND '$(ContainerRegistry)' != '' ">
+    <UseSentry>$([MSBuild]::ValueOrDefault('$(UseSentry)', 'true'))</UseSentry>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(UseSentry)' == 'true' ">
+    <SentryCreateRelease>$([MSBuild]::ValueOrDefault('$(SentryCreateRelease)', 'true'))</SentryCreateRelease>
+    <SentryOrg>$([MSBuild]::ValueOrDefault('$(SentryOrg)', 'martin-costello'))</SentryOrg>
+    <SentrySetCommits>$([MSBuild]::ValueOrDefault('$(SentrySetCommits)', 'true'))</SentrySetCommits>
+    <SentryUploadSymbols>$([MSBuild]::ValueOrDefault('$(SentryUploadSymbols)', 'true'))</SentryUploadSymbols>
+  </PropertyGroup>
+</Project>
