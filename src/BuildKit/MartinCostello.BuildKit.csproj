@@ -7,6 +7,7 @@
     <NoPackageAnalysis>true</NoPackageAnalysis>
     <OutputType>Library</OutputType>
     <PackageId>MartinCostello.BuildKit</PackageId>
+    <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Title>MartinCostello.BuildKit</Title>
   </PropertyGroup>
