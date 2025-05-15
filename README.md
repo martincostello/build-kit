@@ -51,7 +51,7 @@ At a high-level, the package provides the following features:
 
 A summary of the MSBuild properties, items and targets provided by the package is provided below.
 
-For more detailed information, consult the `.props` and `.targets` files [here][source].
+For more detailed information, consult the `.props` and `.targets` files [in the package's source][source].
 
 ### Properties
 
