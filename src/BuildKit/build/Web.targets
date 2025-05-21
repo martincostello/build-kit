@@ -8,7 +8,7 @@
   <PropertyGroup>
     <_NpmPackageJson>$([System.IO.Path]::Combine('$(ProjectDir)', 'package.json'))</_NpmPackageJson>
   </PropertyGroup>
-  <Target Name="RestoreNpmPackages" BeforeTargets="BeforeBuild" DependsOnTargets="$(RestoreNpmPackagesDependsOn)" Condition="Exists('$(_NpmPackageJson)')">
+  <Target Name="RestoreNpmPackages" BeforeTargets="BeforeBuild" DependsOnTargets="$(RestoreNpmPackagesDependsOn)" Condition="Exists('$(_NpmPackageJson)') AND '$(DEPENDABOT_JOB_ID)' == ''">
     <PropertyGroup>
       <_NpmModulesPath>$([System.IO.Path]::Combine('$(ProjectDir)', 'node_modules'))</_NpmModulesPath>
       <_NpmRestoreCommand Condition=" '$(CI)' == 'true' ">ci</_NpmRestoreCommand>
