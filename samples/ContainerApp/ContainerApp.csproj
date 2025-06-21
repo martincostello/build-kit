@@ -7,7 +7,7 @@
     <PublishAot>true</PublishAot>
     <PublishSelfContained>true</PublishSelfContained>
     <RootNamespace>MartinCostello.BuildKit.ContainerApp</RootNamespace>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <ContainerPort Include="8080" Type="tcp" />
