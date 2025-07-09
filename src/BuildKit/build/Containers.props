@@ -25,7 +25,7 @@
     <_PyroscopeBinariesPath>$([System.IO.Path]::Combine($(ProjectDir), '$(_PyroscopeBinariesDirectory)'))</_PyroscopeBinariesPath>
     <_PyroscopeBinariesPath Condition="!Exists('$(_PyroscopeBinariesPath)')">$([System.IO.Path]::Combine($(ProjectDir), '..', '$(_PyroscopeBinariesDirectory)'))</_PyroscopeBinariesPath>
     <_PyroscopeBinariesPath Condition="!Exists('$(_PyroscopeBinariesPath)')">$([System.IO.Path]::Combine($(ProjectDir), '..', '..', '$(_PyroscopeBinariesDirectory)'))</_PyroscopeBinariesPath>
-    <PyroscopeApplicationName>$([MSBuild]::ValueOrDefault('$(PyroscopeApplicationName)', ''))</PyroscopeApplicationName>
+    <PyroscopeApplicationName>$([MSBuild]::ValueOrDefault('$(PyroscopeApplicationName)', '$(OTEL_SERVICE_NAME)'))</PyroscopeApplicationName>
     <PyroscopeBinariesPath>$([MSBuild]::ValueOrDefault('$(PyroscopeBinariesPath)', '$(_PyroscopeBinariesPath)'))</PyroscopeBinariesPath>
     <PyroscopeEnableAllocationProfiling>$([MSBuild]::ValueOrDefault('$(PyroscopeEnableAllocationProfiling)', 'true'))</PyroscopeEnableAllocationProfiling>
     <PyroscopeEnableContentionProfiling>$([MSBuild]::ValueOrDefault('$(PyroscopeEnableContentionProfiling)', 'true'))</PyroscopeEnableContentionProfiling>
