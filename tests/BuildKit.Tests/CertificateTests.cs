@@ -46,8 +46,7 @@ public static class CertificateTests
 
     private static List<string> GetSubjectAlternativeNames(X509Certificate2 certificate)
     {
-        var oid = Oid.FromFriendlyName("Subject Alternative Name", OidGroup.ExtensionOrAttribute);
-        oid.ShouldNotBeNull();
+        var oid = new Oid("2.5.29.17"); // Subject Alternative Name OID
 
         var result = new List<string>();
 
