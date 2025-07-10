@@ -42,10 +42,7 @@ jobs:
           $versionPrefix = $xml.SelectSingleNode('Project/PropertyGroup/VersionPrefix')
 
           if (-Not [string]::IsNullOrEmpty(${env:NEXT_VERSION})) {
-            $version = [System.Version]::new(${env:NEXT_VERSION})
-            $assemblyVersionProperty = $xml.SelectSingleNode('Project/PropertyGroup/AssemblyVersion')
-            $assemblyVersion = [System.Version]::new($version.Major, ($version.Major -eq 0 ? $version.Minor : 0), 0, 0)
-            $assemblyVersionProperty.InnerText = $assemblyVersion.ToString()
+            $version = [System.Version]::new(${env:NEXT_VERSION}.TrimStart('v'))
           } else {
             $version = [System.Version]::new($versionPrefix.InnerText)
             $version = [System.Version]::new($version.Major, $version.Minor, $version.Build + 1)
