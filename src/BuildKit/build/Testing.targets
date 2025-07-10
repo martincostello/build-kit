@@ -201,4 +201,13 @@
     <Error Condition=" '$(_LineCoverage)' &lt; '$(_LineThreshold)' " Text="Line coverage is below the threshold of $(_LineThreshold)%. Value: $(_LineCoverage)%." />
     <Error Condition=" '$(_BranchCoverage)' &lt; '$(_BranchThreshold)' " Text="Branch coverage is below the threshold of $(_BranchThreshold)%. Value: $(_BranchCoverage)%." />
   </Target>
+  <!-- Enable the custom local development certificate for HTTPS -->
+  <PropertyGroup Condition=" '$(UseLocalDevelopmentCertificate)' == 'true' ">
+    <_BuildKitLocalDevelopmentCertificateFileName>MartinCostello.BuildKit.localhost.pfx</_BuildKitLocalDevelopmentCertificateFileName>
+    <LocalDevelopmentCertificatePath>$([System.IO.Path]::Combine($(MSBuildThisFileDirectory), '..', '$(_BuildKitLocalDevelopmentCertificateFileName)'))</LocalDevelopmentCertificatePath>
+    <LocalDevelopmentCertificatePassword>Pa55w0rd!</LocalDevelopmentCertificatePassword>
+  </PropertyGroup>
+  <ItemGroup Condition=" '$(UseLocalDevelopmentCertificate)' == 'true' ">
+    <None Include="$(LocalDevelopmentCertificatePath)" Link="$(_BuildKitLocalDevelopmentCertificateFileName)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
 </Project>

@@ -4,6 +4,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>MartinCostello.BuildKit</RootNamespace>
     <TargetFramework>net9.0</TargetFramework>
+    <UseLocalDevelopmentCertificate>true</UseLocalDevelopmentCertificate>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="coverlet.msbuild" />
@@ -30,6 +31,8 @@
     <Threshold>80</Threshold>
   </PropertyGroup>
   <ItemGroup>
+    <AssemblyMetadata Include="CertificateFileName" Value="$([System.IO.Path]::GetFileName('$(LocalDevelopmentCertificatePath)'))" />
+    <AssemblyMetadata Include="CertificatePassword" Value="$(LocalDevelopmentCertificatePassword)" />
     <AssemblyMetadata Include="SolutionRoot" Value="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)\..\..'))" />
   </ItemGroup>
 </Project>

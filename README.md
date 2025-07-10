@@ -71,6 +71,7 @@ It is recommended to set these values in `Directory.Build.props` (or the `.cspro
 | `UseDefaultAssemblyOriginatorKeyFile` | `false` | Whether to use the built-in `.snk` file |
 | `UseDefaultCodeAnalysisRuleSet` | `false` | Whether to use the built-in `.ruleset` file |
 | `UseDefaultTestRunSettings` | `true` | Whether to use the built-in `.runsettings` file with Microsoft.Testing.Platform |
+| `UseLocalDevelopmentCertificate` | `false` | Whether to include the custom local development certificate for HTTPS (only in test projects) |
 | `UsePyroscope` | `false` | Whether to enable Pyroscope for container applications |
 | `UseSentry` | `true` | Whether to enable Sentry for container applications during publishing (requires `SentryAuthToken` to be specified) |
 
@@ -88,6 +89,8 @@ The following properties are made available for use in the build process:
 | `IsGitHubActions` | Set to `true` when running in GitHub Actions |
 | `IsGitHubPullRequest` | Whether the current build was triggered by a pull request |
 | `IsGitHubTag` | Whether the current build was triggered by a tag |
+| `LocalDevelopmentCertificatePath` | The path to the local development certificate to use for HTTPS |
+| `LocalDevelopmentCertificatePassword` | The password for the local development certificate to use for HTTPS |
 | `PyroscopeApplicationName` | The name of the application to profile with Pyroscope |
 | `StrongNamePublicKey` | When `UseDefaultAssemblyOriginatorKeyFile=true` contains the public key for the `.snk` file |
 
