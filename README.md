@@ -67,6 +67,7 @@ It is recommended to set these values in `Directory.Build.props` (or the `.cspro
 | `CoverageOutputPath` | `artifacts/coverage` | The path to write code coverage results to |
 | `CoverageRunSettings` | - | The path to the `.runsettings` file to use with Microsoft.Testing.Platform |
 | `GenerateGitMetadata` | `true` | Whether to embed additional `[AssemblyMetadata]` for Git projects |
+| `StabilizeVersion` | `false` | Whether to force a stable version number to be generated |
 | `TestResultsDirectory` | `artifacts/tests` | The path to write test logs to with Microsoft.Testing.Platform |
 | `UseDefaultAssemblyOriginatorKeyFile` | `false` | Whether to use the built-in `.snk` file |
 | `UseDefaultCodeAnalysisRuleSet` | `false` | Whether to use the built-in `.ruleset` file |

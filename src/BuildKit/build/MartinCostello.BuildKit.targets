@@ -4,6 +4,7 @@
   Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 -->
 <Project>
+  <Import Project="$(MSBuildThisFileDirectory)Version.targets" />
   <Import Project="$(MSBuildThisFileDirectory)Build.targets" />
   <Import Project="$(MSBuildThisFileDirectory)Containers.targets" />
   <Import Project="$(MSBuildThisFileDirectory)Web.targets" />
