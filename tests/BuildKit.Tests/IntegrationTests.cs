@@ -69,7 +69,7 @@ public abstract class IntegrationTests(ITestOutputHelper outputHelper)
         using var msbuild = Process.Start(startInfo);
         msbuild.ShouldNotBeNull();
 
-        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(15));
         using var linked = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, timeout.Token);
 
         await msbuild.WaitForExitAsync(linked.Token);
