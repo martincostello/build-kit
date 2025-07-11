@@ -8,4 +8,18 @@
   <PropertyGroup>
     <VersionPrefix>$([MSBuild]::ValueOrDefault('$(VersionPrefix)', '1.0.0'))</VersionPrefix>
   </PropertyGroup>
+  <!--
+    Apply default incremental versioning when building in GitHub Actions. For example:
+    - {Tag} for building a tag
+    - 1.0.0-beta.{Workflow run number} for building a branch
+    - 1.0.0-pr.{PR number}.{Workflow run number} for building a pull request
+    - 1.0.0 when publishing a container image for a branch
+  -->
+  <PropertyGroup Condition=" '$(IsGitHubActions)' == 'true' ">
+    <VersionSuffix Condition=" '$(VersionSuffix)' == '' AND '$(GitHubPullRequest)' == '' ">beta.$(GITHUB_RUN_NUMBER)</VersionSuffix>
+    <VersionSuffix Condition=" '$(VersionSuffix)' == '' AND '$(GitHubPullRequest)' != '' ">pr.$(GitHubPullRequest).$(GITHUB_RUN_NUMBER)</VersionSuffix>
+    <VersionPrefix Condition=" '$(IsGitHubTag)' == 'true' ">$(GitHubTag.TrimStart('v'))</VersionPrefix>
+    <VersionSuffix Condition=" '$(IsGitHubTag)' == 'true' OR ('$(GitHubPullRequest)' == '' AND '$(PublishProfile)' == 'DefaultContainer') "></VersionSuffix>
+    <FileVersion>$(VersionPrefix).$(GITHUB_RUN_NUMBER)</FileVersion>
+  </PropertyGroup>
 </Project>
