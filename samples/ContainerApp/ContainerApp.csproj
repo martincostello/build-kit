@@ -2,7 +2,7 @@
   <PropertyGroup>
     <ContainerFamily>noble-chiseled</ContainerFamily>
     <InvariantGlobalization>true</InvariantGlobalization>
-    <NoWarn>$(NoWarn);CA1050;CA1848;CA5394;SA1649</NoWarn>
+    <NoWarn>$(NoWarn);CA1050;CA1848;CA1873;CA5394;SA1649</NoWarn>
     <OutputType>Exe</OutputType>
     <PublishAot>true</PublishAot>
     <PublishSelfContained>true</PublishSelfContained>
