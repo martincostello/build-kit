@@ -37,4 +37,8 @@
   <ItemGroup Condition="Exists('$(_StyleCopSettings)')">
     <AdditionalFiles Include="$(_StyleCopSettings)" Link="stylecop.json" />
   </ItemGroup>
+  <!-- Disable warnings about .NET SDK preview versions -->
+  <PropertyGroup>
+    <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
+  </PropertyGroup>
 </Project>
