@@ -21,7 +21,7 @@
     <VersionPrefix Condition=" '$(IsGitHubTag)' == 'true' ">$(GitHubTag.TrimStart('v'))</VersionPrefix>
     <VersionSuffix Condition=" '$(IsGitHubTag)' == 'true' AND $(VersionPrefix.Contains('-')) ">$(VersionPrefix.Split('-')[1])</VersionSuffix>
     <VersionPrefix Condition=" '$(IsGitHubTag)' == 'true' AND $(VersionPrefix.Contains('-')) ">$(VersionPrefix.Split('-')[0])</VersionPrefix>
-    <VersionSuffix Condition=" ('$(IsGitHubTag)' == 'true' AND !$(VersionPrefix.Contains('-'))) OR ('$(GitHubPullRequest)' == '' AND '$(PublishProfile)' == 'DefaultContainer') "></VersionSuffix>
+    <VersionSuffix Condition=" ('$(IsGitHubTag)' == 'true' AND !$(GitHubTag.Contains('-'))) OR ('$(GitHubPullRequest)' == '' AND '$(PublishProfile)' == 'DefaultContainer') "></VersionSuffix>
     <FileVersion>$(VersionPrefix).$(GITHUB_RUN_NUMBER)</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(StabilizeVersion)' == 'true' ">

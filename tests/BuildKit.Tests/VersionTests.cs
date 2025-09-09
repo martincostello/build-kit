@@ -70,7 +70,7 @@ public class VersionTests(ITestOutputHelper outputHelper)
     }
 
     [Fact]
-    public async Task StabilizeVersion_Sets_Correct_Version_For_Preview_In_GitHub_Actions()
+    public async Task Sets_Correct_Versions_For_Preview_Tag_In_GitHub_Actions()
     {
         // Arrange
         var properties = new Dictionary<string, string?>()
@@ -99,7 +99,7 @@ public class VersionTests(ITestOutputHelper outputHelper)
     }
 
     [Fact]
-    public async Task StabilizeVersion_Sets_Correct_Version_For_Stable_In_GitHub_Actions()
+    public async Task Sets_Correct_Versions_For_Stable_Tag_In_GitHub_Actions()
     {
         // Arrange
         var properties = new Dictionary<string, string?>()
