@@ -68,4 +68,62 @@ public class VersionTests(ITestOutputHelper outputHelper)
         actual.ShouldContainKeyAndValue("VersionPrefix", "1.2.3");
         actual.ShouldContainKeyAndValue("VersionSuffix", string.Empty);
     }
+
+    [Fact]
+    public async Task Sets_Correct_Versions_For_Preview_Tag_In_GitHub_Actions()
+    {
+        // Arrange
+        var properties = new Dictionary<string, string?>()
+        {
+            ["GITHUB_ACTIONS"] = "true",
+            ["GITHUB_BASE_REF"] = string.Empty,
+            ["GITHUB_HEAD_REF"] = string.Empty,
+            ["GITHUB_REF"] = "refs/tags/v1.2.3-preview.1",
+            ["GITHUB_REF_NAME"] = "v1.2.3-preview.1",
+            ["GITHUB_SHA"] = "1234567890abcdef1234567890abcdef12345678",
+            ["GITHUB_REPOSITORY"] = "martincostello/buildkit",
+            ["GITHUB_RUN_NUMBER"] = "4",
+        };
+
+        // Act
+        var actual = await EvaluateProperties(
+            PropertyNames,
+            properties,
+            TestContext.Current.CancellationToken);
+
+        // Assert
+        actual.ShouldNotBeNull();
+        actual.ShouldContainKeyAndValue("FileVersion", "1.2.3.4");
+        actual.ShouldContainKeyAndValue("VersionPrefix", "1.2.3");
+        actual.ShouldContainKeyAndValue("VersionSuffix", "preview.1");
+    }
+
+    [Fact]
+    public async Task Sets_Correct_Versions_For_Stable_Tag_In_GitHub_Actions()
+    {
+        // Arrange
+        var properties = new Dictionary<string, string?>()
+        {
+            ["GITHUB_ACTIONS"] = "true",
+            ["GITHUB_BASE_REF"] = string.Empty,
+            ["GITHUB_HEAD_REF"] = string.Empty,
+            ["GITHUB_REF"] = "refs/tags/v1.2.3",
+            ["GITHUB_REF_NAME"] = "v1.2.3",
+            ["GITHUB_SHA"] = "1234567890abcdef1234567890abcdef12345678",
+            ["GITHUB_REPOSITORY"] = "martincostello/buildkit",
+            ["GITHUB_RUN_NUMBER"] = "4",
+        };
+
+        // Act
+        var actual = await EvaluateProperties(
+            PropertyNames,
+            properties,
+            TestContext.Current.CancellationToken);
+
+        // Assert
+        actual.ShouldNotBeNull();
+        actual.ShouldContainKeyAndValue("FileVersion", "1.2.3.4");
+        actual.ShouldContainKeyAndValue("VersionPrefix", "1.2.3");
+        actual.ShouldContainKeyAndValue("VersionSuffix", string.Empty);
+    }
 }
