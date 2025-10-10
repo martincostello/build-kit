@@ -111,7 +111,7 @@
     </CreateProperty>
   </Target>
   <!-- Update properties for Microsoft.Testing.Platform from custom properties -->
-  <Target Name="_UpdateTestPlatformProperties" BeforeTargets="InvokeTestingPlatform">
+  <Target Name="_UpdateTestPlatformProperties" BeforeTargets="_MTPAddArguments;InvokeTestingPlatform">
     <!-- Override the TestResults directory for Microsoft.Testing.Platform -->
     <PropertyGroup>
       <TestResultsDirectory>$([MSBuild]::ValueOrDefault('$(TestResultsDirectory)', '$([System.IO.Path]::Combine($(ArtifactsPath), 'tests'))'))</TestResultsDirectory>
