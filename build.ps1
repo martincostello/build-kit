@@ -85,8 +85,10 @@ function DotNetTest {
     $additionalArgs = @()
 
     if (![string]::IsNullOrEmpty(${env:GITHUB_SHA})) {
-        $additionalArgs += "--logger:GitHubActions;report-warnings=false"
-        $additionalArgs += "--logger:junit;LogFilePath=junit.xml"
+        $additionalArgs += "--"
+        $additionalArgs += "--report-junit"
+        $additionalArgs += "--report-junit-filename"
+        $additionalArgs += "junit.xml"
     }
 
     & $dotnet test --configuration "Release" $additionalArgs
