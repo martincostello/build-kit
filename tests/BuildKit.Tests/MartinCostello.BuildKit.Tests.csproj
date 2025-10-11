@@ -3,13 +3,11 @@
     <Description>Tests for MartinCostello.BuildKit.</Description>
     <OutputType>Exe</OutputType>
     <RootNamespace>MartinCostello.BuildKit</RootNamespace>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <UseLocalDevelopmentCertificate>true</UseLocalDevelopmentCertificate>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="coverlet.msbuild" />
-    <PackageReference Include="GitHubActionsTestLogger" />
-    <PackageReference Include="JunitXml.TestLogger" />
     <PackageReference Include="MartinCostello.Logging.XUnit.v3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
