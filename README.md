@@ -60,7 +60,7 @@ The following custom properties are provided to control behaviour.
 It is recommended to set these values in `Directory.Build.props` (or the `.csproj` file of a single project).
 
 | **Property** | **Default Value** | **Description** |
-|--------------|-----------------|-------------------|
+| ------------ | ----------------- | --------------- |
 | `AssemblyIsCLSCompliant` | `true` (`false` for test projects) | Emits the `[CLSCompliant]` attribute with the specified value |
 | `CoverageFormat` | `cobertura` | The coverage output format to use with Microsoft.Testing.Platform  |
 | `CoverageOutput` | `artifacts/coverage/{project}/coverage.xml` | The coverage output file to use with Microsoft.Testing.Platform |
@@ -79,7 +79,7 @@ It is recommended to set these values in `Directory.Build.props` (or the `.cspro
 The following properties are made available for use in the build process:
 
 | **Property** | **Description** |
-|--------------|-----------------|
+| ------------ | --------------- |
 | `DynamicProxyGenAssembly2StrongNamePublicKey` | The public key to use with `[InternalsVisibleTo]` for DynamicProxyGenAssembly2 when using NSubstitute or Moq |
 | `GitHubBranchName` | The name of the current Git branch when not a pull request |
 | `GitHubPullRequest` | The number of the pull request that triggered the current build, if any |
@@ -100,7 +100,7 @@ The following properties are made available for use in the build process:
 The following custom items are provided:
 
 | **Property** | **Defaults** | **Description** |
-|--------------|--------------|-----------------|
+| ------------ | ------------ | --------------- |
 | `CoverletExclude` | Tests and xunit | Patterns to exclude from code coverage when using Coverlet (ensure values are [escaped][msbuild-escape]) |
 | `CoverletExcludeByAttribute` | `GeneratedCodeAttribute` | Patterns for attributes to exclude from code coverage when using Coverlet |
 | `CoverletExcludeByFile` | `artifacts/obj/**/*` | Patterns for files to exclude from code coverage when using Coverlet (ensure values are [escaped][msbuild-escape]) |
@@ -116,7 +116,7 @@ The following custom items are provided:
 The following custom targets are provided:
 
 | **Target** | **Description** |
-|------------|-----------------|
+| ---------- | --------------- |
 | `AddGitHubMetadataAssemblyAttributes` | Embeds additional `[AssemblyMetadata]` into assemblies with Git and GitHub information |
 | `CheckCodeCoverageThreshold` | Checks the code coverage of a project meets a specified line and/or branch threshold when using Microsoft.Testing.Platform |
 | `GenerateCoverageReports` | Generates code coverage reports using ReportGenerator |
