@@ -16,7 +16,7 @@
   <ItemGroup Condition="@(PackageReference-&gt;AnyHaveMetadataValue(`Identity`, `Shouldly`))">
     <Using Include="Shouldly" />
   </ItemGroup>
-  <ItemGroup Condition="@(PackageReference-&gt;AnyHaveMetadataValue(`Identity`, `xunit`)) OR @(PackageReference-&gt;AnyHaveMetadataValue(`Identity`, `xunit.v3`))">
+  <ItemGroup Condition="@(PackageReference-&gt;AnyHaveMetadataValue(`Identity`, `xunit`)) OR @(PackageReference-&gt;AnyHaveMetadataValue(`Identity`, `xunit.v3`)) OR @(PackageReference-&gt;AnyHaveMetadataValue(`Identity`, `xunit.v3.mtp-off`)) OR @(PackageReference-&gt;AnyHaveMetadataValue(`Identity`, `xunit.v3.mtp-v1`)) OR @(PackageReference-&gt;AnyHaveMetadataValue(`Identity`, `xunit.v3.mtp-v2`))">
     <Using Include="Xunit" />
   </ItemGroup>
   <ItemGroup Condition="@(PackageReference-&gt;AnyHaveMetadataValue(`Identity`, `xunit`))">
