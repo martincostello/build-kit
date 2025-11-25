@@ -93,7 +93,7 @@ jobs:
       uses: anchore/sbom-action@fbfd9c6c189226748411491745178e0c2017392d # v0.20.10
       if: runner.os == 'Windows'
       with:
-        artifact-name: sbom
+        artifact-name: build-kit.spdx.json
         output-file: ./artifacts/build-kit.spdx.json
         path: ./artifacts/bin
         upload-release-assets: false
@@ -234,7 +234,7 @@ jobs:
     - name: Download SBOM
       uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
       with:
-        name: sbom
+        name: build-kit.spdx.json
         path: ./dist
 
     - name: Generate checksums
