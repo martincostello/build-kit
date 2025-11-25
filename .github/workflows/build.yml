@@ -264,7 +264,7 @@ jobs:
         echo "${GPG_PRIVATE_KEY}" | gpg --import --batch --yes --passphrase "${GPG_PASSPHRASE}"
         find "${ASSETS_PATH}" -type f -name '*' | while read -r fname; do
           echo "Signing ${fname}"
-          gpg --batch --yes --pinentry-mode loopback --passphrase "${GPG_PASSPHRASE}" --detach-sig "${fname}"
+          echo "${GPG_PASSPHRASE}" | gpg --batch --yes --passphrase-fd 0 --pinentry-mode loopback --detach-sig "${fname}"
           gpg --verify "${fname}.sig" "${fname}"
         done
 

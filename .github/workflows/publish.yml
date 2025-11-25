@@ -24,7 +24,7 @@ permissions: {}
 jobs:
   publish-nuget:
     if: github.event.repository.fork == false
-    runs-on: ubuntu-slim
+    runs-on: ubuntu-latest
 
     defaults:
       run:
