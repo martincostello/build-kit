@@ -64,7 +64,7 @@ jobs:
     - name: Get NuGet package information
       id: get-packages
       run: |
-        packages="$(find . -type f -name '*.nupkg' -printf '%f\0' | sort -z | tr '\0' ',' | sed 's/,$/\n/')"
+        packages="$(find . -type f -name '*.nupkg' -printf '%f\n' | sort | sed -E 's/\.nupkg$//' | sed -E 's/\.[0-9]+\.[0-9]+\.[0-9]+([-+].*)?$//' | paste -sd, -)"
         echo "package-names=${packages}" >> "${GITHUB_OUTPUT}"
         echo "package-version=${RELEASE_TAG#v}" >> "${GITHUB_OUTPUT}"
 
