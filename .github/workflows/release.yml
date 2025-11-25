@@ -54,7 +54,8 @@ jobs:
           GPG_PASSPHRASE: ${{ secrets.COSTELLOBOT_GPG_PASSPHRASE }}
           GPG_PRIVATE_KEY: ${{ secrets.COSTELLOBOT_GPG_PRIVATE_KEY }}
         run: |
-          export GNUPGHOME="$(mktemp -d)"
+          GNUPGHOME="$(mktemp -d)"
+          export GNUPGHOME
           chmod 700 "${GNUPGHOME}"
           echo "${GPG_PRIVATE_KEY}" | gpg --batch --import
           printf '%s\n' "allow-loopback-pinentry" >> "${GNUPGHOME}/gpg-agent.conf"
