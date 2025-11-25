@@ -61,7 +61,8 @@ jobs:
         shell: bash
         run: |
           gpg_script="${GITHUB_WORKSPACE}/gpg.sh"
-          echo '#!/bin/bash' >> "${gpg_script}"
+          echo '#!/bin/bash' > "${gpg_script}"
+          # shellcheck disable=SC2016
           echo 'gpg --batch --pinentry-mode=loopback --passphrase "${GPG_PASSPHRASE}" "$@"' >> "${gpg_script}"
           chmod +x "${gpg_script}"
           echo "gpg-script=${gpg_script}" >> "${GITHUB_OUTPUT}"
