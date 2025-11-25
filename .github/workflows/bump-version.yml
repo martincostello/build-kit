@@ -26,8 +26,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
         with:
-          filter: 'tree:0'
           persist-credentials: true # zizmor: ignore[artipacked] Needed to push commits
+          ref: ${{ github.event.release.tag_name || github.event.repository.default_branch }}
           show-progress: false
           token: ${{ secrets.COSTELLOBOT_TOKEN }}
 
@@ -36,16 +36,21 @@ jobs:
         shell: pwsh
         env:
           NEXT_VERSION: ${{ inputs.version }}
+          RELEASED_VERSION: ${{ github.event.release.tag_name }}
         run: |
           $properties = Join-Path "." "Directory.Build.props"
 
           $xml = [xml](Get-Content $properties)
           $versionPrefix = $xml.SelectSingleNode('Project/PropertyGroup/VersionPrefix')
+          $publishedVersion = $versionPrefix.InnerText
 
           if (-Not [string]::IsNullOrEmpty(${env:NEXT_VERSION})) {
             $version = [System.Version]::new(${env:NEXT_VERSION}.TrimStart('v'))
+          } elseif (-Not [string]::IsNullOrEmpty(${env:RELEASED_VERSION})) {
+            $version = [System.Version]::new(${env:RELEASED_VERSION}.TrimStart('v'))
+            $version = [System.Version]::new($version.Major, $version.Minor, $version.Build + 1)
           } else {
-            $version = [System.Version]::new($versionPrefix.InnerText)
+            $version = [System.Version]::new($publishedVersion)
             $version = [System.Version]::new($version.Major, $version.Minor, $version.Build + 1)
           }
 
