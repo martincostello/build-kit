@@ -38,7 +38,7 @@ public static class PackageMetadata
     /// <summary>
     /// Gets the version of the package.
     /// </summary>
-    public static string Version { get; } = typeof(PackageMetadata).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()!.InformationalVersion;
+    public static string Version { get; } = typeof(PackageMetadata).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion!;
 
     private static string GetMetadataValue(string name, string defaultValue)
     {
