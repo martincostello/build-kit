@@ -28,7 +28,7 @@
   </ItemGroup>
   <PropertyGroup>
     <CollectCoverage>true</CollectCoverage>
-    <Threshold>80</Threshold>
+    <Threshold>100,75,100</Threshold>
   </PropertyGroup>
   <ItemGroup>
     <AssemblyMetadata Include="CertificateFileName" Value="$([System.IO.Path]::GetFileName('$(LocalDevelopmentCertificatePath)'))" />
