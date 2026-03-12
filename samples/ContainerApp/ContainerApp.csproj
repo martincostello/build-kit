@@ -20,6 +20,6 @@
   </Target>
   <!-- HACK https://github.com/dotnet/runtime/issues/125435 -->
   <ItemGroup>
-    <LinkerArg Include="-Wl,-z,no-exec-stack" />
+    <LinkerArg Include="-Wl,--no-warn-execstack" />
   </ItemGroup>
 </Project>
