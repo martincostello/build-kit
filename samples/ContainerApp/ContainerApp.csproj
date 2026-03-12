@@ -18,4 +18,8 @@
   <Target Name="BundleAssets" BeforeTargets="BeforeBuild" DependsOnTargets="RestoreNpmPackages">
     <Exec Command="npm test" />
   </Target>
+  <!-- HACK https://github.com/dotnet/runtime/issues/125435 -->
+  <ItemGroup>
+    <LinkerArg Include="-Wl,-z,no-exec-stack" />
+  </ItemGroup>
 </Project>
