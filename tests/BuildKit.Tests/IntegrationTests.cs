@@ -61,12 +61,11 @@ public abstract class IntegrationTests(ITestOutputHelper outputHelper)
         var startInfo = new ProcessStartInfo("dotnet", arguments)
         {
             CreateNoWindow = true,
+            EnvironmentVariables = { ["DOTNET_CLI_TELEMETRY_OPTOUT"] = "true" },
             RedirectStandardOutput = true,
             RedirectStandardError = true,
             UseShellExecute = false,
         };
-
-        startInfo.EnvironmentVariables.Add("DOTNET_CLI_TELEMETRY_OPTOUT", "true");
 
         using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(15));
         using var linked = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, timeout.Token);
