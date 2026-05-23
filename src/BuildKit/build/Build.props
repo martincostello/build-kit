@@ -71,4 +71,8 @@
       <_Parameter1_IsLiteral>true</_Parameter1_IsLiteral>
     </AssemblyAttribute>
   </ItemGroup>
+  <!-- Check the current .NET SDK is patched -->
+  <PropertyGroup>
+    <CheckSdkVulnerabilities>true</CheckSdkVulnerabilities>
+  </PropertyGroup>
 </Project>
