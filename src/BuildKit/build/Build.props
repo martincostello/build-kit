@@ -73,6 +73,6 @@
   </ItemGroup>
   <!-- Check the current .NET SDK is patched -->
   <PropertyGroup>
-    <CheckSdkVulnerabilities>true</CheckSdkVulnerabilities>
+    <CheckSdkVulnerabilities>$([MSBuild]::ValueOrDefault('$(CheckSdkVulnerabilities)', 'true'))</CheckSdkVulnerabilities>
   </PropertyGroup>
 </Project>
