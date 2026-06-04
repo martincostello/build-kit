@@ -5,7 +5,7 @@
     <UseArtifactsOutput>true</UseArtifactsOutput>
     <UseDefaultAssemblyOriginatorKeyFile>true</UseDefaultAssemblyOriginatorKeyFile>
     <UseDefaultCodeAnalysisRuleSet>true</UseDefaultCodeAnalysisRuleSet>
-    <VersionPrefix>0.8.7</VersionPrefix>
+    <VersionPrefix>0.8.8</VersionPrefix>
   </PropertyGroup>
   <PropertyGroup Condition="false">
     <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
