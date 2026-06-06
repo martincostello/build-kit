@@ -31,12 +31,6 @@ jobs:
 
     steps:
 
-      - name: Get GitHub token
-        id: get-github-token
-        uses: martincostello/github-automation/actions/get-github-token@567bf2ea7958064af7863e6004a545a799f57982 # get-github-token/v4.2.0
-        with:
-          profile-name: write
-
       - name: Checkout code
         id: checkout-code
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
@@ -44,7 +38,6 @@ jobs:
           persist-credentials: false
           ref: ${{ github.event.release.tag_name || github.event.repository.default_branch }}
           show-progress: false
-          token: ${{ steps.get-github-token.outputs.token }}
 
       - name: Bump version
         id: bump-version
@@ -89,6 +82,12 @@ jobs:
 
           "version=${updatedVersion}" >> ${env:GITHUB_OUTPUT}
 
+      - name: Get GitHub token
+        id: get-github-token
+        uses: martincostello/github-automation/actions/get-github-token@567bf2ea7958064af7863e6004a545a799f57982 # get-github-token/v4.2.0
+        with:
+          profile-name: write
+
       - name: Push changes to GitHub
         id: push-changes
         shell: pwsh
@@ -113,10 +112,6 @@ jobs:
             throw "Failed to check whether branch '${branchName}' exists."
           }
 
-          $baseSha = ${env:CHECKOUT_COMMIT}
-
-          $filePath = "Directory.Build.props"
-          $fileFullPath = Join-Path ${env:GITHUB_WORKSPACE} $filePath
           if (${env:TOKEN_TYPE} -eq "app") {
             $gitUserName = "${env:APP_SLUG}[bot]"
             $gitUserId = gh api "users/${gitUserName}" --jq '.id'
@@ -133,6 +128,11 @@ jobs:
               $identity.email
             }
           }
+
+          $baseSha = ${env:CHECKOUT_COMMIT}
+
+          $filePath = "Directory.Build.props"
+          $fileFullPath = Join-Path ${env:GITHUB_WORKSPACE} $filePath
           $currentFile = gh api "repos/${env:GITHUB_REPOSITORY}/contents/${filePath}?ref=${baseSha}" | ConvertFrom-Json
           $currentContent = $currentFile.content.Replace("`r", "").Replace("`n", "")
           $localContent = [System.Convert]::ToBase64String(
@@ -158,7 +158,13 @@ jobs:
           }
           '@
 
-          $body = "Bump version to ${env:NEXT_VERSION} for the next release.`n`nSigned-off-by: ${gitUserName} <${gitUserEmail}>"
+          $title = "Bump version"
+          $body = @(
+            "Bump version to ${env:NEXT_VERSION} for the next release.",
+            "",
+            "Signed-off-by: ${gitUserName} <${gitUserEmail}>"
+          ) -join "`n"
+
           $payload = @{
             query = $query
             variables = @{
@@ -169,7 +175,7 @@ jobs:
                 }
                 expectedHeadOid = $baseSha
                 message = @{
-                  headline = "Bump version"
+                  headline = $title
                   body = $body
                 }
                 fileChanges = @{
@@ -191,7 +197,7 @@ jobs:
 
           $result = Invoke-RestMethod `
             -Method POST `
-            -Uri "https://api.github.com/graphql" `
+            -Uri ${env:GITHUB_GRAPHQL_URL} `
             -Headers $headers `
             -ContentType "application/json" `
             -Body $payload
@@ -201,6 +207,7 @@ jobs:
           }
 
           "branch-name=${branchName}" >> ${env:GITHUB_OUTPUT}
+          "title=${title}" >> ${env:GITHUB_OUTPUT}
           "updated-version=true" >> ${env:GITHUB_OUTPUT}
           "version=${env:NEXT_VERSION}" >> ${env:GITHUB_OUTPUT}
 
@@ -211,6 +218,7 @@ jobs:
           BASE_BRANCH: ${{ github.event.repository.default_branch }}
           HEAD_BRANCH: ${{ steps.push-changes.outputs.branch-name }}
           NEXT_VERSION: ${{ steps.push-changes.outputs.version }}
+          PR_TITLE: ${{ steps.push-changes.outputs.title }}
         with:
           github-token: ${{ steps.get-github-token.outputs.token }}
           script: |
@@ -219,7 +227,7 @@ jobs:
             const workflowUrl = `${process.env.GITHUB_SERVER_URL}/${owner}/${repo}/actions/runs/${process.env.GITHUB_RUN_ID}`;
 
             const { data: pr } = await github.rest.pulls.create({
-              title: 'Bump version',
+              title: process.env.PR_TITLE,
               owner,
               repo,
               head: process.env.HEAD_BRANCH,
