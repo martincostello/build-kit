@@ -75,4 +75,8 @@
   <PropertyGroup>
     <CheckSdkVulnerabilities>$([MSBuild]::ValueOrDefault('$(CheckSdkVulnerabilities)', 'true'))</CheckSdkVulnerabilities>
   </PropertyGroup>
+  <!-- Enable Control Flow Guard -->
+  <PropertyGroup>
+    <ControlFlowGuard>$([MSBuild]::ValueOrDefault('$(ControlFlowGuard)', 'Guard'))</ControlFlowGuard>
+  </PropertyGroup>
 </Project>
