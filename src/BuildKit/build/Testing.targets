@@ -140,8 +140,7 @@
   <Target Name="GenerateCoverageReports" AfterTargets="GenerateCoverageResultAfterTest;InvokeTestingPlatform" DependsOnTargets="$(GenerateCoverageReportsDependsOn)" Condition=" '$(CollectCoverage)' == 'true' ">
     <!-- Collect any coverage output XML files from both coverlet and Microsoft.Testing.Platform -->
     <ItemGroup>
-      <_CoverageReports Include="$(CoverageOutputPath)\**\coverage.xml" />
-      <_CoverageReports Include="$(CoverageOutputPath)\**\coverage.cobertura.xml" />
+      <_CoverageReports Include="$(CoverageOutputPath)\**\coverage*.xml" />
     </ItemGroup>
     <PropertyGroup>
       <_CoverageGitHubSummary>$([System.IO.Path]::Combine($(CoverageOutputPath), 'SummaryGithub.md'))</_CoverageGitHubSummary>
