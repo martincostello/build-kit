@@ -63,7 +63,7 @@ It is recommended to set these values in `Directory.Build.props` (or the `.cspro
 | ------------ | ----------------- | --------------- |
 | `AssemblyIsCLSCompliant` | `true` (`false` for test projects) | Emits the `[CLSCompliant]` attribute with the specified value |
 | `CoverageFormat` | `cobertura` | The coverage output format to use with Microsoft.Testing.Platform |
-| `CoverageOutput` | `artifacts/coverage/{project}/coverage.xml` | The coverage output file to use with Microsoft.Testing.Platform |
+| `CoverageOutput` | `artifacts/coverage/{project}/coverage.{targetFramework}.xml` | The coverage output file to use with Microsoft.Testing.Platform |
 | `CoverageOutputPath` | `artifacts/coverage` | The path to write code coverage results to |
 | `CoverageRunSettings` | - | The path to the `.runsettings` file to use with Microsoft.Testing.Platform |
 | `GenerateGitMetadata` | `true` | Whether to embed additional `[AssemblyMetadata]` for Git projects |
