@@ -40,7 +40,7 @@
     <_ReportGeneratorOutputMarkdown Condition=" '$(IsGitHubActions)' == 'true' AND '$(GITHUB_STEP_SUMMARY)' != '' ">true</_ReportGeneratorOutputMarkdown>
     <CoverageFormat>$([MSBuild]::ValueOrDefault('$(CoverageFormat)', 'cobertura'))</CoverageFormat>
     <CoverageOutputPath>$([MSBuild]::ValueOrDefault('$(CoverageOutputPath)', '$([System.IO.Path]::Combine($(ArtifactsPath), 'coverage'))'))</CoverageOutputPath>
-    <CoverageOutput>$([MSBuild]::ValueOrDefault('$(CoverageOutput)', '$([System.IO.Path]::Combine($(CoverageOutputPath), '$(MSBuildProjectName)', 'coverage.xml'))'))</CoverageOutput>
+    <CoverageOutput>$([MSBuild]::ValueOrDefault('$(CoverageOutput)', '$([System.IO.Path]::Combine($(CoverageOutputPath), '$(MSBuildProjectName)', 'coverage.$(TargetFramework).xml'))'))</CoverageOutput>
     <CoverletOutput>$([System.IO.Path]::Combine($(CoverageOutputPath), '$(MSBuildProjectName)', 'coverage'))</CoverletOutput>
   </PropertyGroup>
   <!-- Automatically exclude various common non-user code from coverage when using Coverlet -->
