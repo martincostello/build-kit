@@ -61,37 +61,25 @@ public abstract class IntegrationTests(ITestOutputHelper outputHelper)
         var startInfo = new ProcessStartInfo("dotnet", arguments)
         {
             CreateNoWindow = true,
+            EnvironmentVariables = { ["DOTNET_CLI_TELEMETRY_OPTOUT"] = "true" },
             RedirectStandardOutput = true,
             RedirectStandardError = true,
             UseShellExecute = false,
         };
 
-        using var msbuild = Process.Start(startInfo);
-        msbuild.ShouldNotBeNull();
-
         using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(15));
         using var linked = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, timeout.Token);
 
-        await msbuild.WaitForExitAsync(linked.Token);
+        var msbuild = await Process.RunAndCaptureTextAsync(startInfo, linked.Token);
 
-        var stdout = await msbuild.StandardOutput.ReadToEndAsync(linked.Token);
-        var stderr = await msbuild.StandardError.ReadToEndAsync(linked.Token);
+        outputHelper.Write(msbuild.StandardOutput);
+        outputHelper.Write(msbuild.StandardError);
 
-        if (stdout is { Length: > 0 })
-        {
-            outputHelper.Write(stdout);
-        }
-
-        if (stderr is { Length: > 0 })
-        {
-            outputHelper.Write(stderr);
-        }
-
-        msbuild.ExitCode.ShouldBe(0);
+        msbuild.ExitStatus.ExitCode.ShouldBe(0);
 
         var result = new Dictionary<string, string?>();
 
-        using var document = JsonDocument.Parse(stdout);
+        using var document = JsonDocument.Parse(msbuild.StandardOutput);
 
         if (document.RootElement.TryGetProperty("Properties", out var props))
         {
