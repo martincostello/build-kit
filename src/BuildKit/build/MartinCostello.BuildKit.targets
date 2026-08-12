@@ -8,5 +8,5 @@
   <Import Project="$(MSBuildThisFileDirectory)Containers.targets" />
   <Import Project="$(MSBuildThisFileDirectory)Web.targets" />
   <Import Project="$(MSBuildThisFileDirectory)Packages.targets" Condition=" '$(IsPackable)' == 'true' " />
-  <Import Project="$(MSBuildThisFileDirectory)Testing.targets" Condition=" '$(IsTestProject)' == 'true' " />
+  <Import Project="$(MSBuildThisFileDirectory)Testing.targets" Condition=" '$(IsTestProject)' == 'true' OR @(PackageReference-&gt;AnyHaveMetadataValue(`Identity`, `xunit`)) OR @(PackageReference-&gt;AnyHaveMetadataValue(`Identity`, `xunit.v3`)) OR @(PackageReference-&gt;AnyHaveMetadataValue(`Identity`, `xunit.v3.mtp-off`)) OR @(PackageReference-&gt;AnyHaveMetadataValue(`Identity`, `xunit.v3.mtp-v1`)) OR @(PackageReference-&gt;AnyHaveMetadataValue(`Identity`, `xunit.v3.mtp-v2`)) " />
 </Project>
