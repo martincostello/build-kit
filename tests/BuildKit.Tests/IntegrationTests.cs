@@ -61,6 +61,7 @@ public abstract class IntegrationTests(ITestOutputHelper outputHelper)
         var startInfo = new ProcessStartInfo("dotnet", arguments)
         {
             CreateNoWindow = true,
+            EnvironmentVariables = { ["DOTNET_CLI_TELEMETRY_OPTOUT"] = "true" },
             RedirectStandardOutput = true,
             RedirectStandardError = true,
             UseShellExecute = false,
