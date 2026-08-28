@@ -22,10 +22,11 @@
     <EmbedUntrackedSources>$([MSBuild]::ValueOrDefault('$(EmbedUntrackedSources)', 'true'))</EmbedUntrackedSources>
     <GenerateGitMetadata>$([MSBuild]::ValueOrDefault('$(GenerateGitMetadata)', 'true'))</GenerateGitMetadata>
   </PropertyGroup>
-  <!-- Set properties to enable deterministic builds -->
+  <!-- Set properties to enable deterministic builds and packages -->
   <PropertyGroup>
     <ContinuousIntegrationBuild>$([MSBuild]::ValueOrDefault('$(CI)', 'false'))</ContinuousIntegrationBuild>
     <Deterministic>$([MSBuild]::ValueOrDefault('$(Deterministic)', 'true'))</Deterministic>
+    <DeterministicTimestamp>$([MSBuild]::ValueOrDefault('$(DeterministicTimestamp)', 'true'))</DeterministicTimestamp>
   </PropertyGroup>
   <!-- Automatically produce XML documentation for libraries -->
   <PropertyGroup Condition=" '$(OutputType)' == 'Library' ">
