@@ -116,7 +116,11 @@
     <PropertyGroup>
       <TestResultsDirectory>$([MSBuild]::ValueOrDefault('$(TestResultsDirectory)', '$([System.IO.Path]::Combine($(ArtifactsPath), 'tests'))'))</TestResultsDirectory>
     </PropertyGroup>
-    <PropertyGroup Condition=" '$(TestResultsDirectory)' != '' ">
+    <!--
+      When UseArtifactsOutput is enabled, the .NET 11 SDK onwards always forwards its own results
+      directory argument to the Microsoft.Testing.Platform test host when artifacts output is enabled.
+    -->
+    <PropertyGroup Condition=" '$(TestResultsDirectory)' != '' AND ('$(UseArtifactsOutput)' != 'true' OR $([MSBuild]::VersionLessThan('$(NETCoreSdkVersion)', '11.0.0'))) ">
       <_TestingPlatformCommandLineArguments>--results-directory %22$(TestResultsDirectory)%22</_TestingPlatformCommandLineArguments>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(CollectCoverage)' == 'true' ">

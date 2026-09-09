@@ -68,7 +68,7 @@ It is recommended to set these values in `Directory.Build.props` (or the `.cspro
 | `CoverageRunSettings` | - | The path to the `.runsettings` file to use with Microsoft.Testing.Platform |
 | `GenerateGitMetadata` | `true` | Whether to embed additional `[AssemblyMetadata]` for Git projects |
 | `StabilizeVersion` | `false` | Whether to force a stable version number to be generated |
-| `TestResultsDirectory` | `artifacts/tests` | The path to write test logs to with Microsoft.Testing.Platform |
+| `TestResultsDirectory` | `artifacts/tests` | The path to write test logs to with Microsoft.Testing.Platform (ignored if `UseArtifactsOutput` is `true` on the .NET 11 SDK or later) |
 | `UseDefaultAssemblyOriginatorKeyFile` | `false` | Whether to use the built-in `.snk` file |
 | `UseDefaultCodeAnalysisRuleSet` | `false` | Whether to use the built-in `.ruleset` file |
 | `UseDefaultTestRunSettings` | `true` | Whether to use the built-in `.runsettings` file with Microsoft.Testing.Platform |
