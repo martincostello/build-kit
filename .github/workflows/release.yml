@@ -60,6 +60,8 @@ jobs:
             $properties = Join-Path "." "Directory.Build.props"
             $xml = [xml](Get-Content $properties)
             $version = $xml.SelectSingleNode('Project/PropertyGroup/VersionPrefix').InnerText
+          } else {
+            $version = $version.TrimStart('v')
           }
           "version=${version}" >> ${env:GITHUB_OUTPUT}
 
